@@ -27,9 +27,13 @@ const V3 = (x=0,y=0,z=0) => new THREE.Vector3(x,y,z);
 function gradTex(stops, h = 512){ const c = document.createElement('canvas'); c.width = 4; c.height = h; const g = c.getContext('2d'); const gr = g.createLinearGradient(0,0,0,h);
   stops.forEach(([o,col]) => gr.addColorStop(o,col)); g.fillStyle = gr; g.fillRect(0,0,4,h); const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; }
 const pm = new THREE.PMREMGenerator(renderer);
-const envTex = (() => { const s = new THREE.Scene(); s.add(new THREE.Mesh(new THREE.SphereGeometry(50,32,16), new THREE.MeshBasicMaterial({side:THREE.BackSide, map:gradTex([[0,'#6FAEF0'],[.45,'#E8F1FB'],[.5,'#FFFFFF'],[.55,'#A9A196'],[1,'#4D4942']])})));
-  const panel = (w,h,x,y,z,k) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w,h), new THREE.MeshBasicMaterial({color:0xffffff, side:THREE.DoubleSide})); m.material.color.multiplyScalar(k); m.position.set(x,y,z); m.lookAt(0,0,0); s.add(m); };
-  panel(30,14,25,32,15,3); panel(18,8,-30,20,-20,1.4); panel(40,6,0,10,-45,1.1); return pm.fromScene(s,.02).texture; })();
+const envTex = (() => { const s = new THREE.Scene();
+  s.add(new THREE.Mesh(new THREE.SphereGeometry(60,32,16), new THREE.MeshBasicMaterial({side:THREE.BackSide, map:gradTex([[0,'#8fbff2'],[.42,'#e9f1fa'],[.5,'#ffffff'],[.56,'#b9b2a8'],[1,'#3f3b36']])})));
+  const panel = (w,h,x,y,z,k,col = 0xffffff) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w,h), new THREE.MeshBasicMaterial({color:col, side:THREE.DoubleSide})); m.material.color.multiplyScalar(k); m.position.set(x,y,z); m.lookAt(0,0,0); s.add(m); };
+  // lampu langit-langit (softbox) + jendela + pantulan dinding hangat
+  for(let i = -1; i <= 1; i++) panel(10, 3, i*12, 26, 6, 3.2);
+  panel(30, 12, 0, 12, -40, 1.6, 0xdbeafe); panel(16, 9, 36, 10, 10, 1.2, 0xfff1dc); panel(16, 9, -36, 10, 10, .9, 0xe0f2fe); panel(40, 6, 0, -6, 30, .35, 0x9a8b78);
+  return pm.fromScene(s,.03).texture; })();
 scene.environment = envTex;
 function setBg(){
   const dark = document.documentElement.dataset.theme !== 'light';
@@ -125,10 +129,39 @@ function platform(r = 7, color){ const dark = document.documentElement.dataset.t
   const p = mesh(new THREE.CylinderGeometry(r, r*1.03, .3, 96), [mat(0x2a4a86), new THREE.MeshStandardMaterial({map:t, roughness:.85}), mat(0x2a4a86)], null, [0,-.15,0], false);
   p.receiveShadow = true; const ring = mesh(new THREE.TorusGeometry(r*1.015, .05, 12, 128), mat(0x2dd4bf, {emissive:0x2dd4bf, emissiveIntensity:.6}), null, [0,0,0], false); ring.rotation.x = Math.PI/2; return p; }
 function arrow(from, dir, len, color, parent){ const a = new THREE.ArrowHelper(dir.clone().normalize(), from, len, color, Math.min(.6, len*.3), Math.min(.35, len*.18)); a.line.material.linewidth = 3; (parent || E.root).add(a); return a; }
+function room(o = {}){
+  const dark = document.documentElement.dataset.theme !== 'light', R = o.r || 22, Hh = o.h || 13;
+  const G = new THREE.Group(); G.name = 'room'; E.root.add(G);
+  const tiles = (() => { const c = document.createElement('canvas'); c.width = c.height = 512; const g = c.getContext('2d'); const base = o.floor || (dark ? '#3b4454' : '#d6dbe3');
+    for(let y = 0; y < 4; y++) for(let x = 0; x < 4; x++){ const v = (Math.random()*16 - 8)|0; g.fillStyle = shadeHex(base, v); g.fillRect(x*128, y*128, 128, 128); }
+    g.strokeStyle = dark ? 'rgba(0,0,0,.45)' : 'rgba(80,90,110,.35)'; g.lineWidth = 4; for(let i = 0; i <= 512; i += 128){ g.beginPath(); g.moveTo(i,0); g.lineTo(i,512); g.stroke(); g.beginPath(); g.moveTo(0,i); g.lineTo(512,i); g.stroke(); }
+    const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(R/3, R/3); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t; })();
+  const fl = new THREE.Mesh(new THREE.PlaneGeometry(R*2, R*2), new THREE.MeshStandardMaterial({map:tiles, roughness:.32, metalness:.05})); fl.rotation.x = -Math.PI/2; fl.position.y = -.31; fl.receiveShadow = true; G.add(fl);
+  const wallM = new THREE.MeshStandardMaterial({color:o.wall || (dark ? 0x26324a : 0xe8edf3), roughness:.9, side:THREE.BackSide});
+  const box = new THREE.Mesh(new THREE.BoxGeometry(R*2, Hh, R*2), [wallM, wallM, new THREE.MeshStandardMaterial({color:dark ? 0x1b2436 : 0xf8fafc, roughness:.9, side:THREE.BackSide}), new THREE.MeshBasicMaterial({visible:false}), wallM, wallM]);
+  box.position.y = Hh/2 - .31; G.add(box);
+  // jendela bercahaya di dinding belakang
+  for(let i = -1; i <= 1; i++){ const w = new THREE.Mesh(new THREE.PlaneGeometry(6, 5), new THREE.MeshBasicMaterial({map:gradTex(dark ? [[0,'#1e3a8a'],[1,'#60a5fa']] : [[0,'#93c5fd'],[1,'#f0f9ff']])}));
+    w.position.set(i*9, Hh*.55, -R + .05); G.add(w); const fr = new THREE.Mesh(new THREE.BoxGeometry(6.4, 5.4, .2), new THREE.MeshStandardMaterial({color:0xf1f5f9, roughness:.5})); fr.position.set(i*9, Hh*.55, -R + .02); G.add(fr); w.position.z = -R + .14;
+    const bar = new THREE.Mesh(new THREE.BoxGeometry(.15, 5, .1), fr.material); bar.position.set(i*9, Hh*.55, -R + .2); G.add(bar); }
+  // papan tulis
+  if(o.board !== false){ const bd = new THREE.Mesh(new THREE.BoxGeometry(9, 3.6, .15), new THREE.MeshStandardMaterial({color:0xf8fafc, roughness:.25, metalness:.05})); bd.position.set(-R + .1, 4.4, -3); bd.rotation.y = Math.PI/2; G.add(bd);
+    const fb = new THREE.Mesh(new THREE.BoxGeometry(9.3, 3.9, .1), new THREE.MeshStandardMaterial({color:0x94a3b8, metalness:.6, roughness:.3})); fb.position.set(-R + .05, 4.4, -3); fb.rotation.y = Math.PI/2; G.add(fb); }
+  // lampu panel langit-langit
+  for(let i = -1; i <= 1; i++) for(let j = -1; j <= 1; j += 2){ const l = new THREE.Mesh(new THREE.PlaneGeometry(4, 1.2), new THREE.MeshBasicMaterial({color:0xffffff})); l.rotation.x = Math.PI/2; l.position.set(i*8, Hh - .35, j*6); G.add(l); }
+  // lemari & rak di dinding samping
+  const cab = new THREE.MeshStandardMaterial({color:dark ? 0x475569 : 0xcbd5e1, roughness:.5, metalness:.2});
+  for(let i = 0; i < 3; i++){ const c = new THREE.Mesh(new THREE.BoxGeometry(1.4, 4.5, 3.4), cab); c.position.set(R - .8, 2, -12 + i*3.6); c.castShadow = c.receiveShadow = true; G.add(c);
+    const gl = new THREE.Mesh(new THREE.PlaneGeometry(3, 3.6), new THREE.MeshPhysicalMaterial({color:0xcfe8ff, roughness:.05, transparent:true, opacity:.35})); gl.position.set(R - 1.52, 2.2, -12 + i*3.6); gl.rotation.y = -Math.PI/2; G.add(gl);
+    for(let k = 0; k < 4; k++){ const b = new THREE.Mesh(new THREE.CylinderGeometry(.18, .18, .6, 16), new THREE.MeshStandardMaterial({color:[0x38bdf8,0x22c55e,0xf97316,0xa855f7][k], transparent:true, opacity:.8, roughness:.1})); b.position.set(R - 1.2, 2.9, -13.1 + i*3.6 + k*.7); G.add(b); } }
+  scene.fog = new THREE.Fog(dark ? 0x1b2436 : 0xe8edf3, R*1.4, R*3.2);
+  cam.maxR = Math.min(cam.maxR, R*.85);
+  return G; }
+function shadeHex(hex, v){ const n = parseInt(hex.slice(1), 16); const c = k => Math.max(0, Math.min(255, ((n >> k) & 255) + v)); return `rgb(${c(16)},${c(8)},${c(0)})`; }
 function say(key, text, auto){ if(window.LAB && LAB.guide) LAB.guide.show(ID + '_' + key, text, auto); }
 
 /* ---------- mode & siklus ---------- */
-const E = window.E3D = {THREE, scene, camera, renderer, root:null, V3, setView, label, pick, ui, info, hint, mat, glass, mesh, txtSprite, platform, arrow, say, tick:fn => TICKS.push(fn), id:ID, def:DEF, mode:null, rnd:Math.random};
+const E = window.E3D = {THREE, scene, camera, renderer, root:null, V3, setView, label, pick, ui, info, hint, mat, glass, mesh, txtSprite, platform, arrow, say, room, canvasTexOf:gradTex, tick:fn => TICKS.push(fn), id:ID, def:DEF, mode:null, rnd:Math.random};
 function clearMode(){
   if(E.root){ scene.remove(E.root); E.root.traverse(o => { if(o.geometry) o.geometry.dispose(); if(o.material){ (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => { if(m.map && m.map !== envTex) m.map.dispose(); m.dispose(); }); } }); }
   LBL.splice(0).forEach(L => L.el.remove()); PICKS.length = 0; TICKS.length = 0; $('#info').classList.remove('on'); ui.clear();
@@ -138,8 +171,10 @@ function setMode(id){
   const m = DEF.modes.find(x => x.id === id) || DEF.modes[0]; E.mode = m.id; clearMode();
   document.querySelectorAll('#modes .tbtn').forEach(b => b.classList.toggle('on', b.dataset.m === m.id));
   sun.position.set(8, 14, 9);
+  setBg(); if((DEF.room || m.room) && m.room !== false) room(DEF.roomOpts || {});
   m.build(E);
   if(m.view) setView(m.view);
+  if((DEF.room || m.room) && m.room !== false) cam.maxR = Math.min(cam.maxR, 18);
   if(m.say) say(m.id, m.say, false);
 }
 $('#modes').innerHTML = DEF.modes.length > 1 ? DEF.modes.map(m => `<button class="tbtn" data-m="${m.id}">${m.label}</button>`).join('') : '';

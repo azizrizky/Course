@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Slide Materi — Lab Petualang</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="slide.css">
+</head>
+<body>
+<div id="viewport"><div id="stage"></div></div>
+<div id="prog"></div>
+<div id="bar">
+  <button class="b" id="bPrev" title="Sebelumnya (←)">◀</button>
+  <div id="cnt">1 / 1</div>
+  <button class="b main" id="bNext" title="Berikutnya (→ / Spasi)">Berikutnya ▶</button>
+  <span class="sp"></span>
+  <button class="b" id="bRead" title="Bacakan slide (B)">🔊</button>
+  <button class="b" id="bGrid" title="Semua slide (G)">▦</button>
+  <button class="b" id="bLab" title="Buka Lab 3D materi ini">🔬 Lab 3D</button>
+  <button class="b" id="bTheme" title="Tema terang/gelap">🌙</button>
+  <button class="b" id="bFs" title="Layar penuh (F)">⛶</button>
+</div>
+<div id="grid"><div id="gridIn"></div></div>
+<div id="loading">Menyiapkan slide…</div>
+<script src="../assets/materi.js"></script>
+<script src="anims.js"></script>
+<script src="anims2.js"></script>
+<script src="slide.js"></script>
+</body>
+</html>
