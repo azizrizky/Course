@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Lab Virtual 3D — Lab Petualang</title>
+<link rel="stylesheet" href="../assets/lab-common.css">
+<script src="../assets/lab-common.js"></script>
+<link rel="stylesheet" href="engine.css">
+</head>
+<body>
+<canvas id="c"></canvas>
+<div id="labels"></div>
+<header id="top" class="glass">
+  <div id="brand"><b id="tTitle">Lab Virtual</b><small id="tSub"></small></div>
+  <div id="modes"></div>
+  <button class="ibtn q" id="quizBtn" title="Kuis materi ini">📝 Kuis</button>
+  <button class="ibtn" id="panelBtn" title="Tampilkan/sembunyikan panel materi">📖</button>
+  <button class="ibtn" id="resetView" title="Atur ulang pandangan">🎯</button>
+  <button class="ibtn" id="fsBtn" title="Layar penuh">⛶</button>
+</header>
+<aside id="panel" class="glass"><div id="pBody"></div></aside>
+<div id="info" class="glass"></div>
+<div id="hint">☝️ Geser untuk memutar · 🤏 cubit / scroll untuk zoom · 👆 ketuk objek untuk info</div>
+<div id="quiz" class="ov"><div class="qc glass" id="qc"></div></div>
+<div id="loading"><div class="sp"></div>Menyiapkan laboratorium…</div>
+<script src="../assets/three.min.js"></script>
+<script src="../assets/materi.js"></script>
+<script src="topics.js"></script>
+<script src="engine.js"></script>
+</body>
+</html>

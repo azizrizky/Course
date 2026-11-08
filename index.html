@@ -544,8 +544,8 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-bottom-width:3px;p
 .stat b{font-family:'Baloo 2','Nunito',sans-serif;font-size:30px;line-height:1}.stat span{color:var(--muted);font-weight:800;font-size:13px;display:block}
 .sec-h{display:flex;align-items:center;gap:10px;margin:28px 0 12px}
 .sec-h h3{margin:0;font-size:22px}.sec-h .sp{flex:1}
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;position:relative}
-@media(max-width:1000px){.flow{grid-template-columns:repeat(2,1fr)}}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative}
+@media(max-width:1200px){.flow{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.flow{grid-template-columns:repeat(2,1fr)}}
 .fstep{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;position:relative;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
 .fstep .k{font-weight:900;font-size:12px;letter-spacing:1px;color:var(--muted)}
 .fstep .e{font-size:34px}.fstep b{font-family:'Baloo 2','Nunito',sans-serif;font-size:19px}
@@ -579,6 +579,29 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-bottom-width:3px;p
 .vbadge{font-size:12px;font-weight:900;padding:2px 9px;border-radius:999px;margin-left:6px}
 .vb-l{background:rgba(34,197,94,.2);color:#16a34a}.vb-o{background:rgba(56,189,248,.2);color:#0284c7}.vb-t{background:rgba(127,127,127,.2);color:var(--muted)}
 .rec-on{background:#ef4444!important;color:#fff!important;animation:bump 1s infinite}
+.navh{font-size:11px;font-weight:900;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);opacity:.7;padding:12px 14px 4px}
+.side.mini .navh{font-size:0;padding:6px 0;border-top:1px solid var(--line);margin:4px 14px}
+.ktabs{display:flex;gap:10px;flex-wrap:nowrap;margin:4px 0 6px}
+@media(max-width:600px){.ktabs button{padding:8px 12px;font-size:14.5px}.ktabs button small{display:none}}
+.ktabs button{border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:16px;padding:10px 18px;font-weight:900;font-size:16px;display:flex;align-items:center;gap:8px}
+.ktabs button small{font-weight:800;color:var(--muted);font-size:12.5px}
+.ktabs button.on{border-color:var(--accent);background:linear-gradient(90deg,rgba(45,212,191,.22),rgba(167,139,250,.14))}
+.labcard .pv .kbadge{position:absolute;left:12px;bottom:12px;background:linear-gradient(90deg,#0d9488,#7c3aed);color:#fff;border-radius:999px;padding:3px 10px;font-weight:900;font-size:12px}
+.labcard .pv.noimg{display:grid;place-items:center;font-size:84px;background:radial-gradient(circle at 30% 30%,rgba(45,212,191,.35),transparent 60%),linear-gradient(135deg,#0b1c3d,#3b1a7a)}
+.labcard .meta{display:flex;gap:12px;font-weight:800;font-size:12.5px;color:var(--muted)}
+.kgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:900px){.kgrid{grid-template-columns:1fr}}
+.kbox{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:16px 18px;box-shadow:var(--shadow)}
+.kbox h4{margin:0 0 10px;font-family:'Baloo 2','Nunito',sans-serif;font-size:22px;display:flex;align-items:center;gap:10px}
+.kbox h4 .sp{flex:1}
+.mchips{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.mchip{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);border-radius:14px;padding:9px 12px;font-weight:800;font-size:14px;text-align:left;transition:.15s}
+.mchip:hover{border-color:var(--accent);transform:translateY(-2px)}
+.mchip .e{font-size:22px}
+.moodmini{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.moodmini .big{font-size:56px;line-height:1}
+.mbar{display:flex;height:16px;border-radius:999px;overflow:hidden;flex:1;min-width:200px;background:var(--bg2)}
+.mbar i{display:block;height:100%}
+.tabs.kt{margin:6px 0}.tabs .klabel{align-self:center;font-weight:900;color:var(--muted);font-size:13px;min-width:70px}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
 .tabs button{border:2px solid var(--line);background:var(--panel);color:var(--ink);border-radius:14px;padding:9px 16px;font-weight:900}
 .tabs button.on{border-color:var(--accent);background:rgba(45,212,191,.15)}
@@ -608,7 +631,7 @@ details.help ol{line-height:1.7;font-size:14px}
   <div class="land">
     <div class="brand"><div class="hex">⚛️</div><div class="big-logo">Lab <span>Petualang</span><small>BAHAN AJAR IPA · SMPN 4 MAGELANG</small></div></div>
     <p>Ruang belajar IPA penuh petualangan: <b>Lab Virtual 3D</b>, permainan kelas & lewat HP, serta asesmen diagnostik — bersama Bu Nella.</p>
-    <div class="pill">👩‍🏫 Nella Alfiani Rofiqoh, S.Pd · 🔬 IPA Kelas 7</div>
+    <div class="pill">👩‍🏫 Nella Alfiani Rofiqoh, S.Pd · 🔬 IPA Kelas 7 &amp; 8</div>
     <div class="role3">
       <button style="background:linear-gradient(135deg,#0f766e,#1d4ed8)" id="goHost"><div class="e">🧑‍🏫</div><b>Ruang Guru</b><span>Masuk untuk mengelola bahan ajar, permainan, rekaman suara & laporan.</span></button>
       <button style="background:linear-gradient(135deg,#6d28d9,#0891b2)" id="goLab"><div class="e">🔭</div><b>Jelajah Lab Virtual</b><span>Siswa: buka simulasi 3D Hukum Newton & Tata Surya tanpa login.</span></button>
@@ -649,9 +672,12 @@ details.help ol{line-height:1.7;font-size:14px}
 <section class="scr" id="s-setup">
   <aside class="side" id="side">
     <div class="logo"><div class="b">⚛️</div><div><h1>Lab Petualang</h1><small id="sideRole">Ruang Guru</small></div></div>
+    <div class="navh" data-role="guru">Mengajar</div>
     <button class="navi" data-nav="home" data-role="guru"><span class="ni">🏠</span><span>Beranda</span></button>
-    <button class="navi" data-nav="lab"><span class="ni">🔬</span><span>Lab Virtual 3D</span><span class="nb">HD</span></button>
+    <button class="navi" data-nav="mood" data-role="guru"><span class="ni">😊</span><span>Cek Perasaan</span><span class="nb">3D</span></button>
+    <button class="navi" data-nav="lab"><span class="ni">📘</span><span>Materi &amp; Lab 3D</span><span class="nb">7·8</span></button>
     <button class="navi" data-nav="games" data-role="guru"><span class="ni">🎮</span><span>Permainan &amp; Kuis</span></button>
+    <div class="navh" data-role="guru">Kelola</div>
     <button class="navi" data-nav="bank" data-role="guru"><span class="ni">📚</span><span>Bank Soal</span></button>
     <button class="navi" data-nav="studio" data-role="guru"><span class="ni">🎙️</span><span>Studio Suara</span></button>
     <button class="navi" data-nav="history" data-role="guru"><span class="ni">📈</span><span>Riwayat Kelas</span></button>
@@ -668,11 +694,14 @@ details.help ol{line-height:1.7;font-size:14px}
       <button class="iconbtn" data-theme-toggle title="Tema terang/gelap">🌓</button><button class="iconbtn" data-fs title="Layar penuh">⛶</button></div>
 
     <div class="page" id="pg-home"></div>
+    <div class="page" id="pg-mood"><div class="viewer"><div class="vbar"><b class="fred" style="font-size:22px">😊 Cek Perasaan Kelas</b><span class="muted" style="font-weight:800;font-size:13px">Pembuka pelajaran · 5 siswa maju bergantian per kelompok</span><div class="sp"></div>
+        <button class="btn sm ghost" id="mdHist">📈 Riwayat perasaan</button><button class="btn sm cyan" id="mdFull">⛶ Layar penuh</button></div>
+      <iframe class="vframe" id="mdFrame" allow="fullscreen; autoplay" allowfullscreen></iframe></div></div>
     <div class="page" id="pg-lab"></div>
     <div class="page" id="pg-viewer"><div class="viewer"><div class="vbar">
-        <button class="btn sm ghost" id="vBack">← Lab Virtual</button><b class="fred" style="font-size:22px" id="vTitle"></b><span class="slowhint" id="vSlow">🐢 Gambar tersendat? Coba kualitas <b>Standar</b> atau <b>Hemat</b>.</span><div class="sp"></div>
+        <button class="btn sm ghost" id="vBack">← Materi &amp; Lab</button><b class="fred" style="font-size:22px" id="vTitle"></b><span class="slowhint" id="vSlow">🐢 Gambar tersendat? Coba kualitas <b>Standar</b> atau <b>Hemat</b>.</span><div class="sp"></div>
         <span class="muted" style="font-weight:800;font-size:13px">Kualitas:</span><div class="chips" id="vQual"></div>
-        <button class="btn sm ghost" id="vStudio" data-role="guru">🎙️ Rekam narasi</button><button class="btn sm ghost" id="vShare" data-role="guru">🔗 Bagikan</button><button class="btn sm cyan" id="vFull">⛶ Layar penuh</button><button class="btn sm ghost" id="vNew">↗ Tab baru</button></div>
+        <button class="btn sm amber" id="vQuiz" data-role="guru">🎮 Mainkan kuis</button><button class="btn sm ghost" id="vStudio" data-role="guru">🎙️ Narasi</button><button class="btn sm ghost" id="vShare" data-role="guru" title="Bagikan ke siswa">🔗</button><button class="btn sm cyan" id="vFull">⛶ Layar penuh</button><button class="btn sm ghost" id="vNew" title="Buka di tab baru">↗</button></div>
       <iframe class="vframe" id="vFrame" allow="fullscreen; autoplay; microphone" allowfullscreen></iframe></div></div>
     <div class="page" id="pg-games"><div class="wrap">
     
@@ -3138,6 +3167,7 @@ var qrcode = function() {
 }));
 
 </script>
+<script src="assets/materi.js"></script>
 <script>
 /* ============================================================
    DATA MATERI — tambahkan materi lain di MATERI di bawah ini
@@ -3261,14 +3291,16 @@ const DEFAULT_BANK = [
   exp:'a = F/m. Dengan gaya sama, massa lebih kecil menghasilkan percepatan lebih besar. A (2 kg) memiliki percepatan 2× B (4 kg).',
   misc:'Menganggap benda bermassa besar bergerak lebih cepat karena lebih “kuat”.'}
 ];
-const MATERI = {
-  'gerak-gaya': {nama:'Gerak dan Gaya', kelas:'7', mapel:'IPA', icon:'🍎', topics:TOPICS, bank:DEFAULT_BANK}
-};
-const COMING = [
-  {nama:'Hakikat Sains & Metode Ilmiah', icon:'🔬'}, {nama:'Zat dan Perubahannya', icon:'🧪'},
-  {nama:'Suhu, Kalor & Pemuaian', icon:'🌡️'}, {nama:'Klasifikasi Makhluk Hidup', icon:'🌿'},
-  {nama:'Ekologi & Keanekaragaman Hayati', icon:'🦋'}, {nama:'Bumi & Tata Surya', icon:'🪐'}
-];
+const MATERI = {};
+(function(){ const D = window.MATERI_DATA || {};
+  const ids = Object.keys(D).length ? Object.keys(D) : ['gerak-gaya'];
+  ids.sort((a,b) => ((D[a]||{}).kelas||7) - ((D[b]||{}).kelas||7));
+  for(const id of ids){ const d = D[id] || {nama:'Gaya dan Gerak', kelas:7, icon:'🍎', lab:'lab/newton.html'};
+    MATERI[id] = {nama:d.nama, kelas:String(d.kelas), mapel:'IPA', icon:d.icon, desc:d.desc||'', lab:d.lab,
+      topics: id === 'gerak-gaya' ? TOPICS : d.topics, bank: id === 'gerak-gaya' ? DEFAULT_BANK : d.bank}; }
+})();
+const KELAS_OF = id => (MATERI[id] && MATERI[id].kelas) || '7';
+const COMING = [];
 const MODES = {
   klasik:   {nama:'Kilat', ic:'⚡', grad:'linear-gradient(135deg,#0891b2,#2dd4bf 60%,#a3e635)', tags:['Cepat & tepat','Individu'],
              desc:'Semua siswa menjawab soal yang sama. Makin cepat menjawab dengan benar, makin besar poinnya, plus bonus jawaban beruntun 🔥.'},
@@ -3530,8 +3562,10 @@ function renderSetup(){
     $('#fileWarn').innerHTML = `⚠️ <b>File dibuka langsung dari komputer.</b> Mode Kelas (tanpa HP) bisa langsung dipakai. Untuk mode HP siswa, buka dari alamat online agar siswa bisa scan QR. Lihat <a href="#" id="fwGuide" style="color:#fde047">Panduan</a>.`;
     setTimeout(()=>{ const g=$('#fwGuide'); if(g) g.onclick=e=>{e.preventDefault();openGuide();}; });
   }
-  $('#materiList').innerHTML = Object.entries(MATERI).map(([id,m]) => `<button class="mat ${SET.materi===id?'on':''}" data-m="${id}"><div class="e">${m.icon}</div><b>${esc(m.nama)}</b><small>${m.mapel} Kelas ${m.kelas} · ${bankOf(id).length} soal · ${Object.keys(m.topics).length} subtopik</small></button>`).join('')
-    + COMING.map(c => `<button class="mat soon" disabled><div class="e">${c.icon}</div><b>${esc(c.nama)}</b><small>IPA Kelas 7</small></button>`).join('');
+  if(!SET.kelasTab) SET.kelasTab = KELAS_OF(SET.materi);
+  $('#materiList').innerHTML = `<div class="ktabs" style="grid-column:1/-1">${['7','8'].map(k => `<button data-kt="${k}" class="${SET.kelasTab===k?'on':''}">🎓 Kelas ${k} <small>${Object.values(MATERI).filter(m => m.kelas===k).length} materi</small></button>`).join('')}</div>`
+    + Object.entries(MATERI).filter(([id,m]) => m.kelas === SET.kelasTab).map(([id,m]) => `<button class="mat ${SET.materi===id?'on':''}" data-m="${id}"><div class="e">${m.icon}</div><b>${esc(m.nama)}</b><small>Kelas ${m.kelas} · ${bankOf(id).length} soal · ${Object.keys(m.topics).length} subtopik</small></button>`).join('');
+  $$('#materiList [data-kt]').forEach(b => b.onclick = () => { SET.kelasTab = b.dataset.kt; SFX.click(); renderSetup(); });
   $$('#materiList [data-m]').forEach(b => b.onclick = () => { SET.materi = b.dataset.m; SET.selected = []; saveSet(); renderSetup(); });
   const kelas = SET.track === 'kelas';
   $$('#trackTabs [data-track]').forEach(b => { b.classList.toggle('on', b.dataset.track === SET.track); b.onclick = () => { SET.track = b.dataset.track; SFX.click(); saveSet(); renderSetup(); }; });
@@ -4035,7 +4069,7 @@ function renderReport(){
   }).join('');
   const g = {a:[], b:[], c:[]}; rows.forEach(r => (r.nilai>=80?g.a:r.nilai>=60?g.b:g.c).push(r.p.name));
   $('#reportBody').innerHTML = `
-    <div class="print-head"><h2 style="margin:0">Laporan Asesmen Diagnostik — ${esc(MATERI[H.materi].nama)}</h2><div>SMPN 4 Magelang · IPA Kelas 7 · Guru: Nella Alfiani Rofiqoh · ${tanggal} · Mode ${MODES[H.mode].nama}</div></div>
+    <div class="print-head"><h2 style="margin:0">Laporan Asesmen Diagnostik — ${esc(MATERI[H.materi].nama)}</h2><div>SMPN 4 Magelang · IPA Kelas ${KELAS_OF(H.materi)} · Guru: Nella Alfiani Rofiqoh · ${tanggal} · Mode ${MODES[H.mode].nama}</div></div>
     <div class="gbar no-print" style="margin-top:20px"><h2 class="fred" style="margin:0">📊 Laporan Guru</h2><span class="pill">${MATERI[H.materi].icon} ${esc(MATERI[H.materi].nama)}</span><span class="pill">${MODES[H.mode].ic} ${MODES[H.mode].nama}</span><span class="pill">📅 ${tanggal}</span><div class="sp"></div>
       <button class="btn sm ghost" id="backPod">← Panggung</button><button class="btn sm ghost" id="csvBtn">⬇ CSV</button><button class="btn sm cyan" onclick="window.print()">🖨 Cetak / PDF</button></div>
     <div class="kpis"><div class="kpi"><div class="v">${rows.length}</div><div class="l">Siswa</div></div>
@@ -4077,7 +4111,7 @@ function renderBank(filter){
   const id = SET.materi, bank = bankOf(id), TOP = topicsOf(id);
   const f = filter ?? ($('#bkFilter') ? $('#bkFilter').value : '');
   SET.selected = SET.selected.filter(x => bank.some(q=>q.id===x)); saveSet();
-  $('#bankBox').innerHTML = `<div class="gbar" style="margin-top:0"><h3 style="margin:0">📚 Bank Soal · ${esc(MATERI[id].nama)}</h3><span class="pill">${bank.length} soal</span><div class="sp"></div>
+  $('#bankBox').innerHTML = `<div class="gbar" style="margin-top:0"><h3 style="margin:0">📚 Bank Soal</h3><select class="inp" id="bkMat" style="width:auto;font-weight:800">${['7','8'].map(k => `<optgroup label="Kelas ${k}">${Object.entries(MATERI).filter(([,m]) => m.kelas===k).map(([mid,m]) => `<option value="${mid}" ${mid===id?'selected':''}>${m.icon} ${esc(m.nama)}</option>`).join('')}</optgroup>`).join('')}</select><span class="pill">Kelas ${KELAS_OF(id)}</span><span class="pill">${bank.length} soal</span><div class="sp"></div>
       <button class="btn sm ghost" id="bkClose">🎮 Ke Permainan</button></div>
     <div class="gbar"><select class="inp" id="bkFilter" style="width:auto"><option value="">Semua subtopik</option>${Object.entries(TOP).map(([k,t])=>`<option value="${k}" ${k===f?'selected':''}>${t.icon} ${t.name}</option>`).join('')}</select>
       <span class="muted" style="font-weight:800">Dipilih (mode manual): ${SET.selected.length}/10</span><div class="sp"></div>
@@ -4088,6 +4122,7 @@ function renderBank(filter){
       <div class="o">${q.opts.map((o,i)=> i===q.ans?`<b>✔ ${esc(o)}</b>`:esc(o)).join(' · ')}</div></div>
       <div style="display:flex;flex-direction:column;gap:6px"><button class="btn sm ghost" data-edit="${q.id}">✏️</button><button class="btn sm red" data-del="${q.id}">🗑</button></div></div>`; }).join('')}`;
   $('#bkClose').onclick = () => nav('games');
+  $('#bkMat').onchange = e => { SET.materi = e.target.value; SET.kelasTab = KELAS_OF(SET.materi); SET.selected = []; saveSet(); renderBank(''); };
   $('#bkFilter').onchange = e => renderBank(e.target.value);
   $$('#bankBox [data-sel]').forEach(c => c.onchange = () => {
     if(c.checked){ if(SET.selected.length>=10){ c.checked=false; return toast('Maksimal 10 soal'); } SET.selected.push(c.dataset.sel); SET.selection='manual'; SET.n = Math.max(SET.n, Math.min(10, SET.selected.length)); }
@@ -4129,10 +4164,14 @@ $('#openGuide').onclick = openGuide;
 function openGuide(){
   $('#guideModal').classList.add('on');
   $('#guideBox').innerHTML = `<div class="gbar" style="margin-top:0"><h3 style="margin:0">💡 Panduan Lab Petualang</h3><div class="sp"></div><button class="btn sm ghost" id="gClose">✕ Tutup</button></div>
-  <h4>🧭 Dasbor Bahan Ajar</h4><p>Menu di kiri: <b>Beranda</b> (rekomendasi alur pembelajaran), <b>Lab Virtual 3D</b>, <b>Permainan & Kuis</b>, <b>Bank Soal</b>, <b>Studio Suara</b>, <b>Riwayat Kelas</b>, dan <b>Pengaturan</b> (tema terang/gelap, kualitas 3D, sinkron GitHub). Tombol 🌓 di kanan atas mengganti tema.</p>
-  <h4>🔬 Lab Virtual 3D</h4><p>Buka simulasi langsung di dasbor, pilih kualitas <b>HD/Standar/Hemat</b>, atau <b>🔗 Bagikan</b> (QR) agar siswa membukanya di HP tanpa login. Siswa juga bisa memilih “Jelajah Lab Virtual” di halaman depan.</p>
-  <h4>🎙️ Studio Suara</h4><p>Rekam suara Bu Nella untuk tiap narasi (Hukum Newton & Tata Surya). Rekaman langsung dipakai di lab pada perangkat ini. Tekan <b>☁️ Simpan ke GitHub</b> (isi token di Pengaturan sekali saja) agar rekaman ikut online untuk semua siswa.</p>
-  <h4>🔐 Masuk sebagai guru</h4><p>Pilih <b>Masuk sebagai Guru</b> lalu login. Centang “Ingat saya” hanya di laptop pribadi. Tombol <b>⎋ Keluar</b> ada di kanan atas Ruang Guru.</p>
+  <h4>🧭 Susunan menu</h4><p><b>Mengajar:</b> Beranda (alur pembelajaran yang disarankan) · <b>Cek Perasaan</b> · <b>Materi &amp; Lab 3D</b> (Kelas 7 &amp; 8) · Permainan &amp; Kuis. <b>Kelola:</b> Bank Soal · Studio Suara · Riwayat Kelas · Pengaturan. Tombol 🌙/☀️ di kanan atas mengganti tema, ⇤ menciutkan menu.</p>
+  <h4>😊 Cek Perasaan (pembuka pelajaran)</h4><ol><li>Isi nama kelas &amp; jumlah siswa hadir, lalu <b>Mulai</b>. Mode <b>🙈 Pilihan rahasia</b> menyembunyikan jumlah tiap emoticon sampai hasil dibuka, agar siswa jujur.</li>
+  <li>Panggil <b>5 siswa</b> ke depan. Satu per satu mengetuk emoticon: <b>Semangat, Senang, Bosan, Mengantuk, Sedih</b> (atau tombol <kbd>1</kbd>–<kbd>5</kbd>; <kbd>⌫</kbd> membatalkan pilihan terakhir). Setiap pilihan masuk ke toples 3D.</li>
+  <li>Setelah 5 siswa, tekan <b>Kelompok berikutnya</b>. Di akhir tekan <b>📊 Lihat Hasil</b>: grafik batang 3D, persentase, <b>indeks perasaan kelas</b> (Semangat 5 · Senang 4 · Bosan 2 · Mengantuk 2 · Sedih 1), dan rekomendasi untuk memulai pelajaran.</li>
+  <li>Hasil tersimpan otomatis di <b>Riwayat Kelas</b> dan tampil di Beranda.</li></ol>
+  <h4>📘 Materi &amp; Lab 3D</h4><p>Pilih tab <b>Kelas 7</b> (Hakikat Sains, Pengukuran, Wujud Zat, Kalor, Tata Surya, Klasifikasi, Ekosistem, Gaya &amp; Gerak) atau <b>Kelas 8</b> (Sel, Sistem Organ, Usaha, Unsur–Senyawa–Campuran, Getaran &amp; Gelombang, Struktur Bumi). Setiap materi punya <b>▶ Simulasi 3D</b> (dengan beberapa mode, narasi Bu Nella, dan kuis singkat di dalam lab) dan <b>🎮 Kuis</b> yang langsung menyiapkan permainan dengan bank soal materi itu. <b>🔗</b> membagikan lab ke siswa lewat QR.</p>
+  <h4>🎙️ Studio Suara</h4><p>Pilih materi (Kelas 7/8), lalu rekam suara Bu Nella untuk setiap narasi. Rekaman langsung dipakai di lab pada perangkat ini. Tekan <b>☁️ Simpan ke GitHub</b> (isi token di Pengaturan sekali saja) agar rekaman ikut online untuk semua siswa.</p>
+  <h4>🔐 Masuk sebagai guru</h4><p>Pilih <b>Masuk sebagai Guru</b> lalu login. Centang “Ingat saya” hanya di laptop pribadi. Tombol <b>⎋ Keluar</b> ada di bawah menu kiri.</p>
   <h4>📱 A. Pakai HP Siswa</h4>
   <ol><li>Pilih materi → <b>Pakai HP Siswa</b> → pilih mode → atur → <b>Buka Ruang Lab</b>.</li>
   <li>Siswa scan QR (atau buka alamat & ketik <b>Kode Kelas</b>), isi nama panggilan, pilih karakter.</li>
@@ -4972,7 +5011,7 @@ function renderClassReport(){
     </tbody></table><p class="muted" style="font-size:12px">Nilai regu = jawaban benar ÷ soal yang dijawab × 100.</p></div>` : '';
   const acc = C.mode==='mitos' ? (() => { const tv = L.reduce((s,x)=>s+x.votesTot,0); return tv ? Math.round(L.reduce((s,x)=>s+x.votesOk,0)/tv*100) : 0; })() : (L.length ? Math.round(L.filter(a=>a.correct).length/L.length*100) : 0);
   $('#reportBody').innerHTML = `
-    <div class="print-head"><h2 style="margin:0">Laporan Mode Kelas — ${esc(MATERI[C.materi].nama)} · ${cm.nama}</h2><div>SMPN 4 Magelang · IPA Kelas 7 · Guru: Nella Alfiani Rofiqoh · ${tanggal}</div></div>
+    <div class="print-head"><h2 style="margin:0">Laporan Mode Kelas — ${esc(MATERI[C.materi].nama)} · ${cm.nama}</h2><div>SMPN 4 Magelang · IPA Kelas ${KELAS_OF(C.materi)} · Guru: Nella Alfiani Rofiqoh · ${tanggal}</div></div>
     <div class="gbar no-print" style="margin-top:20px"><h2 class="fred" style="margin:0">📊 Hasil Mode Kelas</h2><span class="pill">${cm.ic} ${cm.nama}</span><span class="pill">📅 ${tanggal}</span><div class="sp"></div>
       <button class="btn sm ghost" id="crHome">🏠 Ruang Guru</button><button class="btn sm pink" id="crAgain">🔁 Main lagi</button><button class="btn sm ghost" id="crCsv">⬇ CSV</button><button class="btn sm cyan" onclick="window.print()">🖨 Cetak / PDF</button></div>
     ${win}
@@ -5167,17 +5206,17 @@ function pFinal(d){
 }
 
 /* ============================================================ DASBOR BAHAN AJAR (shell) */
-const VOICE_CAT = {"newton":[["greet","Sapaan di beranda","Hai! Selamat datang semuanya! Saya Bu Nella Alfiani Rofiqoh, guru IPA SMP Negeri 4 Magelang. Hari ini kita belajar Hukum Newton lewat simulasi tiga dimensi. Ayo, pilih materinya!"],["h1","Penjelasan Hukum I","Perhatikan penumpang di dalam mobil, ya! Tekan Gas, lalu Rem Mendadak. Tubuh penumpang selalu ingin mempertahankan keadaannya. Itulah kelembaman. Jangan lupa coba pakai sabuk pengaman!"],["h2","Penjelasan Hukum II","Atur gaya dan massa troli A dan B, lalu mulai balapan. Ingat rumusnya: percepatan sama dengan gaya total dibagi massa. Coba juga ganti permukaan lantainya, karena gesekan mengurangi gaya total!"],["h3s","Hukum III – berenang","Saat berenang, tangan mendorong air ke belakang. Itu aksi. Air mendorong tubuh perenang ke depan. Itu reaksi. Besarnya sama, arahnya berlawanan!"],["h3r","Hukum III – roket","Roket menyemburkan gas ke bawah, lalu gas mendorong roket ke atas. Coba kecilkan daya dorongnya. Kalau gaya dorong lebih kecil dari berat roket, roket tidak bisa terbang!"],["quiz","Pembuka kuis","Ayo uji pemahamanmu! Baca soalnya baik-baik, lalu pilih jawaban yang paling tepat. Semangat!"]],"tata-surya":[["ts_greet","Sapaan pembuka","Halo! Selamat datang di simulasi Tata Surya. Saya Bu Nella. Ketuk salah satu planet untuk mengenalnya lebih dekat, atau tekan Tur Otomatis untuk berkeliling tata surya!"],["ts_matahari","Matahari","Matahari. Bintang pusat tata surya kita. Matahari tersusun dari hidrogen dan helium. Diameternya 109 kali Bumi. Jangan pernah menatap Matahari langsung karena dapat merusak mata!"],["ts_merkurius","Merkurius","Merkurius. Terkecil dan paling dekat dengan Matahari. Merkurius hampir tidak punya atmosfer, jadi siangnya sangat panas dan malamnya sangat dingin. Permukaannya penuh kawah seperti Bulan."],["ts_venus","Venus","Venus. Planet terpanas, si Bintang Fajar. Atmosfer Venus sangat tebal oleh karbon dioksida yang memerangkap panas (efek rumah kaca). Venus berputar berlawanan arah dengan kebanyakan planet."],["ts_bumi","Bumi","Bumi. Rumah kita, satu-satunya planet yang diketahui berpenghuni. Sekitar 71% permukaan Bumi tertutup air. Lihat Bulan yang mengelilingi Bumi! Kemiringan sumbu Bumi (23,5°) menyebabkan pergantian musim."],["ts_mars","Mars","Mars. Si Planet Merah. Warna merah Mars berasal dari tanah yang mengandung besi berkarat. Di Mars ada Olympus Mons, gunung tertinggi di tata surya."],["ts_jupiter","Jupiter","Jupiter. Planet terbesar di tata surya. Bintik Merah Raksasa di Jupiter adalah badai yang lebih besar dari Bumi dan sudah berlangsung ratusan tahun. Jupiter berotasi paling cepat."],["ts_saturnus","Saturnus","Saturnus. Planet dengan cincin paling indah. Cincin Saturnus tersusun dari bongkahan es dan batu. Saturnus sangat ringan: kalau ada kolam raksasa, Saturnus bisa mengapung!"],["ts_uranus","Uranus","Uranus. Berotasi sambil menggelinding. Sumbu Uranus sangat miring (± 98°), sehingga ia seperti bola yang menggelinding. Perhatikan putarannya di simulasi! Warnanya berasal dari gas metana."],["ts_neptunus","Neptunus","Neptunus. Planet terjauh dan paling berangin. Angin di Neptunus bisa mencapai ± 2.000 km/jam, tercepat di tata surya. Neptunus ditemukan lewat perhitungan matematika sebelum terlihat teleskop."]]};
-const SIMS = [
-  {id:'newton', file:'lab/newton.html', title:'Hukum Newton 3D', icon:'🍎', materi:'Gerak dan Gaya', thumb:'assets/thumbs/newton.jpg',
-   desc:'Hukum I (kelembaman, mobil direm), Hukum II (F = m·a, balap troli), Hukum III (aksi–reaksi: berenang & roket), lengkap dengan kuis dan penjelasan suara Bu Nella.',
-   tags:['3D','Narasi suara','Kuis','Gerak & Gaya'], dur:'30–40 menit'},
-  {id:'tata-surya', file:'lab/tata-surya.html', title:'Tata Surya 3D', icon:'🪐', materi:'Bumi dan Tata Surya', thumb:'assets/thumbs/tata-surya.jpg',
-   desc:'Jelajahi Matahari dan 8 planet: tekstur Bumi & Bulan asli NASA (siang–malam, awan), atmosfer bercahaya, orbit & rotasi, tur otomatis, dan narasi Bu Nella.',
-   tags:['3D HD','Tekstur NASA','Tur otomatis','Narasi'], dur:'25–35 menit'}
-];
-const SIM_SOON = [{t:'Zat dan Perubahannya', e:'🧪'},{t:'Suhu, Kalor & Pemuaian', e:'🌡️'},{t:'Sel Hewan & Tumbuhan', e:'🔬'},{t:'Ekosistem & Rantai Makanan', e:'🌿'}];
-const PAGES = {home:['🏠','Beranda'], lab:['🔬','Lab Virtual 3D'], viewer:['🔬','Lab Virtual 3D'], games:['🎮','Permainan & Kuis'], bank:['📚','Bank Soal'], studio:['🎙️','Studio Suara'], history:['📈','Riwayat Kelas'], settings:['⚙️','Pengaturan']};
+const VOICE_CAT = {"newton": [["greet", "Sapaan di beranda", "Hai! Selamat datang semuanya! Saya Bu Nella Alfiani Rofiqoh, guru IPA SMP Negeri 4 Magelang. Hari ini kita belajar Hukum Newton lewat simulasi tiga dimensi. Ayo, pilih materinya!"], ["h1", "Penjelasan Hukum I", "Perhatikan penumpang di dalam mobil, ya! Tekan Gas, lalu Rem Mendadak. Tubuh penumpang selalu ingin mempertahankan keadaannya. Itulah kelembaman. Jangan lupa coba pakai sabuk pengaman!"], ["h2", "Penjelasan Hukum II", "Atur gaya dan massa troli A dan B, lalu mulai balapan. Ingat rumusnya: percepatan sama dengan gaya total dibagi massa. Coba juga ganti permukaan lantainya, karena gesekan mengurangi gaya total!"], ["h3s", "Hukum III – berenang", "Saat berenang, tangan mendorong air ke belakang. Itu aksi. Air mendorong tubuh perenang ke depan. Itu reaksi. Besarnya sama, arahnya berlawanan!"], ["h3r", "Hukum III – roket", "Roket menyemburkan gas ke bawah, lalu gas mendorong roket ke atas. Coba kecilkan daya dorongnya. Kalau gaya dorong lebih kecil dari berat roket, roket tidak bisa terbang!"], ["quiz", "Pembuka kuis", "Ayo uji pemahamanmu! Baca soalnya baik-baik, lalu pilih jawaban yang paling tepat. Semangat!"]], "tata-surya": [["ts_greet", "Sapaan pembuka", "Halo! Selamat datang di simulasi Tata Surya. Saya Bu Nella. Ketuk salah satu planet untuk mengenalnya lebih dekat, atau tekan Tur Otomatis untuk berkeliling tata surya!"], ["ts_matahari", "Matahari", "Matahari. Bintang pusat tata surya kita. Matahari tersusun dari hidrogen dan helium. Diameternya 109 kali Bumi. Jangan pernah menatap Matahari langsung karena dapat merusak mata!"], ["ts_merkurius", "Merkurius", "Merkurius. Terkecil dan paling dekat dengan Matahari. Merkurius hampir tidak punya atmosfer, jadi siangnya sangat panas dan malamnya sangat dingin. Permukaannya penuh kawah seperti Bulan."], ["ts_venus", "Venus", "Venus. Planet terpanas, si Bintang Fajar. Atmosfer Venus sangat tebal oleh karbon dioksida yang memerangkap panas (efek rumah kaca). Venus berputar berlawanan arah dengan kebanyakan planet."], ["ts_bumi", "Bumi", "Bumi. Rumah kita, satu-satunya planet yang diketahui berpenghuni. Sekitar 71% permukaan Bumi tertutup air. Lihat Bulan yang mengelilingi Bumi! Kemiringan sumbu Bumi (23,5°) menyebabkan pergantian musim."], ["ts_mars", "Mars", "Mars. Si Planet Merah. Warna merah Mars berasal dari tanah yang mengandung besi berkarat. Di Mars ada Olympus Mons, gunung tertinggi di tata surya."], ["ts_jupiter", "Jupiter", "Jupiter. Planet terbesar di tata surya. Bintik Merah Raksasa di Jupiter adalah badai yang lebih besar dari Bumi dan sudah berlangsung ratusan tahun. Jupiter berotasi paling cepat."], ["ts_saturnus", "Saturnus", "Saturnus. Planet dengan cincin paling indah. Cincin Saturnus tersusun dari bongkahan es dan batu. Saturnus sangat ringan: kalau ada kolam raksasa, Saturnus bisa mengapung!"], ["ts_uranus", "Uranus", "Uranus. Berotasi sambil menggelinding. Sumbu Uranus sangat miring (± 98°), sehingga ia seperti bola yang menggelinding. Perhatikan putarannya di simulasi! Warnanya berasal dari gas metana."], ["ts_neptunus", "Neptunus", "Neptunus. Planet terjauh dan paling berangin. Angin di Neptunus bisa mencapai ± 2.000 km/jam, tercepat di tata surya. Neptunus ditemukan lewat perhitungan matematika sebelum terlihat teleskop."]], "hakikat-sains": [["hakikat-sains_greet", "Sapaan pembuka", "Halo! Saya Bu Nella. Di laboratorium virtual ini kita mengenal alat-alat laboratorium, langkah metode ilmiah, dan simbol bahaya bahan kimia. Ketuk alat untuk melihat namanya dan fungsinya!"], ["hakikat-sains_alat", "Alat Lab", "Ketuk setiap alat di meja laboratorium untuk mengetahui nama dan fungsinya."], ["hakikat-sains_metode", "Metode Ilmiah", "Metode ilmiah adalah langkah sistematis untuk menjawab pertanyaan tentang alam: mengamati, merumuskan masalah, membuat hipotesis, bereksperimen, menganalisis data, lalu menarik kesimpulan."], ["hakikat-sains_bahaya", "Simbol Bahaya", "Bahan kimia di laboratorium diberi simbol bahaya. Kenali simbolnya agar kita bisa bekerja dengan aman."]], "pengukuran": [["pengukuran_greet", "Sapaan pembuka", "Halo! Mari belajar mengukur. Coba geser rahang jangka sorong dan baca hasil pengukurannya. Lalu kenali tujuh besaran pokok dan alat ukurnya."], ["pengukuran_sorong", "Jangka Sorong", "Jangka sorong memiliki skala utama dan skala nonius. Ketelitiannya nol koma satu milimeter. Hasil ukur sama dengan skala utama ditambah skala nonius dikali nol koma satu milimeter."], ["pengukuran_besaran", "Besaran Pokok", "Ada tujuh besaran pokok dalam Sistem Internasional: panjang, massa, waktu, suhu, kuat arus listrik, intensitas cahaya, dan jumlah zat."]], "wujud-zat": [["wujud-zat_greet", "Sapaan pembuka", "Halo! Zat tersusun dari partikel-partikel yang selalu bergerak. Ubah suhunya dan amati bagaimana susunan dan gerak partikel berubah dari padat, cair, menjadi gas!"], ["wujud-zat_partikel", "Model Partikel", "Pada zat padat, partikel tersusun rapat dan hanya bergetar. Pada zat cair, partikel agak renggang dan dapat berpindah. Pada gas, partikel sangat renggang dan bergerak bebas sangat cepat."], ["wujud-zat_perubahan", "Perubahan Wujud", "Perubahan wujud terjadi karena zat menerima atau melepaskan kalor. Mencair, menguap, dan menyublim memerlukan kalor. Membeku, mengembun, dan mengkristal melepaskan kalor."]], "kalor": [["kalor_greet", "Sapaan pembuka", "Halo! Kalor adalah energi panas yang berpindah dari benda bersuhu tinggi ke benda bersuhu rendah. Ayo panaskan es dan amati grafik suhunya!"], ["kalor_pemanasan", "Pemanasan Es", "Perhatikan grafiknya. Saat es mencair dan air mendidih, suhunya tetap walaupun terus dipanaskan. Kalor dipakai untuk mengubah wujud, disebut kalor laten."], ["kalor_perpindahan", "Perpindahan Kalor", "Kalor berpindah dengan tiga cara. Konduksi lewat zat padat tanpa perpindahan partikel, konveksi lewat aliran zat cair atau gas, dan radiasi tanpa perantara, misalnya panas Matahari."], ["kalor_pemuaian", "Pemuaian", "Benda memuai ketika dipanaskan. Itulah sebabnya sambungan rel kereta api diberi celah, dan keping bimetal melengkung ke arah logam yang pemuaiannya lebih kecil."]], "klasifikasi": [["klasifikasi_greet", "Sapaan pembuka", "Halo! Makhluk hidup dikelompokkan ke dalam enam kingdom berdasarkan ciri-cirinya. Ketuk setiap model untuk mengenal ciri kingdom tersebut, lalu coba tantangan tebak kingdom!"], ["klasifikasi_kingdom", "6 Kingdom", "Enam kingdom adalah Archaebacteria, Eubacteria, Protista, Fungi, Plantae, dan Animalia."], ["klasifikasi_tebak", "Tebak Kingdom", "Amati model makhluk hidup di tengah panggung, baca petunjuknya, lalu pilih kingdom yang tepat!"]], "ekosistem": [["ekosistem_greet", "Sapaan pembuka", "Halo! Selamat datang di diorama ekosistem padang rumput. Amati komponen biotik dan abiotik, ikuti aliran energi dalam rantai makanan, dan atur keseimbangan populasi!"], ["ekosistem_komponen", "Komponen", "Ekosistem terdiri atas komponen biotik, yaitu makhluk hidup, dan komponen abiotik, yaitu benda tak hidup seperti cahaya matahari, air, tanah, udara, dan suhu."], ["ekosistem_rantai", "Rantai Makanan", "Energi dalam rantai makanan mengalir dari Matahari ke produsen, lalu ke konsumen tingkat satu, dua, dan tiga. Pada setiap tingkat, hanya sekitar sepuluh persen energi yang berpindah."], ["ekosistem_populasi", "Populasi", "Atur jumlah kelinci dan rubah, lalu jalankan simulasi. Jika rubah terlalu banyak, kelinci habis dan akhirnya rubah pun kelaparan. Ekosistem seimbang jika populasinya terkendali."]], "sel": [["sel_greet", "Sapaan pembuka", "Halo! Sel adalah unit terkecil penyusun makhluk hidup. Bandingkan sel hewan dan sel tumbuhan, lalu ketuk setiap organel untuk mengetahui fungsinya!"], ["sel_hewan", "Sel Hewan", "Sel hewan bentuknya tidak tetap, tidak memiliki dinding sel dan kloroplas, tetapi memiliki sentriol dan lisosom."], ["sel_tumbuhan", "Sel Tumbuhan", "Sel tumbuhan bentuknya tetap karena memiliki dinding sel. Sel tumbuhan juga memiliki kloroplas untuk fotosintesis dan vakuola yang besar."], ["sel_banding", "Bandingkan", "Inilah sel hewan dan sel tumbuhan berdampingan. Perhatikan perbedaan bentuk, dinding sel, kloroplas, dan ukuran vakuolanya."]], "sistem-organ": [["sistem-organ_greet", "Sapaan pembuka", "Halo! Tubuh kita tersusun atas sistem organ yang bekerja sama. Pilih sistem pencernaan, pernapasan, atau peredaran darah, lalu amati alirannya!"], ["sistem-organ_cerna", "Pencernaan", "Makanan dicerna mulai dari mulut, lalu kerongkongan, lambung, usus halus, usus besar, hingga sisa makanan dikeluarkan melalui anus. Penyerapan sari makanan terjadi di usus halus."], ["sistem-organ_napas", "Pernapasan", "Saat menghirup napas, diafragma turun dan paru-paru mengembang sehingga udara masuk. Pertukaran oksigen dan karbon dioksida terjadi di alveolus."], ["sistem-organ_darah", "Peredaran Darah", "Jantung memompa darah ke seluruh tubuh. Peredaran darah manusia disebut peredaran darah ganda: peredaran kecil antara jantung dan paru-paru, serta peredaran besar antara jantung dan seluruh tubuh."]], "usaha": [["usaha_greet", "Sapaan pembuka", "Halo! Usaha terjadi ketika gaya menyebabkan benda berpindah. Ayo dorong kotak, amati perubahan energi pada lintasan, dan coba tuas untuk mengangkat beban!"], ["usaha_usaha", "Usaha (W = F·s)", "Usaha sama dengan gaya dikali perpindahan, satuannya joule. Jika gaya membentuk sudut, hanya komponen gaya yang searah perpindahan yang melakukan usaha."], ["usaha_energi", "Energi Mekanik", "Saat bola turun, energi potensial berubah menjadi energi kinetik. Tanpa gesekan, energi mekaniknya tetap. Inilah hukum kekekalan energi."], ["usaha_tuas", "Tuas", "Tuas adalah pesawat sederhana. Makin jauh lengan kuasa dari titik tumpu, makin kecil gaya yang diperlukan untuk mengangkat beban. Keuntungan mekanisnya adalah lengan kuasa dibagi lengan beban."]], "materi": [["materi_greet", "Sapaan pembuka", "Halo! Semua materi di sekitar kita dapat dikelompokkan menjadi unsur, senyawa, dan campuran. Pilih contoh di panel dan putar model molekulnya!"], ["materi_unsur", "Unsur", "Unsur adalah zat tunggal yang tidak dapat diuraikan lagi menjadi zat yang lebih sederhana dengan reaksi kimia biasa."], ["materi_senyawa", "Senyawa", "Senyawa terbentuk dari dua unsur atau lebih yang bergabung secara kimia dengan perbandingan tetap."], ["materi_campuran", "Campuran", "Campuran terbentuk dari dua zat atau lebih yang bercampur tanpa reaksi kimia, sehingga sifat zat penyusunnya masih tampak."]], "getaran-gelombang": [["getaran-gelombang_greet", "Sapaan pembuka", "Halo! Getaran adalah gerak bolak-balik melalui titik setimbang. Gelombang adalah getaran yang merambat. Ayo amati bandul, pegas, dan gelombang tali serta slinki!"], ["getaran-gelombang_bandul", "Bandul", "Satu getaran bandul adalah gerak dari A ke O ke B, lalu kembali ke O dan ke A. Periode bandul hanya bergantung pada panjang tali dan percepatan gravitasi, tidak pada massanya."], ["getaran-gelombang_pegas", "Pegas", "Beban pada pegas bergetar naik turun. Makin besar massa beban, makin lambat getarannya. Makin kaku pegasnya, makin cepat getarannya."], ["getaran-gelombang_transversal", "Gelombang Transversal", "Pada gelombang transversal, arah getar tegak lurus arah rambat. Satu gelombang terdiri atas satu bukit dan satu lembah. Cepat rambat gelombang sama dengan panjang gelombang dikali frekuensi."], ["getaran-gelombang_longitudinal", "Gelombang Longitudinal", "Pada gelombang longitudinal, arah getar sejajar arah rambat, membentuk rapatan dan renggangan. Contohnya gelombang pada slinki dan gelombang bunyi."]], "struktur-bumi": [["struktur-bumi_greet", "Sapaan pembuka", "Halo! Bumi tersusun atas beberapa lapisan: kerak, mantel, inti luar, dan inti dalam. Ketuk setiap lapisan dan pelajari juga gerakan lempeng tektonik!"], ["struktur-bumi_lapisan", "Lapisan Bumi", "Lapisan Bumi dari luar ke dalam adalah kerak bumi, mantel, inti luar yang cair, dan inti dalam yang padat dan sangat panas."], ["struktur-bumi_lempeng", "Lempeng Tektonik", "Lempeng tektonik bergerak karena arus konveksi di mantel. Batas lempeng dapat saling menjauh, saling bertumbukan, atau saling bergeser, dan dapat menimbulkan gempa serta gunung api."]]};
+const SIM_EXTRA = {
+  'gerak-gaya':{id:'newton', title:'Hukum Newton 3D', thumb:'assets/thumbs/newton.jpg', desc:'Hukum I (kelembaman, mobil direm), Hukum II (F = m·a, balap troli), Hukum III (aksi–reaksi: berenang & roket), lengkap dengan kuis dan narasi suara Bu Nella.', tags:['3D','Narasi suara','Kuis'], dur:'30–40 menit'},
+  'tata-surya':{id:'tata-surya', title:'Tata Surya 3D', thumb:'assets/thumbs/tata-surya.jpg', desc:'Jelajahi Matahari dan 8 planet: tekstur Bumi & Bulan asli NASA (siang–malam, awan), atmosfer bercahaya, orbit & rotasi, tur otomatis, dan narasi Bu Nella.', tags:['3D HD','Tekstur NASA','Tur otomatis'], dur:'25–35 menit'}};
+const SIMS = Object.entries(MATERI).map(([mid, m]) => { const x = SIM_EXTRA[mid] || {};
+  const modes = (VOICE_CAT[x.id || mid] || []).slice(1).map(v => v[1]);
+  return {id:x.id || mid, materiId:mid, kelas:m.kelas, file:m.lab || ('lab/lab.html?t=' + mid), title:x.title || (m.nama + ' 3D'), icon:m.icon, materi:m.nama,
+    thumb:x.thumb || ('assets/thumbs/' + mid + '.jpg'), desc:x.desc || m.desc, tags:x.tags || ['3D', ...modes.slice(0,3)], dur:x.dur || '20–30 menit'}; });
+const SIM_SOON = [];
+const simOfMateri = mid => SIMS.find(s => s.materiId === mid);
+const PAGES = {home:['🏠','Beranda'], mood:['😊','Cek Perasaan Kelas'], lab:['📘','Materi & Lab 3D'], viewer:['📘','Materi & Lab 3D'], games:['🎮','Permainan & Kuis'], bank:['📚','Bank Soal'], studio:['🎙️','Studio Suara'], history:['📈','Riwayat Kelas'], settings:['⚙️','Pengaturan']};
 let ROLE = 'guru', CURPAGE = 'home', CURSIM = null;
 
 /* ---------- tema ---------- */
@@ -5205,13 +5244,14 @@ function enterDash(role, page){
 function nav(p){
   if(ROLE === 'siswa' && !['lab','viewer'].includes(p)) p = 'lab';
   if(CURPAGE === 'viewer' && p !== 'viewer'){ const f = $('#vFrame'); if(f) f.src = 'about:blank'; }
+  if(CURPAGE === 'mood' && p !== 'mood'){ const f = $('#mdFrame'); if(f) f.src = 'about:blank'; }
   CURPAGE = p;
   $$('.page').forEach(x => x.classList.toggle('on', x.id === 'pg-' + p));
   $$('[data-nav]').forEach(b => b.classList.toggle('on', b.dataset.nav === (p === 'viewer' ? 'lab' : p)));
   $('#pageTitle').textContent = p === 'viewer' && CURSIM ? CURSIM.title : PAGES[p][1];
-  $('#crumb').textContent = 'Lab Petualang' + (p === 'viewer' ? ' › Lab Virtual 3D' : '');
+  $('#crumb').textContent = 'Lab Petualang' + (p === 'viewer' && CURSIM ? ` › Kelas ${CURSIM.kelas} › ${CURSIM.materi}` : '');
   $('#side').classList.remove('open');
-  ({home:renderHome, lab:renderLab, games:renderSetup, bank:() => renderBank(), studio:renderStudio, history:renderHistory, settings:renderSettings})[p]?.();
+  ({home:renderHome, mood:renderMood, lab:renderLab, games:renderSetup, bank:() => renderBank(), studio:renderStudio, history:renderHistory, settings:renderSettings})[p]?.();
   scrollTo(0,0);
 }
 $$('[data-nav]').forEach(b => b.onclick = () => { SFX.click(); nav(b.dataset.nav); });
@@ -5243,34 +5283,38 @@ async function voiceCounts(){
   return res;
 }
 async function renderHome(){
-  const hist = store.get('lab_history', []), bankN = bankOf(SET.materi).length;
+  const hist = store.get('lab_history', []), bankN = Object.keys(MATERI).reduce((a,id) => a + bankOf(id).length, 0), moodL = store.get('lab_mood', []);
   const nModes = Object.keys(MODES).length + Object.keys(CLASS_MODES).length;
   const tanggal = new Date().toLocaleDateString('id-ID', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
   $('#pg-home').innerHTML = `
     <div class="hello"><div class="ava"><img src="assets/nella/body.webp" alt=""></div>
       <div><div class="muted" style="font-weight:800">${tanggal}</div><h2>${greetWord()}, Bu Nella! 👋</h2><div style="font-weight:700;margin-top:4px">Mau mengajar apa hari ini? Semua bahan ajar, permainan, dan laporan ada di sini.</div></div>
-      <div class="qa"><button class="btn" data-go="lab">🔬 Buka Lab 3D</button><button class="btn amber" data-go="games">🎮 Mulai Permainan</button><button class="btn ghost" data-go="studio">🎙️ Studio Suara</button></div></div>
+      <div class="qa"><button class="btn pink" data-go="mood">😊 Cek Perasaan</button><button class="btn" data-go="lab">📘 Materi &amp; Lab 3D</button><button class="btn amber" data-go="games">🎮 Mulai Permainan</button></div></div>
     <div class="stats">
-      <div class="stat" data-go="lab"><div class="si" style="background:linear-gradient(135deg,#0891b2,#2dd4bf)">🔬</div><div><b>${SIMS.length}</b><span>Lab Virtual 3D</span></div></div>
+      <div class="stat" data-go="lab"><div class="si" style="background:linear-gradient(135deg,#0891b2,#2dd4bf)">🔬</div><div><b>${SIMS.length}</b><span>Simulasi 3D (Kelas 7 & 8)</span></div></div>
       <div class="stat" data-go="games"><div class="si" style="background:linear-gradient(135deg,#7c3aed,#c026d3)">🎮</div><div><b>${nModes}</b><span>Mode permainan</span></div></div>
-      <div class="stat" data-go="bank"><div class="si" style="background:linear-gradient(135deg,#ea580c,#fbbf24)">📚</div><div><b>${bankN}</b><span>Soal di bank</span></div></div>
+      <div class="stat" data-go="bank"><div class="si" style="background:linear-gradient(135deg,#ea580c,#fbbf24)">📚</div><div><b>${bankN}</b><span>Soal di 14 materi</span></div></div>
       <div class="stat" data-go="studio"><div class="si" style="background:linear-gradient(135deg,#16a34a,#a3e635)">🎙️</div><div><b id="vcStat">…</b><span>Rekaman narasi</span></div></div>
     </div>
     <div class="sec-h"><h3>🧭 Rekomendasi alur pembelajaran (1–2 JP)</h3><div class="sp"></div><span class="muted" style="font-weight:800;font-size:13px">Klik langkah untuk langsung menyiapkannya</span></div>
     <div class="flow">
+      <div class="fstep"><span class="n">0</span><div class="k">PEMBUKA · 5 MENIT</div><div class="e">😊</div><b>Cek Perasaan</b><p>5 siswa maju bergantian memilih emoticon 3D; di akhir tampil rata-rata perasaan kelas.</p><button class="btn sm" data-flow="mood">Mulai ▶</button></div>
       <div class="fstep"><span class="n">1</span><div class="k">APERSEPSI · 10 MENIT</div><div class="e">🕵️</div><b>Detektif Mitos</b><p>Ungkap miskonsepsi awal tanpa HP: kelas memilih Fakta/Mitos lewat angkat tangan.</p><button class="btn sm" data-flow="mitos">Siapkan ▶</button></div>
-      <div class="fstep"><span class="n">2</span><div class="k">EKSPLORASI · 25 MENIT</div><div class="e">🍎</div><b>Lab Virtual 3D</b><p>Eksperimen di simulasi Hukum Newton / Tata Surya, dipandu narasi Bu Nella.</p><button class="btn sm" data-flow="lab">Buka lab ▶</button></div>
+      <div class="fstep"><span class="n">2</span><div class="k">EKSPLORASI · 25 MENIT</div><div class="e">🔬</div><b>Simulasi 3D</b><p>Eksperimen di simulasi 3D materi hari ini (Kelas 7 / 8), dipandu narasi Bu Nella.</p><button class="btn sm" data-flow="lab">Buka lab ▶</button></div>
       <div class="fstep"><span class="n">3</span><div class="k">LATIHAN · 10 MENIT</div><div class="e">🕳️</div><b>Lolos dari Lubang Hitam</b><p>Latihan mandiri lewat HP; siswa yang salah langsung melihat pembahasan.</p><button class="btn sm" data-flow="kejar">Siapkan ▶</button></div>
       <div class="fstep"><span class="n">4</span><div class="k">ASESMEN · 15 MENIT</div><div class="e">🧠</div><b>Yakin-Ragu</b><p>Asesmen diagnostik dua tingkat: laporan memetakan paham, menebak & miskonsepsi.</p><button class="btn sm" data-flow="keyakinan">Siapkan ▶</button></div>
     </div>
-    <div class="sec-h"><h3>🔬 Lab Virtual 3D</h3><div class="sp"></div><button class="btn sm ghost" data-go="lab">Lihat semua →</button></div>
-    <div class="labgrid">${SIMS.map(simCard).join('')}</div>
+    <div class="sec-h"><h3>😊 Perasaan kelas terakhir</h3><div class="sp"></div><button class="btn sm ghost" data-go="mood">Cek perasaan sekarang →</button></div>
+    <div class="card" style="padding:14px 18px">${moodL.length ? moodSummary(moodL[0]) : '<p class="muted" style="font-weight:700;margin:0">Belum ada data. Mulai pelajaran dengan <b>Cek Perasaan</b> agar Ibu tahu suasana hati kelas hari ini.</p>'}</div>
+    <div class="sec-h"><h3>📘 Materi IPA per kelas</h3><div class="sp"></div><button class="btn sm ghost" data-go="lab">Semua materi →</button></div>
+    <div class="kgrid">${['7','8'].map(k => `<div class="kbox"><h4>🎓 Kelas ${k}<span style="flex:1"></span><span class="pill">${SIMS.filter(s => s.kelas===k).length} materi</span></h4><div class="mchips">${SIMS.filter(s => s.kelas===k).map(s => `<button class="mchip" data-sim="${s.id}" title="Buka simulasi 3D"><span class="e">${s.icon}</span><span>${esc(s.materi)}</span></button>`).join('')}</div></div>`).join('')}</div>
     <div class="sec-h"><h3>📈 Riwayat terbaru</h3><div class="sp"></div><button class="btn sm ghost" data-go="history">Semua riwayat →</button></div>
     <div class="card" style="padding:12px 16px">${hist.length ? histTable(hist.slice(0,5)) : '<p class="muted" style="font-weight:700">Belum ada riwayat. Riwayat otomatis tersimpan setiap permainan selesai.</p>'}</div>`;
   bindCommon($('#pg-home'));
   $$('#pg-home [data-flow]').forEach(b => b.onclick = () => {
     const f = b.dataset.flow;
     if(f === 'lab') return nav('lab');
+    if(f === 'mood') return nav('mood');
     if(f === 'mitos'){ SET.track = 'kelas'; SET.cmode = 'mitos'; SET.n = 6; }
     if(f === 'kejar'){ SET.track = 'hp'; SET.mode = 'kejar'; SET.duration = 5; }
     if(f === 'keyakinan'){ SET.track = 'hp'; SET.mode = 'keyakinan'; SET.n = 10; SET.time = 30; }
@@ -5283,22 +5327,44 @@ function bindCommon(root){
   root.querySelectorAll('[data-sim]').forEach(b => b.onclick = () => openSim(b.dataset.sim));
   root.querySelectorAll('[data-simtab]').forEach(b => b.onclick = () => window.open(simURL(SIMS.find(s => s.id === b.dataset.simtab), false), '_blank'));
   root.querySelectorAll('[data-simshare]').forEach(b => b.onclick = () => shareSim(b.dataset.simshare));
+  root.querySelectorAll('[data-quiz]').forEach(b => b.onclick = () => quizFor(b.dataset.quiz));
+  root.querySelectorAll('[data-bankm]').forEach(b => b.onclick = () => bankFor(b.dataset.bankm));
 }
 function simCard(s){
-  return `<div class="labcard"><div class="pv" data-sim="${s.id}" style="background-image:url('${s.thumb}')"><span class="badge">${s.icon} ${esc(s.materi)}</span><span class="hd">HD</span></div>
-    <div class="bd"><h4>${s.icon} ${esc(s.title)}</h4><p>${esc(s.desc)}</p><div class="tags">${s.tags.map(t => `<span class="tag">${t}</span>`).join('')}<span class="tag">⏱ ${s.dur}</span></div>
-    <div class="act"><button class="btn sm" data-sim="${s.id}">▶ Buka</button><button class="btn sm ghost" data-simtab="${s.id}">↗ Tab baru</button><button class="btn sm ghost" data-simshare="${s.id}" data-role="guru">🔗 Bagikan ke siswa</button></div></div></div>`;
+  const m = MATERI[s.materiId] || {topics:{}}, nq = bankOf(s.materiId).length, nm = (VOICE_CAT[s.id] || []).length - 1;
+  return `<div class="labcard"><div class="pv" data-sim="${s.id}" style="background-image:url('${s.thumb}')"><span class="badge">${s.icon} ${esc(s.materi)}</span><span class="hd">3D</span><span class="kbadge">Kelas ${s.kelas}</span></div>
+    <div class="bd"><h4>${s.icon} ${esc(s.title)}</h4><p>${esc(s.desc)}</p>
+    <div class="tags">${Object.values(m.topics).slice(0,4).map(t => `<span class="tag">${t.icon} ${esc(t.name)}</span>`).join('')}</div>
+    <div class="meta"><span>🧪 ${Math.max(nm,1)} mode simulasi</span><span>❓ ${nq} soal kuis</span><span>⏱ ${s.dur}</span></div>
+    <div class="act"><button class="btn sm" data-sim="${s.id}">▶ Simulasi 3D</button><button class="btn sm amber" data-quiz="${s.materiId}" data-role="guru">🎮 Kuis</button><button class="btn sm ghost" data-bankm="${s.materiId}" data-role="guru">📚 Soal</button><button class="btn sm ghost" data-simshare="${s.id}" data-role="guru" title="Bagikan ke siswa">🔗</button></div></div></div>`;
 }
+function labTab(){ return store.get('lab_kelas_tab', '7'); }
 function renderLab(){
-  $('#pg-lab').innerHTML = `<div class="note" style="margin-top:18px">💡 Semua lab memakai tampilan & tema yang sama dengan dasbor. Pilih kualitas <b>HD</b> untuk proyektor/laptop kuat, <b>Standar</b> atau <b>Hemat</b> untuk perangkat yang lebih lambat.</div>
-    <div class="sec-h"><h3>Simulasi tersedia</h3></div><div class="labgrid">${SIMS.map(simCard).join('')}</div>
-    <div class="sec-h"><h3>Segera hadir</h3></div><div class="labgrid">${SIM_SOON.map(s => `<div class="labcard soon"><div class="pv" style="background:linear-gradient(135deg,var(--panel2),var(--bg2))">${s.e}</div><div class="bd"><h4>${s.t}</h4><p>Lab virtual berikutnya untuk IPA Kelas 7.</p></div></div>`).join('')}</div>`;
+  const k = labTab(), list = SIMS.filter(s => s.kelas === k);
+  $('#pg-lab').innerHTML = `<div class="gbar" style="margin-top:18px"><div class="ktabs">${['7','8'].map(x => `<button data-kt="${x}" class="${x===k?'on':''}">🎓 Kelas ${x} <small>${SIMS.filter(s => s.kelas===x).length} materi</small></button>`).join('')}</div><div class="sp"></div>
+      <span class="muted" style="font-weight:800;font-size:13px">Setiap materi: simulasi 3D interaktif + kuis</span></div>
+    <div class="note" style="margin-bottom:14px">${ROLE === 'siswa' ? '🧪 Pilih kelasmu, lalu ketuk <b>▶ Simulasi 3D</b> untuk bereksperimen. Di dalam lab ada tombol <b>📝 Kuis</b> untuk menguji pemahamanmu!' : '💡 Klik <b>▶ Simulasi 3D</b> untuk eksplorasi di proyektor, lalu <b>🎮 Kuis</b> untuk langsung menyiapkan permainan dengan bank soal materi tersebut. Kualitas <b>HD</b> untuk laptop kuat, <b>Standar/Hemat</b> untuk perangkat lambat.'}</div>
+    <div class="labgrid">${list.map(simCard).join('')}</div>`;
+  $$('#pg-lab [data-kt]').forEach(b => b.onclick = () => { store.set('lab_kelas_tab', b.dataset.kt); SFX.click(); renderLab(); });
   bindCommon($('#pg-lab'));
 }
+function quizFor(mid){ SET.materi = mid; SET.kelasTab = KELAS_OF(mid); SET.selected = []; saveSet(); nav('games'); toast(`🎮 Materi “${MATERI[mid].nama}” dipilih — pilih mode lalu mulai`); }
+function bankFor(mid){ SET.materi = mid; SET.selected = []; saveSet(); nav('bank'); }
+
+/* ---------- cek perasaan ---------- */
+const MOODS = [['semangat','Semangat','🤩','#f97316',5],['senang','Senang','😊','#facc15',4],['bosan','Bosan','😐','#94a3b8',2],['mengantuk','Mengantuk','😴','#818cf8',2],['sedih','Sedih','😢','#38bdf8',1]];
+function renderMood(){ const f = $('#mdFrame'); if(!f.src || f.src === 'about:blank' || !/mood\.html/.test(f.src)) f.src = `lab/mood.html?embed=1&theme=${document.documentElement.dataset.theme}&q=${qualOf()}`; }
+$('#mdFull').onclick = () => { try{ $('#mdFrame').requestFullscreen(); }catch(e){} };
+$('#mdHist').onclick = () => { nav('history'); setTimeout(() => { const el = $('#moodHist'); if(el) el.scrollIntoView({behavior:'smooth'}); }, 80); };
+function moodBar(c){ const t = MOODS.reduce((a,m) => a + (c[m[0]]||0), 0) || 1; return `<div class="mbar">${MOODS.map(m => `<i title="${m[1]}: ${c[m[0]]||0}" style="width:${(c[m[0]]||0)/t*100}%;background:${m[3]}"></i>`).join('')}</div>`; }
+function moodSummary(r){ const dom = MOODS.find(m => m[0] === r.dominant) || MOODS[1];
+  return `<div class="moodmini"><div class="big">${dom[2]}</div><div style="flex:1;min-width:220px"><b style="font-size:18px">Mayoritas ${dom[1].toLowerCase()} · indeks ${r.index}/5</b><div class="muted" style="font-weight:800;font-size:13px">${esc(r.kelas || 'Kelas')} · ${r.total} siswa · ${new Date(r.t).toLocaleString('id-ID',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})}</div>
+    <div style="margin-top:8px">${moodBar(r.counts)}</div><div class="muted" style="font-weight:800;font-size:12.5px;margin-top:6px">${MOODS.map(m => `${m[2]} ${r.counts[m[0]]||0}`).join(' · ')}</div></div></div>`; }
+addEventListener('message', e => { if(e.data && e.data.type === 'mood-saved'){ toast('💾 Hasil cek perasaan tersimpan di Riwayat'); } });
 
 /* ---------- penampil lab ---------- */
 const qualOf = () => store.get('lab_quality_pref', 'hd');
-function simURL(s, embed = true){ return `${s.file}?${embed ? 'embed=1&' : ''}theme=${document.documentElement.dataset.theme}&q=${qualOf()}`; }
+function simURL(s, embed = true){ return `${s.file}${s.file.includes('?') ? '&' : '?'}${embed ? 'embed=1&' : ''}theme=${document.documentElement.dataset.theme}&q=${qualOf()}`; }
 function openSim(id){
   const s = SIMS.find(x => x.id === id); if(!s) return; CURSIM = s;
   nav('viewer'); $('#vTitle').textContent = `${s.icon} ${s.title}`; $('#vSlow').style.display = 'none';
@@ -5308,6 +5374,7 @@ function openSim(id){
 function renderVQual(){ $('#vQual').innerHTML = [['hemat','Hemat'],['std','Standar'],['hd','HD']].map(([v,l]) => `<button class="chip ${v===qualOf()?'on':''}" data-q="${v}">${l}</button>`).join('');
   $$('#vQual [data-q]').forEach(b => b.onclick = () => { store.set('lab_quality_pref', b.dataset.q); try{ localStorage.setItem('lab_quality', b.dataset.q); }catch(e){} renderVQual(); $('#vSlow').style.display = 'none'; $('#vFrame').src = simURL(CURSIM); }); }
 $('#vBack').onclick = () => nav('lab');
+$('#vQuiz').onclick = () => { if(!CURSIM) return; SET.materi = CURSIM.materiId; SET.kelasTab = CURSIM.kelas; SET.selected = []; saveSet(); nav('games'); };
 $('#vFull').onclick = () => { try{ $('#vFrame').requestFullscreen(); }catch(e){} };
 $('#vNew').onclick = () => CURSIM && window.open(simURL(CURSIM, false), '_blank');
 $('#vStudio').onclick = () => { STUDIO_SIM = CURSIM ? CURSIM.id : 'newton'; nav('studio'); };
@@ -5344,7 +5411,7 @@ async function renderStudio(){
   const cat = VOICE_CAT[STUDIO_SIM] || [], keys = await vdb.keys(), man = await onlineManifest(STUDIO_SIM), gh = GH.cfg();
   const nLocal = cat.filter(c => keys.includes(c[0])).length;
   $('#pg-studio').innerHTML = `
-    <div class="tabs">${SIMS.map(s => `<button data-st="${s.id}" class="${s.id===STUDIO_SIM?'on':''}">${s.icon} ${s.title}</button>`).join('')}</div>
+    ${['7','8'].map(k => `<div class="tabs kt"><span class="klabel">Kelas ${k}</span>${SIMS.filter(s => s.kelas===k).map(s => `<button data-st="${s.id}" class="${s.id===STUDIO_SIM?'on':''}">${s.icon} ${esc(s.materi)}</button>`).join('')}</div>`).join('')}
     <div class="note">🎙️ Rekam suara asli Bu Nella untuk setiap narasi. Rekaman tersimpan di peramban ini dan <b>langsung dipakai</b> di Lab Virtual. Tekan <b>☁️ Simpan ke GitHub</b> agar rekaman ikut online dan terdengar di <b>semua perangkat siswa</b>.</div>
     ${gh.token ? '' : `<div class="note warn" style="margin-top:10px">🔑 Untuk menyimpan ke GitHub, isi dulu <b>token GitHub</b> di <a href="#" id="toSet" style="color:var(--accent);font-weight:900">Pengaturan → Sinkron GitHub</a> (sekali saja).</div>`}
     <div class="gbar"><span class="pill">💾 ${nLocal} rekaman di perangkat ini</span><span class="pill">☁️ ${cat.filter(c => man[c[0]]).length} rekaman online</span><span class="pill">📝 ${cat.length} narasi</span><div class="sp"></div>
@@ -5429,15 +5496,18 @@ function histTable(L){
     <td class="num">${h.peserta ?? '-'}</td><td><span class="prog"><i style="width:${h.skor||0}%"></i></span> <b>${h.skor ?? '-'}%</b> <span class="muted" style="font-size:12px">${esc(h.info || '')}</span></td></tr>`).join('')}</tbody></table>`;
 }
 function renderHistory(){
-  const L = store.get('lab_history', []);
+  const L = store.get('lab_history', []), ML = store.get('lab_mood', []);
   const byTopic = {};
-  L.forEach(h => Object.entries(h.topik || {}).forEach(([k, v]) => { byTopic[k] = byTopic[k] || {s:0, n:0}; byTopic[k].s += v; byTopic[k].n++; }));
+  L.filter(h => !h.materi || h.materi === MATERI[SET.materi].nama).forEach(h => Object.entries(h.topik || {}).forEach(([k, v]) => { byTopic[k] = byTopic[k] || {s:0, n:0}; byTopic[k].s += v; byTopic[k].n++; }));
   const TOP = topicsOf(SET.materi);
   $('#pg-history').innerHTML = `<div class="gbar" style="margin-top:18px"><span class="pill">📈 ${L.length} sesi tercatat</span><div class="sp"></div>
       <button class="btn sm ghost" id="hCsv" ${L.length?'':'disabled'}>⬇ CSV</button><button class="btn sm red" id="hClr" ${L.length?'':'disabled'}>🗑 Hapus riwayat</button></div>
-    ${Object.keys(byTopic).length ? `<div class="card"><h3>🧠 Rata-rata ketepatan per subtopik (semua sesi)</h3>${Object.entries(byTopic).map(([k,v]) => { const p = Math.round(v.s/v.n);
+    ${Object.keys(byTopic).length ? `<div class="card"><h3>🧠 Rata-rata ketepatan per subtopik · ${esc(MATERI[SET.materi].nama)}</h3>${Object.entries(byTopic).map(([k,v]) => { const p = Math.round(v.s/v.n);
       return `<div class="side-row"><span style="min-width:230px">${TOP[k]?.icon||''} ${TOP[k]?.name||k}</span><span class="prog" style="width:50%"><i style="width:${p}%;background:${p>=75?'#22c55e':p>=50?'#fbbf24':'#f43f5e'}"></i></span><span class="s">${p}%</span></div>`; }).join('')}</div>` : ''}
+    <div class="card" id="moodHist" style="margin-top:16px"><div class="gbar" style="margin-top:0"><h3 style="margin:0">😊 Riwayat cek perasaan</h3><div class="sp"></div>${ML.length ? '<button class="btn sm red" id="mClr">🗑 Hapus</button>' : ''}<button class="btn sm" data-go="mood">Cek sekarang</button></div>
+      ${ML.length ? `${ML.length > 1 ? `<div class="muted" style="font-weight:800;margin-bottom:8px">Rata-rata indeks perasaan ${ML.length} sesi terakhir: <b style="color:var(--ink)">${(ML.reduce((a,r) => a + r.index, 0)/ML.length).toFixed(1)}/5</b></div>` : ''}${ML.slice(0,8).map(r => `<div style="padding:10px 0;border-top:1px solid var(--line)">${moodSummary(r)}</div>`).join('')}` : '<p class="muted" style="font-weight:700">Belum ada data cek perasaan.</p>'}</div>
     <div class="card" style="margin-top:16px">${L.length ? histTable(L) : '<p class="muted" style="font-weight:700">Belum ada riwayat. Setiap permainan yang selesai otomatis tercatat di sini.</p>'}</div>`;
+  bindCommon($('#pg-history')); const mc = $('#mClr'); if(mc) mc.onclick = () => { if(confirm('Hapus riwayat cek perasaan?')){ store.set('lab_mood', []); renderHistory(); } };
   $('#hClr').onclick = () => { if(confirm('Hapus semua riwayat di perangkat ini?')){ store.set('lab_history', []); renderHistory(); } };
   $('#hCsv').onclick = () => { const q = s => '"' + String(s ?? '').replace(/"/g,'""') + '"';
     const rows = [['Tanggal','Cara','Mode','Materi','Peserta','Skor %','Keterangan'].map(q).join(',')].concat(L.map(h => [new Date(h.t).toLocaleString('id-ID'), h.track, h.mode, h.materi, h.peserta, h.skor, h.info].map(q).join(',')));
@@ -5482,14 +5552,17 @@ function renderSettings(){
   $('#bkUp').onclick = async () => { $('#bkMsg').textContent = '⏳ Mengunggah…';
     try{ for(const id of Object.keys(MATERI)) await GH.put(`data/bank-${id}.json`, b64OfText(JSON.stringify(bankOf(id), null, 1)), `Cadangan bank soal ${id}`);
       await GH.put('data/riwayat.json', b64OfText(JSON.stringify(store.get('lab_history', []), null, 1)), 'Cadangan riwayat kelas');
+      await GH.put('data/perasaan.json', b64OfText(JSON.stringify(store.get('lab_mood', []), null, 1)), 'Cadangan riwayat cek perasaan');
+      await GH.put('data/index.json', b64OfText(JSON.stringify({banks:Object.keys(MATERI), updated:new Date().toISOString()})), 'Indeks cadangan bank soal');
       $('#bkMsg').textContent = '✅ Tersimpan di GitHub'; }catch(e){ $('#bkMsg').textContent = '❌ ' + e.message; } };
   $('#bkDown').onclick = async () => { if(!confirm('Ganti bank soal di perangkat ini dengan versi online?')) return;
-    try{ let n = 0; for(const id of Object.keys(MATERI)){ const r = await fetch(`data/bank-${id}.json`, {cache:'no-cache'}); if(r.ok){ saveBank(id, await r.json()); n++; } }
+    try{ let n = 0; const ix = await bankIndex(); for(const id of Object.keys(MATERI).filter(i => ix.includes(i))){ const r = await fetch(`data/bank-${id}.json`, {cache:'no-cache'}); if(r.ok){ saveBank(id, await r.json()); n++; } }
       $('#bkMsg').textContent = n ? '✅ Bank soal dimuat' : 'Belum ada cadangan online'; }catch(e){ $('#bkMsg').textContent = '❌ ' + e.message; } };
   $('#sOut').onclick = () => $('#logoutBtn').click();
 }
 /* bank soal online dipakai bila perangkat belum punya bank sendiri */
-(async () => { for(const id of Object.keys(MATERI)){ if(store.get('arena_bank_' + id, null)) continue;
+async function bankIndex(){ try{ const r = await fetch('data/index.json', {cache:'no-cache'}); return r.ok ? ((await r.json()).banks || []) : []; }catch(e){ return []; } }
+(async () => { const ix = await bankIndex(); for(const id of Object.keys(MATERI).filter(i => ix.includes(i))){ if(store.get('arena_bank_' + id, null)) continue;
   try{ const r = await fetch(`data/bank-${id}.json`, {cache:'no-cache'}); if(r.ok){ const d = await r.json(); if(Array.isArray(d) && d.length) saveBank(id, d); } }catch(e){} } })();
 
 /* ============================================================ INIT */

@@ -1,11 +1,20 @@
 # Lab Petualang — Bahan Ajar IPA
 
-Dasbor bahan ajar IPA Kelas 7 SMPN 4 Magelang (guru: Nella Alfiani Rofiqoh, S.Pd).
+Dasbor bahan ajar IPA Kelas 7 & 8 SMPN 4 Magelang (guru: Nella Alfiani Rofiqoh, S.Pd).
 
-- **Lab Virtual 3D**: Hukum Newton, Tata Surya (HD, tekstur NASA)
-- **Permainan & Kuis**: 8 mode HP siswa + 6 Mode Kelas tanpa HP
-- **Studio Suara**: rekaman narasi Bu Nella (tersimpan di `voice/`)
-- Tema terang/gelap, riwayat kelas, sinkron GitHub
+- **Cek Perasaan**: pembuka pelajaran dengan 5 emoticon 3D (Semangat, Senang, Bosan, Mengantuk, Sedih). Siswa maju 5 orang per kelompok, lalu hasil kelas tampil sebagai grafik 3D, indeks perasaan, dan rekomendasi (`lab/mood.html`).
+- **Materi & Lab 3D**: 14 materi, masing-masing dengan simulasi 3D dan kuis.
+  - Kelas 7: Hakikat Sains, Pengukuran, Wujud Zat, Kalor, Tata Surya, Klasifikasi Makhluk Hidup, Ekosistem, Gaya & Gerak.
+  - Kelas 8: Sel, Sistem Organ, Usaha & Pesawat Sederhana, Unsur–Senyawa–Campuran, Getaran & Gelombang, Struktur Bumi.
+- **Permainan & Kuis**: 8 mode HP siswa + 6 Mode Kelas tanpa HP; materi dipilih per kelas.
+- **Studio Suara**: rekaman narasi Bu Nella untuk semua lab (tersimpan di `voice/<lab>/`).
+- Tema terang/gelap, riwayat kelas & perasaan, sinkron GitHub.
+
+Struktur:
+- `index.html`: dasbor.
+- `assets/materi.js`: daftar materi, subtopik, dan bank soal Kelas 7 & 8.
+- `lab/lab.html?t=<materi>`: mesin lab 3D bersama (`engine.js` + `topics.js`).
+- `lab/newton.html`, `lab/tata-surya.html`: lab khusus.
 
 Buka: https://azizrizky.github.io/course/
 
