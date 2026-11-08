@@ -4,12 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>Slide Materi — Lab Petualang</title>
+<link rel="icon" type="image/svg+xml" href="../assets/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<meta name="theme-color" content="#0b1430">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="slide.css">
 </head>
 <body>
+<header id="secbar">
+  <button class="b ico" id="bToc" title="Daftar isi (G)">☰</button>
+  <button class="brandb" id="bHub" title="Peta belajar"><img src="../assets/logo.svg" alt=""><span id="sbTitle">Slide Materi</span></button>
+  <nav id="secs"></nav>
+  <span class="sp"></span>
+  <div class="seg" id="modeSeg" title="Cara menampilkan isi slide">
+    <button data-mode="auto" class="on" title="Sekali klik, seluruh isi slide tampil dengan animasi">⚡ Otomatis</button>
+    <button data-mode="manual" title="Isi slide muncul satu per satu setiap klik">👆 Manual</button>
+  </div>
+  <button class="b" id="bPlay" title="Putar presentasi otomatis"><span class="ring"></span>▶ Putar</button>
+</header>
 <div id="viewport"><div id="stage"></div></div>
+<div id="secfx"><div><span class="e"></span><b></b><small></small></div></div>
 <div id="prog"></div>
 <div id="bar">
   <button class="b" id="bPrev" title="Sebelumnya (←)">◀</button>
@@ -17,13 +33,13 @@
   <button class="b main" id="bNext" title="Berikutnya (→ / Spasi)">Berikutnya ▶</button>
   <span class="sp"></span>
   <button class="b" id="bRead" title="Bacakan slide (B)">🔊</button>
-  <button class="b" id="bGrid" title="Semua slide (G)">▦</button>
-  <button class="b" id="bLab" title="Buka Lab 3D materi ini">🔬 Lab 3D</button>
+  <button class="b" id="bLab" title="Buka Lab 3D materi ini">🔬 <span class="t">Lab 3D</span></button>
   <button class="b" id="bTheme" title="Tema terang/gelap">🌙</button>
   <button class="b" id="bFs" title="Layar penuh (F)">⛶</button>
 </div>
-<div id="grid"><div id="gridIn"></div></div>
-<div id="loading">Menyiapkan slide…</div>
+<aside id="toc"><div class="tocin"><div class="toch"><b>📚 Daftar Isi</b><button class="b ico" id="tocX">✕</button></div><div id="tocList"></div></div></aside>
+<div id="loading"><img src="../assets/logo.svg" alt=""><span>Menyiapkan slide…</span></div>
+<script src="../assets/dialog.js"></script>
 <script src="../assets/materi.js"></script>
 <script src="anims.js"></script>
 <script src="anims2.js"></script>

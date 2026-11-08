@@ -323,7 +323,7 @@ function showResult(){
   $('#res').classList.add('on'); document.body.classList.add('resmode');
   setTimeout(() => { const nd = $('#mNeedle'); if(nd) nd.style.left = meterLeft + '%'; document.querySelectorAll('#res .pb i').forEach(i => i.style.width = i.dataset.w + '%'); }, 600);
   const rb = $('#rBack'); if(rb) rb.onclick = backToVote;
-  $('#rNew').onclick = () => { if(confirm('Mulai sesi cek perasaan baru? Hasil sesi ini sudah tersimpan di riwayat.')) resetAll(true); };
+  $('#rNew').onclick = async () => { if(await uiConfirm('Hasil sesi ini sudah tersimpan di riwayat.', {title:'Mulai sesi baru?', icon:'🔁', ok:'Mulai baru'})) resetAll(true); };
   LBLS.forEach(L => L.el.querySelector('.k').style.display = 'none');
   updTop(); saveResult();
 }

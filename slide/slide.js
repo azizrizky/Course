@@ -22,26 +22,44 @@ addEventListener('message', e => { if(e.data && e.data.type === 'lab-theme' && e
 /* muat data */
 const sc = document.createElement('script'); sc.src = `data/${ID}.js`; sc.onload = init; sc.onerror = () => { $('#loading').textContent = 'Slide materi ini belum tersedia.'; }; document.head.appendChild(sc);
 
-let D, S = [], cur = 0, scale = 1;
+let D, S = [], cur = 0, scale = 1, SW = 1600, SH = 900;
+const SECS = [
+  {id:'awal', name:'Awal', icon:'🚀', sub:'Orientasi · apersepsi · motivasi', pr:['Berkesadaran','Menggembirakan'], color:'#f97316'},
+  {id:'memahami', name:'Memahami', icon:'💡', sub:'Membangun konsep & pengetahuan', pr:['Berkesadaran','Bermakna'], color:'#0ea5e9'},
+  {id:'mengaplikasi', name:'Mengaplikasi', icon:'🛠️', sub:'Menerapkan & berlatih', pr:['Bermakna','Menggembirakan'], color:'#22c55e'},
+  {id:'merefleksi', name:'Merefleksi', icon:'🪞', sub:'Merangkum & merenungkan', pr:['Berkesadaran','Bermakna'], color:'#a855f7'}];
+const SECOF = t => ({cover:'awal', tujuan:'awal', peta:'awal', konsep:'memahami', cards:'memahami', tabel:'memahami', anim:'memahami', rumus:'memahami', ingat:'memahami', mitos:'memahami',
+  contoh:'mengaplikasi', penerapan:'mengaplikasi', kuis:'mengaplikasi', rangkuman:'merefleksi', refleksi:'merefleksi'})[t] || 'memahami';
+let MODE = ls.get('slide_mode', 'auto'), PLAY = false, playT = 0, HUB = 1;
+const visited = new Set(ls.get('slide_vis_' + ID, []));
 function init(){
-  D = (window.SLIDE_DATA || {})[ID]; if(!D){ $('#loading').textContent = 'Slide materi ini belum tersedia.'; return; }
-  document.title = `${MAT.nama || D.title || ID} — Slide Materi`;
+  D = (window.SLIDE_DATA || {})[ID]; if(!D){ $('#loading span').textContent = 'Slide materi ini belum tersedia.'; return; }
+  document.title = `${MAT.nama || D.title || ID} — Slide Materi`; $('#sbTitle').textContent = MAT.nama || ID;
   if(D.color){ document.documentElement.style.setProperty('--a', D.color[0]); document.documentElement.style.setProperty('--b', D.color[1]); }
+  const ord = SECS.map(x => x.id), list = D.slides.map((d, i) => ({d, i, sec:SECOF(d.t)}));
+  list.sort((a, b) => ord.indexOf(a.sec) - ord.indexOf(b.sec) || a.i - b.i);
+  D.slides = list.map(x => x.d); HUB = Math.max(0, D.slides.findIndex(x => x.t === 'cover')) + 1; D.slides.splice(HUB, 0, {t:'peta', title:'Peta Belajar'});
   const stage = $('#stage');
-  D.slides.forEach((s, i) => { const el = document.createElement('section'); el.className = 'slide ' + s.t; el.innerHTML = render(s, i); stage.appendChild(el); S.push({d:s, el}); wire(s, el); });
-  $('#prog').innerHTML = S.map((_, i) => `<i data-i="${i}" title="Slide ${i+1}"></i>`).join('');
+  D.slides.forEach((d, i) => { const el = document.createElement('section'); el.className = 'slide ' + d.t; el.dataset.sec = SECOF(d.t); el.innerHTML = render(d, i); stage.appendChild(el); S.push({d, el, sec:SECOF(d.t)}); wire(d, el); });
+  stage.insertAdjacentHTML('beforeend', '<div id="lb"><div class="lbc"></div></div>'); $('#lb').addEventListener('click', e => { if(e.target.id === 'lb' || e.target.closest('[data-lbx]')) closePop(); });
+  $('#prog').innerHTML = S.map((x, i) => `<i data-i="${i}" title="${i + 1}. ${ttl(x.d)}" style="--c:${SECS.find(z => z.id === x.sec).color}"></i>`).join('');
   $$('#prog i').forEach(b => b.onclick = () => go(+b.dataset.i, true));
-  $('#gridIn').innerHTML = S.map((s, i) => `<div class="gt" data-i="${i}"><small>${i+1} · ${TYPE[s.d.t] || ''}</small><span class="e">${s.d.e || EMO[s.d.t] || '📄'}</span><b>${strip(s.d.title || s.d.q || MAT.nama || '')}</b></div>`).join('');
-  $$('.gt').forEach(b => b.onclick = () => { go(+b.dataset.i, true); $('#grid').classList.remove('on'); });
+  $('#secs').innerHTML = SECS.map(x => `<button data-sec="${x.id}" style="--c:${x.color}" title="${x.name}: ${x.sub}"><span class="e">${x.icon}</span><span class="n">${x.name}</span><i class="pp"><i></i></i></button>`).join('');
+  $$('#secs [data-sec]').forEach(b => b.onclick = () => goSec(b.dataset.sec));
+  buildToc(); setMode(MODE, true);
   fit(); addEventListener('resize', fit);
   const h = parseInt(location.hash.slice(1)); go(isNaN(h) ? 0 : h - 1, false, true);
-  setTimeout(() => { const l = $('#loading'); l.style.opacity = 0; setTimeout(() => l.remove(), 400); }, 150);
+  setTimeout(() => { const l = $('#loading'); l.style.opacity = 0; setTimeout(() => l.remove(), 400); }, 250);
   requestAnimationFrame(loop);
 }
-const TYPE = {cover:'SAMPUL', tujuan:'TUJUAN', konsep:'KONSEP', cards:'MACAM', rumus:'RUMUS', anim:'ANIMASI', contoh:'CONTOH SOAL', kuis:'KUIS', ingat:'INGAT', tabel:'TABEL', penerapan:'PENERAPAN', mitos:'MITOS/FAKTA', rangkuman:'RANGKUMAN', refleksi:'REFLEKSI'};
-const EMO = {cover:'🎬', tujuan:'🎯', konsep:'💡', cards:'🧩', rumus:'🧮', anim:'🎞️', contoh:'✍️', kuis:'❓', ingat:'🧠', tabel:'📋', penerapan:'🌍', mitos:'🕵️', rangkuman:'🗺️', refleksi:'🪞'};
+const TYPE = {peta:'PETA BELAJAR', cover:'SAMPUL', tujuan:'TUJUAN', konsep:'KONSEP', cards:'MACAM', rumus:'RUMUS', anim:'ANIMASI', contoh:'CONTOH SOAL', kuis:'KUIS', ingat:'INGAT', tabel:'TABEL', penerapan:'PENERAPAN', mitos:'MITOS/FAKTA', rangkuman:'RANGKUMAN', refleksi:'REFLEKSI'};
+const EMO = {peta:'🗺️', cover:'🎬', tujuan:'🎯', konsep:'💡', cards:'🧩', rumus:'🧮', anim:'🎞️', contoh:'✍️', kuis:'❓', ingat:'🧠', tabel:'📋', penerapan:'🌍', mitos:'🕵️', rangkuman:'🗺️', refleksi:'🪞'};
 const strip = h => String(h).replace(/<[^>]+>/g, '');
-function fit(){ const vw = innerWidth, vh = innerHeight - 64; scale = Math.min(vw/1600, vh/900); $('#stage').style.transform = `translate(-50%,-50%) scale(${scale})`; S.forEach(s => s.el.querySelectorAll('canvas.anim').forEach(sizeCanvas)); }
+const LBLT = {tujuan:'Tujuan & pertanyaan pemantik', mitos:'Mitos atau fakta?', rangkuman:'Peta konsep (rangkuman)', refleksi:'Refleksi & tindak lanjut', peta:'Peta Belajar', ingat:'Biar gampang ingat'};
+const ttl = d => strip(d.t === 'kuis' ? 'Kuis: ' + d.q : d.title || LBLT[d.t] || TYPE[d.t] || '');
+function fit(){ const vw = innerWidth, vh = innerHeight - 64 - 58, por = vh > vw*1.15; document.documentElement.classList.toggle('portrait', por);
+  SW = por ? 1000 : 1600; SH = por ? 1640 : 900; const st = $('#stage'); st.style.width = SW + 'px'; st.style.height = SH + 'px';
+  scale = Math.min(vw/SW, vh/SH); st.style.transform = `translate(-50%,-50%) scale(${scale})`; S.forEach(x => x.el.querySelectorAll('canvas.anim').forEach(sizeCanvas)); if(S[cur] && S[cur].d.t === 'rangkuman') layoutMind(S[cur].el); }
 
 /* ---------- render ---------- */
 const kick = (s, def) => `<div class="kick">${s.kick || def}</div>`;
@@ -50,6 +68,13 @@ const animBox = (name, o, cap, extra = '') => { const A = window.ANIMS && ANIMS[
 function render(s, i){
   const c = PAL;
   switch(s.t){
+  case 'peta': return `<div class="kick">Peta Belajar · Pembelajaran Mendalam</div><h2>Mau menjelajah bagian mana? <em>Pilih sub bab!</em></h2>
+    <div class="hub">${SECS.map((x, k) => { const items = D.slides.map((d, j) => ({d, j})).filter(o => SECOF(o.d.t) === x.id && o.d.t !== 'peta');
+      return `<div class="hubc f" style="--c:${x.color}"><div class="hh"><span class="e">${x.icon}</span><div><small>BAGIAN ${k + 1}</small><b>${x.name}</b><i>${x.sub}</i></div></div>
+        <div class="pr">${x.pr.map(p => `<span>${p}</span>`).join('')}</div>
+        <ul>${items.map(o => `<li data-go="${o.j}"><span>${o.d.e || EMO[o.d.t] || '📄'}</span>${ttl(o.d).slice(0, 46)}</li>`).join('')}</ul>
+        <button class="go" data-gosec="${x.id}">Mulai ${x.name} ▶</button></div>`; }).join('')}</div>
+    <p class="muted hubtip">👆 Ketuk sub bab untuk langsung ke sana · tombol ☰ membuka daftar isi · ✅ = sudah dipelajari</p>`;
   case 'cover': return `${s.anim ? `<canvas class="anim" data-anim="${s.anim}" data-o='${JSON.stringify(s.o || {})}'></canvas>` : `<div class="big-emo">${s.e || MAT.icon || '🔬'}</div>`}
     <div class="kick">IPA KELAS ${MAT.kelas || ''} · SMPN 4 MAGELANG</div><h1>${s.title}</h1><div class="sub">${s.sub || ''}</div>
     <div class="chips">${(s.chips || []).map((x, k) => `<span class="chip" style="border-color:${c[k % c.length]}">${x}</span>`).join('')}</div>
@@ -65,7 +90,7 @@ function render(s, i){
     ${s.anim ? `<div class="col">${animBox(s.anim, s.o, s.cap)}</div>` : s.e ? `<div class="col" style="flex:.6;display:grid;place-items:center;font-size:260px">${s.e}</div>` : ''}</div>`;
   case 'cards': { const n = s.cards.length, cols = s.cols || (n <= 2 ? 2 : n === 4 ? 4 : n === 5 ? 5 : 3);
     return `${kick(s, 'Macam-macam')}<h2>${s.title}</h2>${s.intro ? `<p class="muted" style="margin:-8px 0 18px">${s.intro}</p>` : ''}
-    <div class="cards c${cols}">${s.cards.map((k, j) => `<div class="kc f" style="background:${grad(k.c || c[j % c.length])}"><div class="e">${k.e}</div><h3>${k.n}</h3><p>${k.d}</p>${k.ex ? `<div class="ex">Contoh: ${k.ex}</div>` : ''}</div>`).join('')}</div>`; }
+    <p class="tapx">👆 Ketuk kartu untuk melihat detail</p><div class="cards c${cols}">${s.cards.map((k, j) => `<div class="kc f" data-pi="${j}" style="background:${grad(k.c || c[j % c.length])}"><div class="e">${k.e}</div><h3>${k.n}</h3><p>${k.d}</p>${k.ex ? `<div class="ex">Contoh: ${k.ex}</div>` : ''}</div>`).join('')}</div>`; }
   case 'rumus': return `${kick(s, 'Rumus')}<h2>${s.title}</h2><div class="body">
     <div class="col w2"><div class="formula f"><div class="fx">${s.fx}</div>${s.alt ? `<div class="alt">${s.alt}</div>` : ''}</div>
       <div class="card f"><div class="vars">${s.vars.map(v => `<span class="s">${v[0]}</span><span>${v[1]}</span><span class="u">${v[2] || ''}</span>`).join('')}</div></div>
@@ -88,12 +113,12 @@ function render(s, i){
     <div class="mnem f"><div class="w">${s.word}</div>${s.desc ? `<p>${s.desc}</p>` : ''}</div>
     ${s.letters ? `<div class="letters">${s.letters.map((l, k) => `<div class="letter f" style="background:${grad(c[k % c.length])}"><b>${l[0]}</b><span>${l[1]}</span></div>`).join('')}</div>` : ''}</div>`;
   case 'tabel': return `${kick(s, 'Perbandingan')}<h2>${s.title}</h2><table class="t f"><tr>${s.head.map(h => `<th>${h}</th>`).join('')}</tr>${s.rows.map(r => `<tr>${r.map(x => `<td>${x}</td>`).join('')}</tr>`).join('')}</table>${s.note ? `<div class="cpbox f" style="margin-top:18px">💡 ${s.note}</div>` : ''}`;
-  case 'penerapan': return `${kick(s, 'Penerapan dalam Kehidupan')}<h2>${s.title}</h2><div class="body"><div class="col ${s.anim ? 'w2' : ''}"><div class="apps">${s.apps.map((a, k) => `<div class="app f"><span class="e" style="background:${grad(c[k % c.length])}">${a[0]}</span><div><h3>${a[1]}</h3><p>${a[2]}</p></div></div>`).join('')}</div></div>
+  case 'penerapan': return `${kick(s, 'Penerapan dalam Kehidupan')}<h2>${s.title}</h2><div class="body"><div class="col ${s.anim ? 'w2' : ''}"><div class="apps">${s.apps.map((a, k) => `<div class="app f" data-pi="${k}"><span class="e" style="background:${grad(c[k % c.length])}">${a[0]}</span><div><h3>${a[1]}</h3><p>${a[2]}</p></div></div>`).join('')}</div></div>
     ${s.anim ? `<div class="col">${animBox(s.anim, s.o, s.cap)}</div>` : ''}</div>`;
   case 'mitos': return `${kick(s, 'Mitos atau Fakta?')}<h2>${s.title || '🕵️ Luruskan Miskonsepsi!'}</h2><p class="muted" style="margin:-8px 0 18px">Ketuk kartu untuk membuka faktanya.</p>
     <div class="cards c${Math.min(3, s.items.length)}">${s.items.map((m, k) => `<div class="kc f" data-flip style="cursor:pointer;background:${grad('#ef4444')}"><div class="e">❌</div><h3 style="font-size:26px">“${m[0]}”</h3><p class="fakta" style="display:none"><b>✅ FAKTA:</b> ${m[1]}</p><div class="ex hintf">Ketuk untuk melihat fakta</div></div>`).join('')}</div>`;
   case 'rangkuman': return `${kick(s, 'Rangkuman')}<h2>${s.title || '🗺️ Peta Konsep'}</h2><div class="mind" data-mind><svg></svg><div class="center">${s.center || MAT.nama}</div>
-    ${s.br.map((b, k) => `<div class="br f" style="background:${grad(c[k % c.length])}"><h3>${b[0]}</h3><ul>${b[1].map(x => `<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>`;
+    ${s.br.map((b, k) => `<div class="br f" data-pi="${k}" style="background:${grad(c[k % c.length])}"><h3>${b[0]}</h3><ul>${b[1].map(x => `<li>${x}</li>`).join('')}</ul></div>`).join('')}</div>`;
   case 'refleksi': return `${kick(s, 'Refleksi')}<h2>${s.title || '🪞 Apa yang sudah kamu pelajari?'}</h2><div class="refl">${s.items.map((r, k) => `<div class="card f" style="border-top:8px solid ${c[k % c.length]}"><div class="e">${r[0]}</div><p>${r[1]}</p></div>`).join('')}</div>
     <div class="ctaRow f" style="margin-top:34px"><button class="btnx alt" data-lab>🔬 Buka Lab 3D</button><button class="btnx" data-quiz>🎮 Main Kuis</button><button class="btnx alt" data-restart>🔁 Ulang dari awal</button></div>
     ${s.sumber ? `<p class="muted f" style="font-size:18px;margin-top:26px">📚 Sumber: ${s.sumber}</p>` : ''}`;
@@ -104,6 +129,12 @@ function shuf(a){ for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Ma
 
 /* ---------- interaksi per slide ---------- */
 function wire(s, el){
+  if(s.t === 'peta'){ $$('[data-go]', el).forEach(li => li.onclick = () => go(+li.dataset.go, true)); $$('[data-gosec]', el).forEach(b => b.onclick = () => goSec(b.dataset.gosec)); }
+  if(s.t === 'cards') $$('.kc[data-pi]', el).forEach(k => k.onclick = () => { const c = s.cards[+k.dataset.pi]; pop(c.e, c.n, c.d, c.ex ? `💡 Contoh: ${c.ex}` : '', c.c || PAL[+k.dataset.pi % PAL.length]); });
+  if(s.t === 'penerapan') $$('.app[data-pi]', el).forEach(k => k.onclick = () => { const a = s.apps[+k.dataset.pi]; pop(a[0], a[1], a[2], '🌍 Penerapan IPA dalam kehidupan sehari-hari', PAL[+k.dataset.pi % PAL.length]); });
+  if(s.t === 'rangkuman') $$('.br[data-pi]', el).forEach(k => k.onclick = () => { const b = s.br[+k.dataset.pi]; pop('🗺️', b[0], `<ul>${b[1].map(x => `<li>${x}</li>`).join('')}</ul>`, '', PAL[+k.dataset.pi % PAL.length]); });
+  if(s.t === 'tabel') $$('table.t tr', el).forEach((tr, k) => { if(k) tr.onclick = () => tr.classList.toggle('hl'); });
+  if(s.t === 'tujuan') $$('.tp', el).forEach(tp => tp.onclick = () => tp.classList.toggle('done'));
   const calc = el.querySelector('[data-calc]');
   if(calc){ const f = new Function(...s.calc.in.map(x => x[0]), 'return (' + s.calc.out[2] + ');');
     const upd = () => { const v = s.calc.in.map(x => parseFloat(calc.querySelector(`[data-k="${x[0]}"]`).value)); let r = f(...v);
@@ -139,38 +170,83 @@ function cheer(){ const n = 40; for(let i = 0; i < n; i++){ const d = document.c
 
 /* ---------- navigasi ---------- */
 function go(i, user, instant){
-  i = Math.max(0, Math.min(S.length - 1, i)); const prev = cur; cur = i;
-  S.forEach((s, k) => { s.el.classList.toggle('on', k === i); s.el.classList.toggle('prev', k < i); });
-  const el = S[i].el; if(i < prev && !instant) $$('.f', el).forEach(f => f.classList.add('in'));
-  else if(S[i].d.t === 'cover' || S[i].d.t === 'tabel') $$('.f', el).forEach(f => f.classList.add('in'));
-  $$('#prog i').forEach((b, k) => b.classList.toggle('done', k <= i));
+  i = Math.max(0, Math.min(S.length - 1, i)); const prev = cur, back = i < prev; const secChange = S[prev] && S[prev].sec !== S[i].sec && !instant;
+  closePop(); playT = 0;
+  const inc = S[i].el, out = S[prev] && prev !== i ? S[prev].el : null;
+  if(secChange){ inc.style.transition = 'none'; inc.classList.remove('before'); inc.style.transform = 'translateZ(-1100px) rotateX(28deg) scale(.7)'; inc.style.opacity = 0; void inc.offsetWidth; inc.style.transition = ''; inc.style.transform = ''; inc.style.opacity = '';
+    if(out){ out.classList.add('zoomout'); setTimeout(() => out.classList.remove('zoomout'), 900); } secBanner(S[i].sec); }
+  cur = i;
+  S.forEach((x, k) => { x.el.classList.toggle('on', k === i); x.el.classList.toggle('before', k < i); });
+  const el = inc, fr = $$('.f', el);
+  fr.forEach(f => f.style.transitionDelay = '');
+  if(MODE === 'auto' || back || visited.has(i) || ['cover','tabel','peta'].includes(S[i].d.t)){
+    fr.forEach((f, k) => { if(!f.classList.contains('in')){ f.style.transitionDelay = (instant ? 0 : .35 + k*.07) + 's'; f.classList.add('in'); } });
+    setTimeout(() => fr.forEach(f => f.style.transitionDelay = ''), 2500); }
+  visited.add(i); ls.set('slide_vis_' + ID, [...visited]);
+  $$('#prog i').forEach((b, k) => { b.classList.toggle('done', k <= i); b.classList.toggle('cur', k === i); });
   $('#cnt').textContent = `${i + 1} / ${S.length}`; $('#bPrev').disabled = i === 0;
-  $('#bNext').textContent = i === S.length - 1 ? 'Selesai ✓' : 'Berikutnya ▶';
-  $$('.gt').forEach((g, k) => g.classList.toggle('cur', k === i));
+  $('#bNext').innerHTML = i === S.length - 1 ? 'Selesai ✓' : (S[i + 1] && S[i + 1].sec !== S[i].sec ? `${SECS.find(x => x.id === S[i + 1].sec).icon} ${SECS.find(x => x.id === S[i + 1].sec).name} ▶` : 'Berikutnya ▶');
+  updSecs(); updToc(); updHub();
   history.replaceState(null, '', '#' + (i + 1)); ls.set('slide_pos_' + ID, i);
-  if(S[i].d.t === 'rangkuman') setTimeout(() => layoutMind(el), 30);
+  if(S[i].d.t === 'rangkuman') setTimeout(() => layoutMind(el), 60);
   el.querySelectorAll('canvas.anim').forEach(sizeCanvas);
   if(reading) readSlide();
   try{ if(EMBED) parent.postMessage({type:'slide-pos', id:ID, i, n:S.length}, '*'); }catch(e){}
 }
 function next(){ const el = S[cur].el, f = $$('.f', el).find(x => !x.classList.contains('in'));
-  if(f){ f.classList.add('in'); if(S[cur].d.t === 'rangkuman') layoutMind(el); return; }
-  if(cur < S.length - 1) go(cur + 1, true); }
+  if(f && MODE === 'manual'){ f.classList.add('in'); if(S[cur].d.t === 'rangkuman') layoutMind(el); return; }
+  if(cur < S.length - 1) go(cur + 1, true); else if(PLAY) togglePlay(false); }
 function prev(){ if(cur > 0) go(cur - 1, true); }
+function goSec(id){ const k = S.findIndex(x => x.sec === id && x.d.t !== 'peta'); if(k >= 0) go(k, true); }
+function updSecs(){ $$('#secs [data-sec]').forEach(b => { const id = b.dataset.sec, idx = S.map((x, k) => x.sec === id ? k : -1).filter(k => k >= 0);
+  b.classList.toggle('on', S[cur].sec === id); const v = idx.filter(k => visited.has(k)).length; b.querySelector('.pp i').style.width = (idx.length ? v/idx.length*100 : 0) + '%'; b.classList.toggle('done', v === idx.length); }); }
+function updHub(){ const h = S[HUB]; if(!h) return; $$('[data-go]', h.el).forEach(li => li.classList.toggle('vis', visited.has(+li.dataset.go))); }
+function secBanner(id){ const x = SECS.find(z => z.id === id), b = $('#secfx'); b.querySelector('.e').textContent = x.icon; b.querySelector('b').textContent = x.name; b.querySelector('small').textContent = x.sub + ' · ' + x.pr.join(' · ');
+  b.style.setProperty('--c', x.color); b.classList.remove('on'); void b.offsetWidth; b.classList.add('on'); clearTimeout(secBanner.t); secBanner.t = setTimeout(() => b.classList.remove('on'), 1400); }
+function buildToc(){ $('#tocList').innerHTML = SECS.map(x => `<div class="tsec" style="--c:${x.color}"><div class="tsh"><span>${x.icon}</span><b>${x.name}</b><small>${x.pr.join(' · ')}</small></div>
+    ${S.map((o, k) => o.sec === x.id ? `<button class="ti" data-i="${k}"><span class="n">${k + 1}</span><span class="e">${o.d.e || EMO[o.d.t] || '📄'}</span><span class="tt">${ttl(o.d)}</span><i>✅</i></button>` : '').join('')}</div>`).join('');
+  $$('#tocList .ti').forEach(b => b.onclick = () => { go(+b.dataset.i, true); toc(false); }); }
+function updToc(){ $$('#tocList .ti').forEach(b => { const k = +b.dataset.i; b.classList.toggle('cur', k === cur); b.classList.toggle('vis', visited.has(k)); }); }
+function toc(on){ $('#toc').classList.toggle('on', on ?? !$('#toc').classList.contains('on')); if($('#toc').classList.contains('on')){ const c = $('#tocList .ti.cur'); if(c) c.scrollIntoView({block:'center'}); } }
+function setMode(m, silent){ MODE = m; ls.set('slide_mode', m); $$('#modeSeg button').forEach(b => b.classList.toggle('on', b.dataset.mode === m));
+  if(m === 'auto' && S[cur]) $$('.f', S[cur].el).forEach((f, k) => { if(!f.classList.contains('in')){ f.style.transitionDelay = k*.06 + 's'; f.classList.add('in'); } });
+  if(!silent && window.uiNotify) uiNotify(m === 'auto' ? 'Mode Otomatis: sekali klik, seluruh isi slide tampil' : 'Mode Manual: isi slide muncul satu per satu', {icon:m === 'auto' ? '⚡' : '👆'}); }
+function togglePlay(on){ PLAY = on ?? !PLAY; playT = 0; $('#bPlay').classList.toggle('on', PLAY); $('#bPlay').lastChild.textContent = PLAY ? '⏸ Jeda' : '▶ Putar'; if(PLAY && MODE !== 'auto') setMode('auto', true); }
+const DUR = {cover:6, peta:7, tujuan:10, konsep:12, cards:12, tabel:12, anim:14, rumus:12, ingat:9, mitos:12, contoh:14, penerapan:12, kuis:10, rangkuman:12, refleksi:12};
+function playTick(dt){ if(!PLAY || $('#lb').classList.contains('on')) return; const x = S[cur], d = DUR[x.d.t] || 10; playT += dt; $('#bPlay').style.setProperty('--p', Math.min(1, playT/d));
+  if(x.d.t === 'contoh'){ const steps = $$('.step', x.el).length + 1, k = Math.floor((playT - 2)/((d - 3)/steps)); const done = $$('.step.in', x.el).length + ($('.answer.in', x.el) ? 1 : 0); if(k >= done && done < steps) revealStep(x.el); }
+  if(x.d.t === 'kuis' && playT > d*.65 && !x.el.dataset.done){ const b = x.el.querySelector('[data-show]'); if(b) b.click(); }
+  if(x.d.t === 'mitos' && playT > d*.5 && !x.el.dataset.fl){ x.el.dataset.fl = 1; $$('[data-flip]', x.el).forEach((k, j) => setTimeout(() => { if(k.dataset.open !== '1') k.click(); }, j*500)); }
+  if(playT >= d) next(); }
+/* popup kartu (3D) */
+function pop(e, title, body, extra, color){ const lb = $('#lb'), c = lb.querySelector('.lbc'); c.style.setProperty('--c', color || 'var(--a)');
+  c.innerHTML = `<button class="lbx" data-lbx>✕</button><div class="lbe">${e}</div><h3>${title}</h3><div class="lbb">${body}</div>${extra ? `<div class="lbex">${extra}</div>` : ''}
+    <div class="lbbt"><button class="btnx alt" data-say>🔊 Bacakan</button><button class="btnx" data-lbx>👍 Mengerti</button></div>`;
+  c.querySelector('[data-say]').onclick = () => { try{ speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(strip(title + '. ' + body + '. ' + (extra || ''))); u.lang = 'id-ID'; speechSynthesis.speak(u); }catch(err){} };
+  lb.classList.remove('on'); void lb.offsetWidth; lb.classList.add('on'); }
+function closePop(){ const lb = $('#lb'); if(lb) lb.classList.remove('on'); }
 $('#bNext').onclick = next; $('#bPrev').onclick = prev;
-$('#bGrid').onclick = () => $('#grid').classList.toggle('on');
+$('#bToc').onclick = () => toc(); $('#tocX').onclick = () => toc(false); $('#toc').addEventListener('click', e => { if(e.target.id === 'toc') toc(false); });
+$('#bHub').onclick = () => go(HUB, true);
+$$('#modeSeg button').forEach(b => b.onclick = () => setMode(b.dataset.mode));
+$('#bPlay').onclick = () => togglePlay();
 $('#bFs').onclick = () => { try{ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }catch(e){} };
 addEventListener('keydown', e => {
-  if(e.target.tagName === 'INPUT') return;
+  if(e.target.tagName === 'INPUT' || document.querySelector('.uid-ov')) return;
   const k = e.key;
+  if(k === 'Escape'){ if($('#lb').classList.contains('on')) closePop(); else toc(false); return; }
+  if($('#lb').classList.contains('on') && (k === 'Enter' || k === ' ')){ e.preventDefault(); closePop(); return; }
   if(k === 'ArrowRight' || k === ' ' || k === 'PageDown' || k === 'Enter'){ e.preventDefault(); next(); }
   else if(k === 'ArrowLeft' || k === 'PageUp'){ e.preventDefault(); prev(); }
   else if(k === 'Home') go(0, true); else if(k === 'End') go(S.length - 1, true);
-  else if(k === 'g' || k === 'G') $('#grid').classList.toggle('on');
+  else if(k === 'g' || k === 'G') toc();
+  else if(k === 'h' || k === 'H') go(HUB, true);
+  else if(k === 'm' || k === 'M') setMode(MODE === 'auto' ? 'manual' : 'auto');
+  else if(k === 'a' || k === 'A') togglePlay();
+  else if(k >= '1' && k <= '4') goSec(SECS[+k - 1].id);
   else if(k === 'f' || k === 'F') $('#bFs').click();
   else if(k === 'b' || k === 'B') $('#bRead').click();
   else if(k === 'p' || k === 'P'){ const el = S[cur].el; if(el.querySelector('[data-reveal]:not([disabled])')) revealStep(el); }
-  else if(k === 'Escape') $('#grid').classList.remove('on');
 });
 let sw = null;
 $('#viewport').addEventListener('pointerdown', e => { if(e.pointerType !== 'mouse') sw = {x:e.clientX, y:e.clientY}; });
@@ -197,7 +273,7 @@ function layoutMind(el){ const m = el.querySelector('[data-mind]'); if(!m) retur
 function sizeCanvas(cv){ const w = cv.offsetWidth, h = cv.offsetHeight; if(!w || !h) return; const k = Math.min(2.5, Math.max(1, scale)*(devicePixelRatio || 1));
   if(cv.width !== Math.round(w*k) || cv.height !== Math.round(h*k)){ cv.width = Math.round(w*k); cv.height = Math.round(h*k); } cv._k = k; cv._w = w; cv._h = h; }
 let last = performance.now();
-function loop(now){ const dt = Math.min(.05, Math.max(0, (now - last)/1000)); last = now;
+function loop(now){ const dt = Math.min(.05, Math.max(0, (now - last)/1000)); last = now; if(S.length) playTick(dt);
   const el = S[cur] && S[cur].el;
   if(el && window.ANIMS) el.querySelectorAll('canvas.anim').forEach(cv => { const A = ANIMS[cv.dataset.anim]; if(!A) return; if(!cv._k) sizeCanvas(cv); if(!cv._w) return;
     const g = cv.getContext('2d'); g.setTransform(cv._k, 0, 0, cv._k, 0, 0); g.clearRect(0, 0, cv._w, cv._h);
@@ -206,5 +282,5 @@ function loop(now){ const dt = Math.min(.05, Math.max(0, (now - last)/1000)); la
     if(window.AH) AH.fs = Math.max(.72, Math.min(1.3, cv._w/760));
     try{ (A.draw || A)(g, cv._w, cv._h, cv._st.t, cv._st, o, dt); }catch(err){ if(!cv._err){ cv._err = 1; console.warn(cv.dataset.anim, err); } } });
   requestAnimationFrame(loop); }
-window.SLIDE = {go, next, prev};
+window.SLIDE = {go, next, prev, goSec, setMode, togglePlay, get cur(){ return cur; }, get n(){ return S.length; }};
 })();

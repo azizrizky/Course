@@ -21,7 +21,7 @@ renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
 renderer.shadowMap.enabled = !(window.LAB && LAB.lite); renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, 1, .05, 2000);
+const camera = new THREE.PerspectiveCamera(45, 1, .1, 600);
 const V3 = (x=0,y=0,z=0) => new THREE.Vector3(x,y,z);
 
 function gradTex(stops, h = 512){ const c = document.createElement('canvas'); c.width = 4; c.height = h; const g = c.getContext('2d'); const gr = g.createLinearGradient(0,0,0,h);
@@ -109,7 +109,27 @@ const ui = {
     (parent || pb()).appendChild(d); return set; }
 };
 function fmt(v, o){ const d = o.dec ?? (o.step && o.step < 1 ? String(o.step).split('.')[1].length : 0); return (o.fmt ? o.fmt(v) : v.toFixed(d).replace('.', ',')) + (o.unit ? ' ' + o.unit : ''); }
-function info(title, html){ const el = $('#info'); el.innerHTML = `<button class="x">✕</button><h3>${title}</h3>${html}`; el.classList.add('on'); el.querySelector('.x').onclick = () => el.classList.remove('on'); }
+function info(title, html, wide){ const el = $('#info'), bg = $('#infoBg'); el.classList.toggle('wide', !!wide);
+  el.innerHTML = `<button class="x" title="Tutup (Esc)">✕</button><h3>${title}</h3>${html}`; el.scrollTop = 0; el.classList.remove('on'); void el.offsetWidth; el.classList.add('on'); if(bg) bg.classList.add('on');
+  const close = () => { el.classList.remove('on'); if(bg) bg.classList.remove('on'); }; el.querySelector('.x').onclick = close; if(bg) bg.onclick = close;
+  el.querySelectorAll('.acc>button').forEach(b => b.onclick = () => b.parentElement.classList.toggle('open')); }
+addEventListener('keydown', e => { if(e.key === 'Escape'){ $('#info').classList.remove('on'); const bg = $('#infoBg'); if(bg) bg.classList.remove('on'); } });
+/* ringkasan materi dari data slide (ciri-ciri, macam, rumus, penerapan) */
+function summary(){ const go = () => { const D = (window.SLIDE_DATA || {})[ID]; if(!D){ info('📋 Ringkasan', '<p>Ringkasan materi ini belum tersedia.</p>'); return; }
+    const strip = h => String(h || '').replace(/<\/?(em|mark)>/g, ''); let out = '', n = 0;
+    const acc = (t, body) => { out += `<div class="acc ${n++ === 0 ? 'open' : ''}"><button>${t}</button><div>${body}</div></div>`; };
+    D.slides.forEach(s => {
+      if(s.t === 'konsep') acc('💡 ' + strip(s.title), `${s.def ? `<p>${s.def}</p>` : ''}${s.points ? `<ul class="ilist">${s.points.map(p => `<li><span class="e">${p[0]}</span>${p[1]}</li>`).join('')}</ul>` : ''}`);
+      else if(s.t === 'cards') acc('🧩 ' + strip(s.title), `<ul class="ilist">${s.cards.map(k => `<li><span class="e">${k.e}</span><b>${k.n}</b>${k.d}${k.ex ? `<small>Contoh: ${k.ex}</small>` : ''}</li>`).join('')}</ul>`);
+      else if(s.t === 'tabel') acc('📋 ' + strip(s.title), `<ul class="ilist">${s.rows.map(r => `<li><b>${r[0]}</b>${r.slice(1).map((v, i) => `<div><small style="display:inline">${s.head[i + 1]}:</small> ${v}</div>`).join('')}</li>`).join('')}</ul>${s.note ? `<p class="note">💡 ${s.note}</p>` : ''}`);
+      else if(s.t === 'rumus') acc('🧮 ' + strip(s.title), `<div class="fx">${s.fx}</div><ul class="ilist">${s.vars.map(v => `<li><b>${v[0]}</b>${v[1]}${v[2] ? `<small>satuan: ${v[2]}</small>` : ''}</li>`).join('')}</ul>${s.note ? `<p class="note">💡 ${s.note}</p>` : ''}`);
+      else if(s.t === 'penerapan') acc('🌍 ' + strip(s.title), `<ul class="ilist">${s.apps.map(a => `<li><span class="e">${a[0]}</span><b>${a[1]}</b>${a[2]}</li>`).join('')}</ul>`);
+      else if(s.t === 'mitos') acc('🕵️ Mitos vs fakta', `<ul class="ilist">${s.items.map(m => `<li>❌ <i>${m[0]}</i><small>✅ ${m[1]}</small></li>`).join('')}</ul>`);
+      else if(s.t === 'ingat') acc('🧠 Cara mudah mengingat', `<p style="font-size:1.2em;font-weight:900">${s.word}</p><p>${s.desc || ''}</p>`);
+    });
+    info(`📋 Ringkasan: ${MAT.nama || DEF.title}`, `<p class="note">Ketuk judul untuk membuka atau menutup setiap bagian.</p>${out}`, true); };
+  if((window.SLIDE_DATA || {})[ID]) return go(); const sc = document.createElement('script'); sc.src = `../slide/data/${ID}.js`; sc.onload = go; sc.onerror = go; document.head.appendChild(sc); }
+
 function hint(t){ $('#hint').textContent = t; }
 
 /* ---------- pembantu objek ---------- */
@@ -164,7 +184,7 @@ function say(key, text, auto){ if(window.LAB && LAB.guide) LAB.guide.show(ID + '
 const E = window.E3D = {THREE, scene, camera, renderer, root:null, V3, setView, label, pick, ui, info, hint, mat, glass, mesh, txtSprite, platform, arrow, say, room, canvasTexOf:gradTex, tick:fn => TICKS.push(fn), id:ID, def:DEF, mode:null, rnd:Math.random};
 function clearMode(){
   if(E.root){ scene.remove(E.root); E.root.traverse(o => { if(o.geometry) o.geometry.dispose(); if(o.material){ (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => { if(m.map && m.map !== envTex) m.map.dispose(); m.dispose(); }); } }); }
-  LBL.splice(0).forEach(L => L.el.remove()); PICKS.length = 0; TICKS.length = 0; $('#info').classList.remove('on'); ui.clear();
+  LBL.splice(0).forEach(L => L.el.remove()); PICKS.length = 0; TICKS.length = 0; $('#info').classList.remove('on'); { const bg = $('#infoBg'); if(bg) bg.classList.remove('on'); } ui.clear();
   E.root = new THREE.Group(); scene.add(E.root);
 }
 function setMode(id){
@@ -208,6 +228,9 @@ function quizShow(){
     $('#qClose2').onclick = () => $('#quiz').classList.remove('on'); $('#qAgain').onclick = quizStart; } };
 }
 $('#quizBtn').onclick = quizStart;
+const sb = $('#sumBtn'); if(sb) sb.onclick = summary;
+function topH(){ const t = $('#top'); if(t) document.documentElement.style.setProperty('--toph', (t.getBoundingClientRect().bottom + 10) + 'px'); }
+addEventListener('resize', topH); setTimeout(topH, 50); setTimeout(topH, 800);
 
 /* ---------- loop ---------- */
 function resize(){ renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix(); }

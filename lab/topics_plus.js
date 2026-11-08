@@ -30,8 +30,8 @@ addMode('wujud-zat', {id:'massajenis', label:'⚖️ Massa Jenis', view:{target:
   E.mesh(new THREE.BoxGeometry(W, Ht, D), E.glass(0xe0f2fe, {opacity:.14}), null, [0, Ht/2, 0], false);
   const ed = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(W, Ht, D)), new THREE.LineBasicMaterial({color:0x7dd3fc})); ed.position.y = Ht/2; E.root.add(ed);
   const wm = new THREE.MeshPhysicalMaterial({color:0x38bdf8, transparent:true, opacity:.42, roughness:.05, clearcoat:1, depthWrite:false});
-  const water = E.mesh(new THREE.BoxGeometry(W - .08, wl, D - .08), wm, null, [0, wl/2 + .02, 0], false);
-  const surf = E.mesh(new THREE.PlaneGeometry(W - .1, D - .1, 40, 12), new THREE.MeshPhysicalMaterial({color:0x7dd3fc, transparent:true, opacity:.5, roughness:.02, clearcoat:1, side:THREE.DoubleSide}), null, [0, wl + .02, 0], false); surf.rotation.x = -PI/2;
+  const water = E.mesh(new THREE.BoxGeometry(W - .08, wl - .03, D - .08), wm, null, [0, (wl - .03)/2 + .02, 0], false);
+  const surf = E.mesh(new THREE.PlaneGeometry(W - .1, D - .1, 40, 12), new THREE.MeshPhysicalMaterial({color:0x7dd3fc, transparent:true, opacity:.5, roughness:.02, clearcoat:1, side:THREE.DoubleSide}), null, [0, wl + .03, 0], false); surf.rotation.x = -PI/2;
   const OB = [['🪵 Kayu', .6, new THREE.BoxGeometry(.75, .45, .55), E.mat(0xa16207, {roughness:.85}), .45],
     ['🧊 Es batu', .92, new THREE.BoxGeometry(.55, .55, .55), new THREE.MeshPhysicalMaterial({color:0xe0f2fe, roughness:.05, transparent:true, opacity:.7, clearcoat:1}), .55],
     ['🥚 Telur', 1.08, new THREE.SphereGeometry(.28, 32, 24), E.mat(0xfef3c7, {roughness:.5}), .72],

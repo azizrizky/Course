@@ -37,11 +37,28 @@ body.noPanel #panel{transform:translateX(120%)}
 .read b{font-family:'Baloo 2',sans-serif;font-size:1.25em}
 .note{background:rgba(45,212,191,.12);border-radius:.7em;padding:.55em .7em;font-weight:700;font-size:.9em;line-height:1.45}
 ul.pts{padding-left:1.1em;margin:.3em 0;line-height:1.5}
-#info{position:fixed;left:1em;bottom:1em;max-width:min(27em,58vw);padding:.8em 1em;z-index:4;display:none}
-#info.on{display:block;animation:pop .3s}
-#info h3{margin:0 0 .25em;font-family:'Baloo 2',sans-serif;font-size:1.3em;color:var(--amber)}
-#info p{margin:.2em 0;line-height:1.45}
-#info .x{position:absolute;right:.6em;top:.4em;border:none;background:none;font-weight:900}
+#infoBg{position:fixed;inset:0;z-index:29;background:rgba(4,10,25,.45);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .25s}
+#infoBg.on{opacity:1;pointer-events:auto}
+#info{position:fixed;left:50%;top:50%;width:min(31em,92vw);max-height:min(82vh,46em);overflow:auto;padding:1.1em 1.2em 1.2em;z-index:30;display:block;opacity:0;pointer-events:none;
+  transform:translate(-50%,-46%) perspective(900px) rotateX(18deg) scale(.9);transition:transform .45s cubic-bezier(.2,1.3,.4,1),opacity .25s;border-radius:1.4em}
+#info.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}
+#info.wide{width:min(46em,94vw)}
+#info h3{margin:0 2em .35em 0;font-family:'Baloo 2',sans-serif;font-size:1.45em;line-height:1.15;color:var(--amber)}
+#info p{margin:.3em 0;line-height:1.5}
+#info .x{position:absolute;right:.7em;top:.6em;width:2.1em;height:2.1em;border-radius:50%;border:1px solid var(--line);background:var(--panel2);font-weight:900}
+#info ul.pts,#info .ilist{list-style:none;padding:0;margin:.5em 0;display:flex;flex-direction:column;gap:.45em}
+#info ul.pts li,#info .ilist li{background:rgba(127,127,127,.12);border-radius:.8em;padding:.55em .75em;border-left:4px solid var(--accent);line-height:1.45}
+#info .ilist li b{display:block;font-family:'Baloo 2',sans-serif;font-size:1.08em}
+#info .ilist li .e{float:left;font-size:1.6em;margin:.05em .45em 0 0;line-height:1}
+#info .ilist li small{display:block;color:var(--muted);font-weight:800;margin-top:.2em}
+#info .acc{border:1px solid var(--line);border-radius:1em;margin:.5em 0;overflow:hidden}
+#info .acc>button{width:100%;text-align:left;border:none;background:var(--panel2);padding:.7em .9em;font-weight:900;font-size:1.02em;display:flex;align-items:center;gap:.5em}
+#info .acc>button:after{content:'▾';margin-left:auto;transition:transform .25s}
+#info .acc.open>button:after{transform:rotate(180deg)}
+#info .acc>div{display:none;padding:.4em .8em .8em}
+#info .acc.open>div{display:block;animation:pop .3s}
+#info .fx{font-family:'Baloo 2',serif;font-size:1.6em;text-align:center;padding:.3em;border-radius:.7em;background:rgba(45,212,191,.14)}
+#info table{width:100%;border-collapse:collapse;font-size:.92em}#info td,#info th{padding:.35em .4em;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
 #labels{position:fixed;inset:0;pointer-events:none;z-index:3}
 .lbl{position:absolute;transform:translate(-50%,-130%);background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:.15em .6em;border-radius:.6em;font-weight:900;font-size:.82em;white-space:nowrap;pointer-events:auto;cursor:pointer;box-shadow:0 .2em .6em rgba(0,0,0,.25)}
@@ -61,7 +78,7 @@ body.noPanel #hint{left:50%}
 #loading .sp{width:3.2em;height:3.2em;border:.4em solid rgba(127,127,127,.25);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .lab-embed #fsBtn{display:none}
-@media (max-width:900px){#panel{left:.6em;right:.6em;width:auto;top:auto;bottom:.6em;max-height:42vh}#info{bottom:44vh}#brand small{display:none}.tbtn{padding:.3em .6em}#hint{display:none}}
-html.engine #labGuide{top:5.6em;bottom:auto;left:1em;flex-direction:column;align-items:flex-start}
+@media (max-width:900px){#panel{left:.6em;right:.6em;width:auto;top:auto;bottom:.6em;max-height:42vh}#brand small{display:none}.tbtn{padding:.3em .6em}#hint{display:none}}
+html.engine #labGuide{top:var(--toph,5.6em);bottom:auto;left:1em;flex-direction:column;align-items:flex-start}
 html.engine #labGuide .lg-card{transform-origin:0 0}
-@media (max-width:900px){html.engine #labGuide{top:4.6em}}
+@media (max-width:900px){.reads{grid-template-columns:1fr}}

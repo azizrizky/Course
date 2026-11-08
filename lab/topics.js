@@ -982,13 +982,14 @@ T3['struktur-bumi'] = {
     L.forEach(([k, nm, r, c, tx], i) => { const geo = new THREE.SphereGeometry(r, 96, 64, PI*.5, PI*1.5);
       const m = i === 0 ? new THREE.MeshStandardMaterial({color:0xffffff, roughness:.8, side:THREE.DoubleSide}) : E.mat(c, {roughness:.6, emissive:c, emissiveIntensity:i*.18, side:THREE.DoubleSide});
       if(i === 0) loader.load((window.LAB ? LAB.texBase : '../assets/tex/') + 'earth_day_2k.jpg', t => { t.colorSpace = THREE.SRGBColorSpace; m.map = t; m.needsUpdate = true; });
-      const s = E.mesh(geo, m, G); const cap1 = E.mesh(new THREE.CircleGeometry(r, 64, PI*.5, PI), E.mat(c, {roughness:.7, emissive:c, emissiveIntensity:i*.2, side:THREE.DoubleSide}), G); cap1.rotation.y = PI/2;
-      const cap2 = E.mesh(new THREE.CircleGeometry(r, 64, -PI*.5, PI), E.mat(c, {roughness:.7, emissive:c, emissiveIntensity:i*.2, side:THREE.DoubleSide}), G); cap2.rotation.y = 0; cap2.rotation.z = 0;
-      cap1.position.z = .001*i; cap2.position.x = .001*i;
+      const s = E.mesh(geo, m, G, null, false); s.receiveShadow = false;
+      const capM = () => E.mat(c, {roughness:.7, emissive:c, emissiveIntensity:i*.2, side:THREE.DoubleSide, polygonOffset:true, polygonOffsetFactor:-(i + 1)*2, polygonOffsetUnits:-(i + 1)*8});
+      const cap1 = E.mesh(new THREE.CircleGeometry(r, 96, PI*.5, PI), capM(), G, null, false); cap1.rotation.y = PI/2; cap1.receiveShadow = false;
+      const cap2 = E.mesh(new THREE.CircleGeometry(r, 96, -PI*.5, PI), capM(), G, null, false); cap2.receiveShadow = false;
       const fn = () => { E.info(nm, `<p>${tx}</p>`); E.say('l_' + k, nm + '. ' + tx, false); };
       [s, cap1, cap2].forEach(o => E.pick(o, fn)); const p = new THREE.Object3D(); p.position.set(r*.72*(i === 3 ? .1 : 1), r*.12 + (i === 3 ? .3 : 0), r*.72*(i === 3 ? .1 : 1)); G.add(p); E.label(p, nm, {onClick:fn}); });
     E.mesh(new THREE.SphereGeometry(2.5, 48, 32), E.mat(0x7dd3fc, {transparent:true, opacity:.08, side:THREE.BackSide, depthWrite:false}), G, null, false);
-    E.tick((dt) => G.rotation.y += dt*.08);
+    G.rotation.y = 1.68; E.tick((dt, t) => G.rotation.y = 1.68 + Math.sin(t*.25)*.55);
     E.ui.head('STRUKTUR BUMI', 'Lapisan-lapisan Bumi', 'Bumi diiris seperempat bagian agar lapisannya terlihat. Ketuk tiap lapisan.');
     E.ui.sec('Lapisan dari luar ke dalam', '<div style="display:grid;gap:5px">' + L.map(([,nm,,c]) => `<div style="display:flex;align-items:center;gap:8px;font-weight:900"><i style="width:18px;height:18px;border-radius:4px;background:#${c.toString(16).padStart(6,'0')}"></i>${nm}</div>`).join('') + '</div><p>Suhu dan tekanan makin tinggi ke arah pusat Bumi. Jari-jari Bumi ± 6.371 km.</p>');
     E.ui.sec('Litosfer & astenosfer', '<p><b>Litosfer</b> = kerak + mantel atas yang kaku, terpecah menjadi lempeng-lempeng. <b>Astenosfer</b> = lapisan mantel yang lebih lunak tempat lempeng “mengapung” dan bergerak.</p>');

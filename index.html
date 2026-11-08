@@ -6,6 +6,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#0a1530">
 <title>Lab Petualang — Bahan Ajar IPA SMPN 4 Magelang</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#0b1430">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -71,7 +76,7 @@ input,select,textarea{font-family:inherit}
 .hbar{position:sticky;top:0;z-index:30;background:rgba(10,21,48,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .hbar .in{max-width:1300px;margin:0 auto;padding:10px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .logo{display:flex;align-items:center;gap:10px}
-.logo .b{width:44px;height:44px;display:grid;place-items:center;font-size:24px;background:linear-gradient(135deg,var(--accent),#38bdf8);clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0 50%)}
+.logo .b{width:50px;height:50px;flex:none;display:grid;place-items:center;filter:drop-shadow(0 6px 10px rgba(0,0,0,.3));transition:transform .4s}.logo:hover .b{transform:perspective(400px) rotateY(20deg) scale(1.08)}
 .logo h1{margin:0;font-size:23px}
 .logo small{display:block;color:var(--muted);font-size:12px;font-weight:700;margin-top:1px}
 .hbar .sp{flex:1}
@@ -80,7 +85,9 @@ input,select,textarea{font-family:inherit}
 /* landing + login */
 .land{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 18px;text-align:center;gap:8px}
 .brand{display:flex;align-items:center;gap:16px;justify-content:center}
-.brand .hex{width:84px;height:84px;display:grid;place-items:center;font-size:46px;background:linear-gradient(135deg,var(--accent),#38bdf8 60%,var(--violet));clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0 50%);animation:bob 3s ease-in-out infinite}
+.brand .hex{width:104px;height:104px;display:grid;place-items:center;animation:logo3d 6s ease-in-out infinite;transform-style:preserve-3d;filter:drop-shadow(0 18px 22px rgba(0,0,0,.35))}
+.hex img,.logo .b img{width:100%;height:100%;display:block}
+@keyframes logo3d{0%,100%{transform:perspective(500px) rotateY(-14deg) rotateX(6deg) translateY(0)}50%{transform:perspective(500px) rotateY(14deg) rotateX(-4deg) translateY(-8px)}}
 .land .big-logo{font-family:'Baloo 2','Nunito',sans-serif;font-size:clamp(42px,7vw,80px);font-weight:800;line-height:1;text-align:left}
 .land .big-logo span{color:var(--accent)}
 .land .big-logo small{display:block;font-size:.32em;color:var(--amber);letter-spacing:3px;font-weight:800}
@@ -299,7 +306,7 @@ td.num,th.num{text-align:center}
 .pbox .inp:focus{border-color:#0d9488}
 .pbox .err{color:#e11d48;font-weight:800;font-size:14px;min-height:20px;margin:8px 0}
 .plogo{display:flex;align-items:center;gap:10px;font-family:'Baloo 2','Nunito',sans-serif;font-size:40px;font-weight:800}
-.plogo .hex{width:54px;height:54px;font-size:30px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#38bdf8);clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0 50%)}
+.plogo .hex{width:58px;height:58px;display:grid;place-items:center;animation:logo3d 6s ease-in-out infinite;filter:drop-shadow(0 8px 12px rgba(0,0,0,.3))}
 .plogo span{color:var(--accent)}
 .avgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}
 .avgrid button{aspect-ratio:1;border-radius:30%;border:4px solid transparent;font-size:30px;display:grid;place-items:center;transition:transform .12s}
@@ -472,7 +479,7 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-bottom-width:3px;p
 .lhero .tag small{color:#5a6f92}
 .lcard{background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:0 12px 0 rgba(0,0,0,.18);max-width:460px;width:100%;justify-self:center}
 .lcard .brand{justify-content:flex-start;margin-bottom:6px}
-.lcard .brand .hex{width:56px;height:56px;font-size:30px}
+.lcard .brand .hex{width:64px;height:64px}
 .lcard h2{font-size:34px;margin:6px 0 2px}
 .lcard label{display:block;font-weight:900;font-size:13px;margin:16px 0 6px;color:var(--muted)}
 .lcard .pw{position:relative}.lcard .pw button{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:none;background:transparent;font-size:18px}
@@ -546,6 +553,18 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-bottom-width:3px;p
 .sec-h h3{margin:0;font-size:22px}.sec-h .sp{flex:1}
 .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative}
 @media(max-width:1200px){.flow{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.flow{grid-template-columns:repeat(2,1fr)}}
+.pmnote{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 14px;font-weight:700;font-size:13.5px;color:var(--muted);margin-bottom:12px;line-height:1.7}
+.pmnote b{color:var(--ink)}
+.pr{display:inline-block;font-size:11.5px;font-weight:900;padding:2px 9px;border-radius:999px;margin:0 3px;color:#fff}
+.pr.b1{background:#0d9488}.pr.b2{background:#2563eb}.pr.b3{background:#db2777}
+.flow.pm .fstep{border-top:6px solid var(--fc)}
+.flow.pm .fstep .n{background:var(--fc);color:#fff}
+.fstep .prs{display:flex;flex-wrap:wrap;gap:4px}.fstep .prs .pr{margin:0}
+.fstep .dpl{font-size:12px;font-weight:900;color:var(--fc)}
+.fstep .fbt{display:flex;gap:6px;flex-wrap:wrap}
+.pmtips{margin-top:12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 16px}
+.pmtips summary{cursor:pointer;font-weight:900}
+.pmtips ul{margin:10px 0 4px;padding-left:20px;line-height:1.6;font-weight:700;font-size:14px;color:var(--muted)}.pmtips b{color:var(--ink)}
 .fstep{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:16px;position:relative;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
 .fstep .k{font-weight:900;font-size:12px;letter-spacing:1px;color:var(--muted)}
 .fstep .e{font-size:34px}.fstep b{font-family:'Baloo 2','Nunito',sans-serif;font-size:19px}
@@ -639,12 +658,12 @@ details.help ol{line-height:1.7;font-size:14px}
 <div class="topright" id="landTop"><button class="iconbtn" data-theme-toggle title="Ganti tema">🌓</button></div>
 <section class="scr" id="s-landing">
   <div class="land">
-    <div class="brand"><div class="hex">⚛️</div><div class="big-logo">Lab <span>Petualang</span><small>BAHAN AJAR IPA · SMPN 4 MAGELANG</small></div></div>
-    <p>Ruang belajar IPA penuh petualangan: <b>Lab Virtual 3D</b>, permainan kelas & lewat HP, serta asesmen diagnostik — bersama Bu Nella.</p>
+    <div class="brand"><div class="hex"><img src="assets/logo.svg" alt="Lab Petualang"></div><div class="big-logo">Lab <span>Petualang</span><small>BAHAN AJAR IPA · SMPN 4 MAGELANG</small></div></div>
+    <p>Ruang belajar IPA penuh petualangan: <b>slide materi interaktif</b>, <b>Lab Virtual 3D</b>, permainan kelas & lewat HP, serta asesmen diagnostik — bersama Bu Nella.</p>
     <div class="pill">👩‍🏫 Nella Alfiani Rofiqoh, S.Pd · 🔬 IPA Kelas 7 &amp; 8</div>
     <div class="role3">
       <button style="background:linear-gradient(135deg,#0f766e,#1d4ed8)" id="goHost"><div class="e">🧑‍🏫</div><b>Ruang Guru</b><span>Masuk untuk mengelola bahan ajar, permainan, rekaman suara & laporan.</span></button>
-      <button style="background:linear-gradient(135deg,#6d28d9,#0891b2)" id="goLab"><div class="e">🔭</div><b>Jelajah Lab Virtual</b><span>Siswa: buka simulasi 3D Hukum Newton & Tata Surya tanpa login.</span></button>
+      <button style="background:linear-gradient(135deg,#6d28d9,#0891b2)" id="goLab"><div class="e">🔭</div><b>Jelajah Materi</b><span>Siswa: buka slide materi & simulasi 3D IPA Kelas 7–8 tanpa login.</span></button>
       <button style="background:linear-gradient(135deg,#c026d3,#ea580c)" id="goPlayer"><div class="e">🎮</div><b>Gabung Permainan</b><span>Siswa: ketik Kode Kelas dari layar guru, pilih karakter, lalu bermain.</span></button>
     </div>
   </div>
@@ -681,7 +700,7 @@ details.help ol{line-height:1.7;font-size:14px}
 <!-- ===================== DASBOR (shell) ===================== -->
 <section class="scr" id="s-setup">
   <aside class="side" id="side">
-    <div class="logo"><div class="b">⚛️</div><div><h1>Lab Petualang</h1><small id="sideRole">Ruang Guru</small></div></div>
+    <div class="logo"><div class="b"><img src="assets/logo.svg" alt=""></div><div><h1>Lab Petualang</h1><small id="sideRole">Ruang Guru</small></div></div>
     <div class="navh" data-role="guru">Mengajar</div>
     <button class="navi" data-nav="home" data-role="guru"><span class="ni">🏠</span><span>Beranda</span></button>
     <button class="navi" data-nav="mood" data-role="guru"><span class="ni">😊</span><span>Cek Perasaan</span><span class="nb">3D</span></button>
@@ -763,7 +782,7 @@ details.help ol{line-height:1.7;font-size:14px}
 <!-- ===================== HOST LOBBY ===================== -->
 <section class="scr" id="s-lobby">
   <div class="hbar"><div class="in">
-    <div class="logo"><div class="b">⚛️</div><div><h1 id="lobTitle">Ruang Lab</h1><small id="lobSub"></small></div></div>
+    <div class="logo"><div class="b"><img src="assets/logo.svg" alt=""></div><div><h1 id="lobTitle">Ruang Lab</h1><small id="lobSub"></small></div></div>
     <div class="sp"></div>
     <button class="iconbtn" data-snd title="Suara">🔊</button>
     <button class="iconbtn" data-fs title="Layar penuh">⛶</button>
@@ -838,7 +857,7 @@ details.help ol{line-height:1.7;font-size:14px}
 
 <!-- ===================== SISWA ===================== -->
 <section class="scr" id="p-join"><div class="pscr"><div class="pcenter">
-  <div class="plogo"><div class="hex">⚛️</div>Lab <span>Petualang</span></div>
+  <div class="plogo"><div class="hex"><img src="assets/logo.svg" alt="Lab Petualang"></div>Lab <span>Petualang</span></div>
   <div class="pbox">
     <div style="font-weight:900;font-size:17px;margin-bottom:10px">Masukkan Kode Kelas</div>
     <input class="inp" id="pinInput" inputmode="numeric" maxlength="7" placeholder="000 000" autocomplete="off">
@@ -3179,6 +3198,7 @@ var qrcode = function() {
 }));
 
 </script>
+<script src="assets/dialog.js"></script>
 <script src="assets/materi.js"></script>
 <script>
 /* ============================================================
@@ -3467,7 +3487,7 @@ const PlayerNet = { chans:[], chosen:null, onDrop:null,
 };
 
 function show(id){ $$('.scr').forEach(s => s.classList.toggle('on', s.id === id)); scrollTo(0,0); }
-function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('on'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('on'),2600); }
+function toast(m){ const mm = String(m).match(/^(\p{Extended_Pictographic}\uFE0F?)\s*([\s\S]*)$/u); if(window.uiNotify) uiNotify(mm ? mm[2] : m, {icon:mm ? mm[1] : '✨'}); }
 function avHTML(i, size=34){ const a = AVATARS[i] || AVATARS[0]; return `<span class="av" style="width:${size}px;height:${size}px;background:${a[1]};font-size:${size*.58}px">${a[0]}</span>`; }
 function toggleFS(){ try{ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }catch(e){} }
 document.addEventListener('click', e => { if(e.target.closest('[data-fs]')) toggleFS(); if(e.target.closest('[data-snd]')) toggleSound(); });
@@ -3556,7 +3576,9 @@ $('#loginForm').addEventListener('submit', async e => {
   } else { $('#lgErr').textContent = 'Nama pengguna atau kata sandi salah.'; SFX.wrong(); $('#loginForm').classList.add('shake'); setTimeout(() => $('#loginForm').classList.remove('shake'), 450); $('#lsay').textContent = 'Ups, sepertinya belum tepat. Coba lagi ya 😅'; }
 });
 $('#lgBack').onclick = () => show('s-landing');
-$('#logoutBtn').onclick = () => { if(ROLE === 'siswa'){ show('s-landing'); return; } if(!confirm('Keluar dari Ruang Guru?')) return; store.del('lab_auth', true); store.del('lab_auth'); show('s-landing'); };
+$('#logoutBtn').onclick = async () => { if(ROLE === 'siswa'){ show('s-landing'); return; }
+  if(!await uiConfirm('Sesi Ruang Guru akan ditutup. Data kelas tetap tersimpan di perangkat ini.', {title:'Keluar dari Ruang Guru?', img:'assets/nella/avatar.jpg', ok:'👋 Keluar', cancel:'Tetap di sini'})) return;
+  await uiCurtain('Sampai jumpa, Bu Nella! 👋', 1200); store.del('lab_auth', true); store.del('lab_auth'); show('s-landing'); uiNotify('Berhasil keluar dari Ruang Guru', {icon:'🔒'}); };
 
 /* ============================================================ LANDING / ROUTING */
 $('#goHost').onclick = () => { if(isAuthed()){ enterDash('guru','home'); } else { show('s-login'); setTimeout(() => $('#lgUser').focus(), 100); } };
@@ -3761,12 +3783,12 @@ function renderLobby(){
   }
   $$('#lobbyPlayers [data-kick]').forEach(b => b.onclick = () => kick(b.dataset.kick));
 }
-function kick(pid){
+async function kick(pid){
   const p = H.players.get(pid); if(!p) return;
-  if(!confirm(`Keluarkan "${p.name}" dari permainan?`)) return;
+  if(!await uiConfirm(`“${p.name}” akan dikeluarkan dari ruang permainan.`, {title:'Keluarkan pemain?', icon:'🚪', danger:true, ok:'Keluarkan'})) return;
   send(p, {t:'kick'}); H.kicked.add(pid); H.players.delete(pid); renderLobby();
 }
-$('#cancelRoom').onclick = () => { if(confirm('Batalkan ruang game ini?')) destroyHost(); };
+$('#cancelRoom').onclick = async () => { if(await uiConfirm('Semua pemain di lobi akan terputus.', {title:'Batalkan ruang game?', icon:'🛑', danger:true, ok:'Batalkan ruang'})) destroyHost(); };
 $('#testPlayer').onclick = () => { if(!H) return; window.open(joinURL(true), '_blank'); };
 $('#startGame').onclick = () => { MUSIC.stop(); SFX.gong(); if(isSelf(H.mode)) startSelf(); else nextQuestion(); };
 function destroyHost(){
@@ -3989,7 +4011,7 @@ function teamScores(){
     const top = m.slice().sort((a,b)=>b.score-a.score)[0];
     return {i, name:t.name, color:t.color, n:m.length, avg, top}; });
 }
-$('#endGameBtn').onclick = () => { if(confirm('Akhiri permainan sekarang dan tampilkan panggung juara?')) { if(H.phase==='self'){ endSelf(); return; } if(H.phase==='selfend') return; clearInterval(H.timer); clearTimeout(H.readyT); if(H.phase==='question') endQuestion(); showPodium(); } };
+$('#endGameBtn').onclick = async () => { if(await uiConfirm('Permainan dihentikan dan panggung juara ditampilkan.', {title:'Akhiri permainan?', icon:'🏁', warn:true, ok:'Akhiri'})) { if(H.phase==='self'){ endSelf(); return; } if(H.phase==='selfend') return; clearInterval(H.timer); clearTimeout(H.readyT); if(H.phase==='question') endQuestion(); showPodium(); } };
 document.addEventListener('keydown', e => {
   if(e.target.matches('input,textarea,select')) return;
   if(e.key==='f' || e.key==='F'){ if($('#s-game').classList.contains('on')||$('#s-lobby').classList.contains('on')||$('#s-podium').classList.contains('on')) toggleFS(); }
@@ -4035,9 +4057,9 @@ function showPodium(){
   [2,1,0].forEach((pos,step) => setTimeout(() => { const el = $(`.pod[data-pos="${pos}"]`); if(el){ el.classList.add('show'); if(pos===0){ SFX.fanfare(); confetti(220); } else SFX.click(); } }, 900 + step*1300));
 }
 $('#toReport').onclick = () => { renderReport(); show('s-report'); };
-$('#toHome').onclick = () => { if(confirm('Kembali ke Ruang Guru? Ruang lab akan ditutup (unduh laporan dulu bila perlu).')) destroyHost(); };
-$('#playAgain').onclick = () => {
-  if(!confirm('Main lagi dengan pemain yang sama? Soal baru akan diambil dan skor direset.')) return;
+$('#toHome').onclick = async () => { if(await uiConfirm('Ruang permainan akan ditutup. Unduh laporan dulu bila perlu.', {title:'Kembali ke Ruang Guru?', icon:'🏠', ok:'Kembali'})) destroyHost(); };
+$('#playAgain').onclick = async () => {
+  if(!await uiConfirm('Soal baru diambil dan skor direset untuk pemain yang sama.', {title:'Main lagi?', icon:'🔁', ok:'Main lagi'})) return;
   H.qs = pickQuestions(); H.perms = H.qs.map(() => H.cfg.shuffleOpt ? shuffle([0,1,2,3]) : [0,1,2,3]);
   H.qi = -1; H.phase = 'lobby'; H.startedAt = Date.now();
   H.players.forEach(p => { p.score=0; p.streak=0; p.answers=[]; p.sp=null; });
@@ -4142,9 +4164,9 @@ function renderBank(filter){
     saveSet(); renderBank();
   });
   $$('#bankBox [data-edit]').forEach(b => b.onclick = () => editQ(b.dataset.edit));
-  $$('#bankBox [data-del]').forEach(b => b.onclick = () => { if(!confirm('Hapus soal ini?')) return; saveBank(id, bank.filter(q=>q.id!==b.dataset.del)); renderBank(); });
+  $$('#bankBox [data-del]').forEach(b => b.onclick = async () => { if(!await uiConfirm('Soal ini akan dihapus dari bank soal.', {title:'Hapus soal?', icon:'🗑️', danger:true, ok:'Hapus'})) return; saveBank(id, bank.filter(q=>q.id!==b.dataset.del)); renderBank(); });
   $('#bkAdd').onclick = () => editQ(null);
-  $('#bkReset').onclick = () => { if(confirm('Kembalikan ke soal bawaan? Soal buatan sendiri akan hilang.')){ store.del('arena_bank_'+id); renderBank(); } };
+  $('#bkReset').onclick = async () => { if(await uiConfirm('Soal buatan sendiri akan hilang.', {title:'Kembalikan ke soal bawaan?', icon:'♻️', warn:true, ok:'Kembalikan'})){ store.del('arena_bank_'+id); renderBank(); } };
   $('#bkExp').onclick = () => { const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(bank,null,2)],{type:'application/json'})); a.download=`bank-soal-${id}.json`; a.click(); };
   $('#bkImp').onclick = () => $('#bkFile').click();
   $('#bkFile').onchange = e => { const fl = e.target.files[0]; if(!fl) return; const r = new FileReader(); r.onload = () => {
@@ -4181,7 +4203,7 @@ function openGuide(){
   <li>Panggil <b>5 siswa</b> ke depan. Satu per satu mengetuk emoticon: <b>Semangat, Senang, Bosan, Mengantuk, Sedih</b> (atau tombol <kbd>1</kbd>–<kbd>5</kbd>; <kbd>⌫</kbd> membatalkan pilihan terakhir). Setiap pilihan masuk ke toples 3D.</li>
   <li>Setelah 5 siswa, tekan <b>Kelompok berikutnya</b>. Di akhir tekan <b>📊 Lihat Hasil</b>: grafik batang 3D, persentase, <b>indeks perasaan kelas</b> (Semangat 5 · Senang 4 · Bosan 2 · Mengantuk 2 · Sedih 1), dan rekomendasi untuk memulai pelajaran.</li>
   <li>Hasil tersimpan otomatis di <b>Riwayat Kelas</b> dan tampil di Beranda.</li></ol>
-  <h4>📽️ Slide Materi</h4><p>Setiap materi Kelas 7 &amp; 8 punya slide pemaparan berwarna (± 16–18 slide): tujuan &amp; pertanyaan pemantik, pengertian, macam-macam, rumus dengan <b>kalkulator coba-coba</b>, animasi penerapan, <b>contoh soal</b> dengan tombol <b>💡 Lihat Pembahasan</b> langkah demi langkah, mitos vs fakta, jembatan keledai, kuis kilat, peta konsep, dan refleksi. Tekan <kbd>→</kbd>/<kbd>Spasi</kbd> untuk lanjut (poin muncul satu per satu), <kbd>←</kbd> kembali, <kbd>P</kbd> pembahasan, <kbd>G</kbd> daftar slide, <kbd>B</kbd> dibacakan, <kbd>F</kbd> layar penuh. Isi mengacu CP IPA Fase D (Kep. Kepala BSKAP No. 046/H/KR/2025) dan Buku Siswa IPA Kurikulum Merdeka.</p>
+  <h4>📽️ Slide Materi</h4><p>Setiap materi Kelas 7 &amp; 8 punya slide pemaparan berwarna (± 16–18 slide): tujuan &amp; pertanyaan pemantik, pengertian, macam-macam, rumus dengan <b>kalkulator coba-coba</b>, animasi penerapan, <b>contoh soal</b> dengan tombol <b>💡 Lihat Pembahasan</b> langkah demi langkah, mitos vs fakta, jembatan keledai, kuis kilat, peta konsep, dan refleksi. Slide disusun mengikuti Pembelajaran Mendalam: <b>Awal → Memahami → Mengaplikasi → Merefleksi</b>, dengan <b>Peta Belajar</b> untuk memilih sub bab. Mode <b>⚡ Otomatis</b>: sekali klik seluruh isi tampil dengan transisi 3D; <b>👆 Manual</b>: poin muncul satu per satu; <b>▶ Putar</b>: presentasi berjalan sendiri. Kartu, penerapan, dan peta konsep bisa diketuk untuk detail. Pintasan: <kbd>→</kbd>/<kbd>←</kbd>, <kbd>1</kbd>–<kbd>4</kbd> bagian, <kbd>H</kbd> peta, <kbd>G</kbd> daftar isi, <kbd>M</kbd> ganti mode, <kbd>A</kbd> putar, <kbd>P</kbd> pembahasan, <kbd>B</kbd> dibacakan. Isi mengacu CP IPA Fase D (Kep. Kepala BSKAP No. 046/H/KR/2025) dan Buku Siswa IPA Kurikulum Merdeka.</p>
   <h4>🔬 Lab 3D &amp; Kuis</h4><p>Pilih tab <b>Kelas 7</b> (Hakikat Sains, Pengukuran, Wujud Zat, Kalor, Tata Surya, Klasifikasi, Ekosistem, Gaya &amp; Gerak) atau <b>Kelas 8</b> (Sel, Sistem Organ, Usaha, Unsur–Senyawa–Campuran, Getaran &amp; Gelombang, Struktur Bumi). Setiap materi punya <b>▶ Simulasi 3D</b> (dengan beberapa mode, narasi Bu Nella, dan kuis singkat di dalam lab) dan <b>🎮 Kuis</b> yang langsung menyiapkan permainan dengan bank soal materi itu. <b>🔗</b> membagikan lab ke siswa lewat QR.</p>
   <h4>🎙️ Studio Suara</h4><p>Pilih materi (Kelas 7/8), lalu rekam suara Bu Nella untuk setiap narasi. Rekaman langsung dipakai di lab pada perangkat ini. Tekan <b>☁️ Simpan ke GitHub</b> (isi token di Pengaturan sekali saja) agar rekaman ikut online untuk semua siswa.</p>
   <h4>🔐 Masuk sebagai guru</h4><p>Pilih <b>Masuk sebagai Guru</b> lalu login. Centang “Ingat saya” hanya di laptop pribadi. Tombol <b>⎋ Keluar</b> ada di bawah menu kiri.</p>
@@ -5048,7 +5070,7 @@ function renderClassReport(){
     a.download = `mode-kelas-${C.mode}-${new Date(C.startedAt).toISOString().slice(0,10)}.csv`; a.click();
   };
 }
-$('#cEndBtn').onclick = () => { if(C && confirm('Akhiri permainan dan lihat hasil?')) classEnd(); };
+$('#cEndBtn').onclick = async () => { if(C && await uiConfirm('Permainan diakhiri dan hasil kelas ditampilkan.', {title:'Akhiri permainan?', icon:'🏁', warn:true, ok:'Lihat hasil'})) classEnd(); };
 document.addEventListener('keydown', e => {
   if(!C || !$('#s-class').classList.contains('on') || e.target.matches('input,textarea,select')) return;
   if($('#cqOv').classList.contains('on') && C.cur){
@@ -5309,14 +5331,44 @@ async function renderHome(){
       <div class="stat" data-go="bank"><div class="si" style="background:linear-gradient(135deg,#ea580c,#fbbf24)">📚</div><div><b>${bankN}</b><span>Soal di 14 materi</span></div></div>
       <div class="stat" data-go="studio"><div class="si" style="background:linear-gradient(135deg,#16a34a,#a3e635)">🎙️</div><div><b id="vcStat">…</b><span>Rekaman narasi</span></div></div>
     </div>
-    <div class="sec-h"><h3>🧭 Rekomendasi alur pembelajaran (1–2 JP)</h3><div class="sp"></div><span class="muted" style="font-weight:800;font-size:13px">Klik langkah untuk langsung menyiapkannya</span></div>
-    <div class="flow">
-      <div class="fstep"><span class="n">0</span><div class="k">PEMBUKA · 5 MENIT</div><div class="e">😊</div><b>Cek Perasaan</b><p>5 siswa maju bergantian memilih emoticon 3D; di akhir tampil rata-rata perasaan kelas.</p><button class="btn sm" data-flow="mood">Mulai ▶</button></div>
-      <div class="fstep"><span class="n">1</span><div class="k">APERSEPSI · 10 MENIT</div><div class="e">🕵️</div><b>Detektif Mitos</b><p>Ungkap miskonsepsi awal tanpa HP: kelas memilih Fakta/Mitos lewat angkat tangan.</p><button class="btn sm" data-flow="mitos">Siapkan ▶</button></div>
-      <div class="fstep"><span class="n">2</span><div class="k">PEMAPARAN & EKSPLORASI · 30 MENIT</div><div class="e">📽️</div><b>Slide + Simulasi 3D</b><p>Paparkan materi dengan slide interaktif (contoh soal & pembahasan), lalu eksperimen di Lab 3D.</p><button class="btn sm" data-flow="slides">Buka slide ▶</button></div>
-      <div class="fstep"><span class="n">3</span><div class="k">LATIHAN · 10 MENIT</div><div class="e">🕳️</div><b>Lolos dari Lubang Hitam</b><p>Latihan mandiri lewat HP; siswa yang salah langsung melihat pembahasan.</p><button class="btn sm" data-flow="kejar">Siapkan ▶</button></div>
-      <div class="fstep"><span class="n">4</span><div class="k">ASESMEN · 15 MENIT</div><div class="e">🧠</div><b>Yakin-Ragu</b><p>Asesmen diagnostik dua tingkat: laporan memetakan paham, menebak & miskonsepsi.</p><button class="btn sm" data-flow="keyakinan">Siapkan ▶</button></div>
+    <div class="sec-h"><h3>🧭 Alur Pembelajaran Mendalam (2 JP · 80 menit)</h3><div class="sp"></div><span class="muted" style="font-weight:800;font-size:13px">Klik tombol untuk langsung menyiapkan</span></div>
+    <div class="pmnote"><b>Pendekatan Pembelajaran Mendalam (Kemendikdasmen 2025)</b> · prinsip <span class="pr b1">Berkesadaran</span><span class="pr b2">Bermakna</span><span class="pr b3">Menggembirakan</span> · pengalaman belajar <b>Memahami → Mengaplikasi → Merefleksi</b> · mengacu CP IPA Fase D (BSKAP 046/H/KR/2025)</div>
+    <div class="flow pm">
+      <div class="fstep" style="--fc:#f97316"><span class="n">1</span><div class="k">AWAL · 10 MENIT</div><div class="e">🚀</div><b>Orientasi & Apersepsi</b>
+        <div class="prs"><span class="pr b1">Berkesadaran</span><span class="pr b3">Menggembirakan</span></div>
+        <p>Cek perasaan kelas, sampaikan tujuan & pertanyaan pemantik (slide <i>Awal</i>), lalu gali pengetahuan awal dengan Detektif Mitos.</p>
+        <div class="dpl">🎯 Kesehatan · Komunikasi</div>
+        <div class="fbt"><button class="btn sm" data-flow="mood">😊 Cek perasaan</button><button class="btn sm ghost" data-flow="mitos">🕵️ Mitos</button></div></div>
+      <div class="fstep" style="--fc:#0ea5e9"><span class="n">2</span><div class="k">INTI · MEMAHAMI · 20 MENIT</div><div class="e">💡</div><b>Membangun Konsep</b>
+        <div class="prs"><span class="pr b1">Berkesadaran</span><span class="pr b2">Bermakna</span></div>
+        <p>Paparkan slide bagian <i>Memahami</i> (konsep, macam, rumus, animasi), lalu siswa menemukan sendiri lewat eksperimen Lab 3D (<i>discovery</i>).</p>
+        <div class="dpl">🎯 Penalaran kritis · Kemandirian</div>
+        <div class="fbt"><button class="btn sm" data-flow="slides">📽️ Slide</button><button class="btn sm ghost" data-flow="lab">🔬 Lab 3D</button></div></div>
+      <div class="fstep" style="--fc:#22c55e"><span class="n">3</span><div class="k">INTI · MENGAPLIKASI · 25 MENIT</div><div class="e">🛠️</div><b>Menerapkan & Berlatih</b>
+        <div class="prs"><span class="pr b2">Bermakna</span><span class="pr b3">Menggembirakan</span></div>
+        <p>Bahas contoh soal & penerapan sehari-hari (slide <i>Mengaplikasi</i>), lalu latihan berkelompok lewat permainan kelas atau HP.</p>
+        <div class="dpl">🎯 Kolaborasi · Kreativitas</div>
+        <div class="fbt"><button class="btn sm" data-flow="ekspedisi">🪐 Regu kelas</button><button class="btn sm ghost" data-flow="kejar">🕳️ Lewat HP</button></div></div>
+      <div class="fstep" style="--fc:#a855f7"><span class="n">4</span><div class="k">INTI · MEREFLEKSI · 15 MENIT</div><div class="e">🪞</div><b>Merefleksi & Asesmen</b>
+        <div class="prs"><span class="pr b1">Berkesadaran</span><span class="pr b2">Bermakna</span></div>
+        <p>Susun peta konsep & refleksi diri (slide <i>Merefleksi</i>), lalu asesmen diagnostik Yakin-Ragu untuk memetakan paham vs miskonsepsi.</p>
+        <div class="dpl">🎯 Kemandirian · Penalaran kritis</div>
+        <div class="fbt"><button class="btn sm" data-flow="keyakinan">🧠 Yakin-Ragu</button></div></div>
+      <div class="fstep" style="--fc:#eab308"><span class="n">5</span><div class="k">PENUTUP · 10 MENIT</div><div class="e">🎁</div><b>Umpan Balik & Tindak Lanjut</b>
+        <div class="prs"><span class="pr b3">Menggembirakan</span><span class="pr b2">Bermakna</span></div>
+        <p>Beri apresiasi, umpan balik dari laporan kelas, dan tindak lanjut: remedial untuk miskonsepsi, pengayaan/proyek kecil di rumah.</p>
+        <div class="dpl">🎯 Komunikasi · Kewargaan</div>
+        <div class="fbt"><button class="btn sm" data-flow="history">📈 Laporan</button></div></div>
     </div>
+    <details class="pmtips"><summary>💡 Rekomendasi penerapan di kelas (ketuk untuk membuka)</summary>
+      <ul>
+        <li><b>Berkesadaran:</b> awali dengan Cek Perasaan & tujuan pembelajaran yang jelas, ajak siswa menebak jawaban pertanyaan pemantik sebelum belajar.</li>
+        <li><b>Bermakna:</b> kaitkan dengan konteks lokal Magelang, mis. Gunung Merapi (struktur bumi), sawah (ekosistem), Candi Borobudur (batuan & pelapukan), pasar tradisional (pengukuran massa).</li>
+        <li><b>Menggembirakan:</b> gunakan Lab 3D, permainan regu, dan kuis kilat; beri tantangan bertingkat (mudah → HOTS).</li>
+        <li><b>Asesmen:</b> diagnostik di awal (Detektif Mitos / Yakin-Ragu), formatif selama proses (kuis kilat di slide, Lubang Hitam), sumatif di akhir bab (mode Kilat/Teliti dengan laporan nilai).</li>
+        <li><b>Diferensiasi:</b> siswa cepat diberi pengayaan (mode simulasi lanjutan), siswa yang perlu bimbingan mengulang slide <i>Memahami</i> dengan mode Manual & narasi.</li>
+        <li><b>Kemitraan & digital:</b> bagikan tautan lab/slide (tombol 🔗) agar siswa & orang tua bisa belajar di rumah.</li>
+      </ul></details>
     <div class="sec-h"><h3>😊 Perasaan kelas terakhir</h3><div class="sp"></div><button class="btn sm ghost" data-go="mood">Cek perasaan sekarang →</button></div>
     <div class="card" style="padding:14px 18px">${moodL.length ? moodSummary(moodL[0]) : '<p class="muted" style="font-weight:700;margin:0">Belum ada data. Mulai pelajaran dengan <b>Cek Perasaan</b> agar Ibu tahu suasana hati kelas hari ini.</p>'}</div>
     <div class="sec-h"><h3>📘 Materi IPA per kelas</h3><div class="sp"></div><button class="btn sm ghost" data-go="lab">Semua materi →</button></div>
@@ -5329,6 +5381,8 @@ async function renderHome(){
     if(f === 'lab') return nav('lab');
     if(f === 'mood') return nav('mood');
     if(f === 'slides') return nav('slides');
+    if(f === 'history') return nav('history');
+    if(f === 'ekspedisi'){ SET.track = 'kelas'; SET.cmode = 'ekspedisi'; SET.n = 8; }
     if(f === 'mitos'){ SET.track = 'kelas'; SET.cmode = 'mitos'; SET.n = 6; }
     if(f === 'kejar'){ SET.track = 'hp'; SET.mode = 'kejar'; SET.duration = 5; }
     if(f === 'keyakinan'){ SET.track = 'hp'; SET.mode = 'keyakinan'; SET.n = 10; SET.time = 30; }
@@ -5402,7 +5456,7 @@ function renderSlides(){
   const k = labTab(), list = Object.entries(MATERI).filter(([, m]) => m.kelas === k);
   $('#pg-slides').innerHTML = `<div class="gbar" style="margin-top:18px"><div class="ktabs">${['7','8'].map(x => `<button data-kt="${x}" class="${x===k?'on':''}">🎓 Kelas ${x} <small>${Object.values(MATERI).filter(m => m.kelas===x).length} materi</small></button>`).join('')}</div><div class="sp"></div>
       <span class="muted" style="font-weight:800;font-size:13px">Ringkasan · rumus · contoh soal + pembahasan · kuis · animasi</span></div>
-    <div class="note" style="margin-bottom:14px">📽️ Slide pemaparan materi berbasis <b>CP IPA Fase D (Kep. Kepala BSKAP No. 046/H/KR/2025)</b> dan Buku Siswa IPA Kurikulum Merdeka. Navigasi: <kbd>→</kbd>/<kbd>Spasi</kbd> berikutnya, <kbd>←</kbd> sebelumnya, <kbd>P</kbd> pembahasan, <kbd>G</kbd> daftar slide, <kbd>B</kbd> dibacakan.</div>
+    <div class="note" style="margin-bottom:14px">📽️ Slide pemaparan materi berbasis <b>CP IPA Fase D (Kep. Kepala BSKAP No. 046/H/KR/2025)</b> dan Buku Siswa IPA Kurikulum Merdeka. Slide dibagi 4 bagian Pembelajaran Mendalam: <b>Awal · Memahami · Mengaplikasi · Merefleksi</b>. Pilih mode <b>⚡ Otomatis</b> (sekali klik, isi tampil semua) atau <b>👆 Manual</b> (poin demi poin), atau <b>▶ Putar</b> untuk presentasi berjalan sendiri. Kartu bisa diketuk untuk detail. Tombol: <kbd>→</kbd> lanjut, <kbd>1</kbd>–<kbd>4</kbd> pindah bagian, <kbd>H</kbd> peta belajar, <kbd>G</kbd> daftar isi, <kbd>P</kbd> pembahasan.</div>
     <div class="slgrid">${list.map(([mid, m]) => { const c = SL_COL[mid] || ['#14b8a6','#8b5cf6'];
       return `<div class="slcard" style="--c1:${c[0]};--c2:${c[1]}"><div class="slpv" data-slide="${mid}"><span class="e">${m.icon}</span><span class="pl">▶</span><span class="kb">Kelas ${m.kelas}</span></div>
         <div class="bd"><h4>${esc(m.nama)}</h4><p>${esc(m.desc)}</p><div class="tags">${Object.values(m.topics).slice(0,4).map(t => `<span class="tag">${t.icon} ${esc(t.name)}</span>`).join('')}</div>
@@ -5472,7 +5526,7 @@ async function renderStudio(){
     row.querySelector('[data-act=play]').onclick = () => playVoice(k, text, man);
     row.querySelector('[data-act=file]').onchange = async e => { const f = e.target.files[0]; if(!f) return; await vdb.put(k, f); toast('✅ Rekaman tersimpan'); renderStudio(); };
     const dl = row.querySelector('[data-act=dl]'); if(dl) dl.onclick = async () => { const b = await vdb.get(k); if(!b) return; const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `${STUDIO_SIM}-${k}.${extOf(b)}`; a.click(); };
-    const dl2 = row.querySelector('[data-act=del]'); if(dl2) dl2.onclick = async () => { if(!confirm('Hapus rekaman ini dari perangkat? (rekaman online di GitHub tidak terhapus)')) return; await vdb.del(k); renderStudio(); };
+    const dl2 = row.querySelector('[data-act=del]'); if(dl2) dl2.onclick = async () => { if(!await uiConfirm('Rekaman di perangkat ini dihapus (rekaman online di GitHub tidak terhapus).', {title:'Hapus rekaman?', icon:'🎙️', danger:true, ok:'Hapus'})) return; await vdb.del(k); renderStudio(); };
   });
 }
 function extOf(b){ const t = (b && b.type) || ''; return /ogg/.test(t) ? 'ogg' : /mp4|m4a|aac/.test(t) ? 'm4a' : /mpeg|mp3/.test(t) ? 'mp3' : /wav/.test(t) ? 'wav' : 'webm'; }
@@ -5492,7 +5546,7 @@ async function toggleStudioRec(k){
       await vdb.put(k, b); toast('✅ Rekaman tersimpan di perangkat'); renderStudio(); };
     mr.start(); renderStudio(); SFX.click();
     REC.iv = setInterval(() => { const s = Math.floor((Date.now()-t0)/1000), el = $('#recT'); if(el) el.textContent = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; }, 500);
-  }catch(e){ REC = null; alert('Mikrofon tidak bisa diakses. Izinkan akses mikrofon di peramban, atau gunakan tombol “Unggah” untuk memasukkan file rekaman (mp3/m4a/wav).'); }
+  }catch(e){ REC = null; uiAlert('Izinkan akses mikrofon di peramban, atau gunakan tombol “Unggah” untuk memasukkan file rekaman (mp3/m4a/wav).', {title:'Mikrofon tidak bisa diakses', icon:'🎙️', warn:true}); }
 }
 
 /* ---------- GitHub ---------- */
@@ -5547,8 +5601,8 @@ function renderHistory(){
     <div class="card" id="moodHist" style="margin-top:16px"><div class="gbar" style="margin-top:0"><h3 style="margin:0">😊 Riwayat cek perasaan</h3><div class="sp"></div>${ML.length ? '<button class="btn sm red" id="mClr">🗑 Hapus</button>' : ''}<button class="btn sm" data-go="mood">Cek sekarang</button></div>
       ${ML.length ? `${ML.length > 1 ? `<div class="muted" style="font-weight:800;margin-bottom:8px">Rata-rata indeks perasaan ${ML.length} sesi terakhir: <b style="color:var(--ink)">${(ML.reduce((a,r) => a + r.index, 0)/ML.length).toFixed(1)}/5</b></div>` : ''}${ML.slice(0,8).map(r => `<div style="padding:10px 0;border-top:1px solid var(--line)">${moodSummary(r)}</div>`).join('')}` : '<p class="muted" style="font-weight:700">Belum ada data cek perasaan.</p>'}</div>
     <div class="card" style="margin-top:16px">${L.length ? histTable(L) : '<p class="muted" style="font-weight:700">Belum ada riwayat. Setiap permainan yang selesai otomatis tercatat di sini.</p>'}</div>`;
-  bindCommon($('#pg-history')); const mc = $('#mClr'); if(mc) mc.onclick = () => { if(confirm('Hapus riwayat cek perasaan?')){ store.set('lab_mood', []); renderHistory(); } };
-  $('#hClr').onclick = () => { if(confirm('Hapus semua riwayat di perangkat ini?')){ store.set('lab_history', []); renderHistory(); } };
+  bindCommon($('#pg-history')); const mc = $('#mClr'); if(mc) mc.onclick = async () => { if(await uiConfirm('Semua riwayat cek perasaan di perangkat ini dihapus.', {title:'Hapus riwayat perasaan?', icon:'😊', danger:true, ok:'Hapus'})){ store.set('lab_mood', []); renderHistory(); } };
+  $('#hClr').onclick = async () => { if(await uiConfirm('Semua riwayat permainan di perangkat ini dihapus.', {title:'Hapus semua riwayat?', icon:'📈', danger:true, ok:'Hapus'})){ store.set('lab_history', []); renderHistory(); } };
   $('#hCsv').onclick = () => { const q = s => '"' + String(s ?? '').replace(/"/g,'""') + '"';
     const rows = [['Tanggal','Cara','Mode','Materi','Peserta','Skor %','Keterangan'].map(q).join(',')].concat(L.map(h => [new Date(h.t).toLocaleString('id-ID'), h.track, h.mode, h.materi, h.peserta, h.skor, h.info].map(q).join(',')));
     const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + rows.join('\n')], {type:'text/csv'})); a.download = 'riwayat-kelas.csv'; a.click(); };
@@ -5595,7 +5649,7 @@ function renderSettings(){
       await GH.put('data/perasaan.json', b64OfText(JSON.stringify(store.get('lab_mood', []), null, 1)), 'Cadangan riwayat cek perasaan');
       await GH.put('data/index.json', b64OfText(JSON.stringify({banks:Object.keys(MATERI), updated:new Date().toISOString()})), 'Indeks cadangan bank soal');
       $('#bkMsg').textContent = '✅ Tersimpan di GitHub'; }catch(e){ $('#bkMsg').textContent = '❌ ' + e.message; } };
-  $('#bkDown').onclick = async () => { if(!confirm('Ganti bank soal di perangkat ini dengan versi online?')) return;
+  $('#bkDown').onclick = async () => { if(!await uiConfirm('Bank soal di perangkat ini diganti dengan versi online di GitHub.', {title:'Ambil bank soal online?', icon:'☁️', ok:'Ganti'})) return;
     try{ let n = 0; const ix = await bankIndex(); for(const id of Object.keys(MATERI).filter(i => ix.includes(i))){ const r = await fetch(`data/bank-${id}.json`, {cache:'no-cache'}); if(r.ok){ saveBank(id, await r.json()); n++; } }
       $('#bkMsg').textContent = n ? '✅ Bank soal dimuat' : 'Belum ada cadangan online'; }catch(e){ $('#bkMsg').textContent = '❌ ' + e.message; } };
   $('#sOut').onclick = () => $('#logoutBtn').click();
