@@ -153,6 +153,28 @@ input,select,textarea{font-family:inherit}
 .qrmiss{width:250px;height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;font-size:13px;color:#4b3a85;font-weight:700;padding:10px}
 .qrmiss b{font-size:16px;color:#1d0b47}
 .qrmiss:first-letter{font-size:40px}
+/* mode groups & arena */
+.mgroup{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px;font-size:15px}
+.mgroup .muted{font-size:13px;font-weight:700}
+.newtag{background:var(--pink);font-size:11px;font-weight:900;padding:2px 8px;border-radius:8px}
+.arena-hud{display:flex;align-items:center;gap:14px;margin:14px 0 10px}
+.tline{flex:1;height:14px;background:rgba(255,255,255,.15);border-radius:10px;position:relative}
+.tline .f{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#22c55e,#a3e635);border-radius:10px;transition:width 1s linear}
+.tline .ic{position:absolute;left:0;top:50%;transform:translate(-50%,-50%);font-size:30px;transition:left 1s linear;filter:drop-shadow(0 2px 0 rgba(0,0,0,.4))}
+.hudpill{background:#22c55e;color:#08300f;font-family:'Fredoka';font-weight:700;font-size:22px;padding:6px 16px;border-radius:14px;box-shadow:0 4px 0 #15803d;white-space:nowrap}
+.arena-wrap{display:grid;grid-template-columns:1fr 250px;gap:14px}
+@media(max-width:1000px){.arena-wrap{grid-template-columns:1fr}}
+.arena-box{position:relative}
+#arena{width:100%;border-radius:20px;display:block;box-shadow:var(--shadow);background:#1a0c40}
+.cdover{position:absolute;inset:0;display:grid;place-items:center;font-family:'Fredoka';font-size:140px;font-weight:700;text-shadow:0 8px 0 rgba(0,0,0,.45);pointer-events:none;text-align:center}
+.arena-side{background:rgba(0,0,0,.25);border-radius:18px;padding:12px;align-self:start}
+.side-row{display:flex;align-items:center;gap:8px;padding:6px 4px;font-weight:800;font-size:14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.side-row .s{margin-left:auto;font-family:'Fredoka';font-weight:700}
+.arena-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.pstat{position:relative;height:32px;margin:8px 10px 0;background:rgba(0,0,0,.3);border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:space-between;padding:0 10px;font-weight:900;font-size:13px;gap:8px}
+.pstat .fill{position:absolute;left:0;top:0;bottom:0;z-index:0;transition:width .6s;opacity:.85}
+.pstat span,.pstat b{position:relative;z-index:1;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.pbanner{position:fixed;top:64px;left:50%;transform:translateX(-50%);background:#7c3aed;padding:12px 20px;border-radius:14px;font-weight:900;z-index:120;animation:pop .4s;box-shadow:0 6px 0 rgba(0,0,0,.3);white-space:nowrap}
 /* host game */
 .gbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0}
 .gbar .sp{flex:1}
@@ -361,8 +383,9 @@ kbd{background:var(--bg2);border:1px solid var(--line);border-bottom-width:3px;p
       <div class="card">
         <div class="step-h"><div class="n">3</div><h3>Pengaturan Guru</h3></div>
         <div class="setgrid">
-          <div><span class="lbl">Jumlah soal (maks. 10)</span><div class="chips" id="setN"></div></div>
-          <div><span class="lbl">Waktu menjawab per soal</span><div class="chips" id="setTime"></div></div>
+          <div><span class="lbl" id="nLbl">Jumlah soal (maks. 10)</span><div class="chips" id="setN"></div></div>
+          <div id="timeWrap"><span class="lbl">Waktu menjawab per soal</span><div class="chips" id="setTime"></div></div>
+          <div id="durWrap"><span class="lbl">Durasi permainan (Mode Petualangan)</span><div class="chips" id="setDur"></div></div>
           <div><span class="lbl">Poin maksimum per soal</span><div class="chips" id="setPts"></div></div>
           <div><span class="lbl">Pemilihan soal</span><div class="chips" id="setSel"></div><div class="muted" id="setSelInfo" style="font-size:12.5px;margin-top:6px"></div></div>
           <div id="teamSetWrap"><span class="lbl">Jumlah tim (mode Tim)</span><div class="chips" id="setTeams"></div></div>
@@ -2922,7 +2945,13 @@ const MODES = {
   tim:      {nama:'Tim', ic:'🤝', grad:'linear-gradient(135deg,#22c55e,#0d9488)', tags:['Tim','Kolaborasi'],
              desc:'Murid otomatis dibagi ke beberapa tim saat bergabung. Setiap murid tetap menjawab di HP-nya; skor tim = rata-rata poin anggota, jadi semua anggota ikut berkontribusi.'},
   balap:    {nama:'Balap Roket', ic:'🚀', grad:'linear-gradient(135deg,#6366f1,#ec4899)', tags:['Kompetisi','Visual'],
-             desc:'Setiap jawaban benar mendorong roket murid menuju garis finis. Papan peringkat tampil sebagai lintasan balap yang seru ditonton di proyektor.'}
+             desc:'Setiap jawaban benar mendorong roket murid menuju garis finis. Papan peringkat tampil sebagai lintasan balap yang seru ditonton di proyektor.'},
+  kejar:    {nama:'Kabur dari Lubang Hitam', ic:'🕳️', grad:'radial-gradient(circle at 25% 50%,#000 18%,#7e22ce 38%,#f97316 52%,#1e1b4b 75%)', tags:['Petualangan','Dikejar!'], self:true,
+             desc:'Lubang hitam terus menarik semua karakter! Setiap jawaban benar membuat karaktermu melesat menjauh, jawaban salah memperlambat. Tertangkap = tersedot (−50 poin) lalu bangkit lagi. Makin lama tarikan makin kuat (Level 1–3). Murid menjawab sesuai kecepatannya sendiri.'},
+  bulan:    {nama:'Misi ke Bulan', ic:'🌕', grad:'linear-gradient(180deg,#05031a,#3b1a7a 70%,#1d4ed8)', tags:['Petualangan','Balapan'], self:true,
+             desc:'Setiap jawaban benar menyalakan mesin roket dan naik menuju Bulan; jawaban salah membuat bahan bakar bocor. Yang pertama mendarat mendapat bonus besar (+400/+300/+200). Murid menjawab sesuai kecepatannya sendiri.'},
+  tambang:  {nama:'Tarik Tambang Gaya', ic:'🪢', grad:'linear-gradient(180deg,#4c1d95,#db2777 55%,#15803d 56%)', tags:['Petualangan','2 Tim','Resultan gaya'], self:true,
+             desc:'Kelas dibagi 2 tim. Setiap jawaban benar menambah gaya tarik timnya (dalam newton). Layar menampilkan panah gaya tiap tim dan resultannya — konsep resultan gaya langsung terlihat! Tim yang menarik pita melewati garis memenangkan ronde.'}
 };
 const AVATARS = [['🚀','#6366f1'],['🤖','#0ea5e9'],['🦊','#f97316'],['🐼','#64748b'],['🐯','#f59e0b'],['🦁','#ca8a04'],['🐸','#16a34a'],['🐙','#ec4899'],['🦄','#a855f7'],['🐧','#1e40af'],
                  ['🦉','#92400e'],['🐨','#78716c'],['🐵','#b45309'],['🐲','#15803d'],['👾','#7c3aed'],['🧑‍🚀','#0f766e'],['🐳','#0284c7'],['🦖','#65a30d'],['🐝','#a16207'],['🦋','#db2777']];
@@ -3107,7 +3136,7 @@ function cfL(){ cx.clearRect(0,0,cv.width,cv.height); parts=parts.filter(p=>p.l-
 
 /* ============================================================ SETTINGS (guru) */
 const DEF_SET = {materi:'gerak-gaya', mode:'klasik', n:10, time:20, maxPts:1000, selection:'acak', selected:[], teams:4, maxPlayers:60,
-  streak:true, askConf:false, showOnPhone:true, shuffleQ:false, shuffleOpt:true, autoEnd:true, showLeader:true, lateJoin:true, music:true, nameFilter:true, publicUrl:''};
+  streak:true, askConf:false, showOnPhone:true, shuffleQ:false, shuffleOpt:true, autoEnd:true, showLeader:true, lateJoin:true, music:true, nameFilter:true, publicUrl:'', duration:5};
 let SET = Object.assign({}, DEF_SET, store.get('arena_set_v1', {}));
 const saveSet = () => store.set('arena_set_v1', SET);
 const bankOf = id => store.get('arena_bank_'+id, null) || JSON.parse(JSON.stringify(MATERI[id].bank));
@@ -3135,12 +3164,20 @@ function renderSetup(){
   $('#materiList').innerHTML = Object.entries(MATERI).map(([id,m]) => `<button class="mat ${SET.materi===id?'on':''}" data-m="${id}"><div class="e">${m.icon}</div><b>${esc(m.nama)}</b><small>${m.mapel} Kelas ${m.kelas} · ${bankOf(id).length} soal · ${Object.keys(m.topics).length} subtopik</small></button>`).join('')
     + COMING.map(c => `<button class="mat soon" disabled><div class="e">${c.icon}</div><b>${esc(c.nama)}</b><small>IPA Kelas 7</small></button>`).join('');
   $$('#materiList [data-m]').forEach(b => b.onclick = () => { SET.materi = b.dataset.m; SET.selected = []; saveSet(); renderSetup(); });
-  $('#modeList').innerHTML = Object.entries(MODES).map(([id,m]) => `<button class="mode ${SET.mode===id?'on':''}" data-mode="${id}">
-    <div class="art" style="background:${m.grad}">${m.ic}</div><div class="bd"><b>${m.nama}</b><div class="tags">${m.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div></button>`).join('');
+  const mcard = ([id,m]) => `<button class="mode ${SET.mode===id?'on':''}" data-mode="${id}">
+    <div class="art" style="background:${m.grad}">${m.ic}</div><div class="bd"><b>${m.nama}</b><div class="tags">${m.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div></div></button>`;
+  $('#modeList').innerHTML = `<div class="mgroup"><b>🎯 Mode Live</b> <span class="muted">— semua murid menjawab soal yang sama, dibahas bersama tiap soal</span></div>`
+    + Object.entries(MODES).filter(([,m]) => !m.self).map(mcard).join('')
+    + `<div class="mgroup"><b>🎮 Mode Petualangan</b> <span class="muted">— tiap murid menjawab sesuai kecepatannya; layar menampilkan game animasi</span><span class="newtag">BARU</span></div>`
+    + Object.entries(MODES).filter(([,m]) => m.self).map(mcard).join('');
   $$('#modeList [data-mode]').forEach(b => b.onclick = () => { SET.mode = b.dataset.mode; if(SET.mode==='akurasi' && SET.time<30) SET.time=30; SFX.click(); saveSet(); renderSetup(); });
   const M = MODES[SET.mode];
   $('#modeDesc').innerHTML = `<span style="font-size:22px">${M.ic}</span> <b>${M.nama}:</b> ${M.desc}`;
   chips($('#setN'), Array.from({length:10},(_,i)=>[i+1,String(i+1)]), SET.n, v => SET.n=v);
+  const selfM = !!MODES[SET.mode].self;
+  $('#timeWrap').style.display = selfM ? 'none' : ''; $('#durWrap').style.display = selfM ? '' : 'none';
+  $('#nLbl').textContent = selfM ? 'Jumlah soal dalam paket (diulang acak)' : 'Jumlah soal (maks. 10)';
+  chips($('#setDur'), [[3,'3 menit'],[5,'5 menit'],[7,'7 menit'],[10,'10 menit']], SET.duration, v => SET.duration=v);
   chips($('#setTime'), [[10,'10 dtk'],[20,'20 dtk'],[30,'30 dtk'],[45,'45 dtk'],[60,'60 dtk'],[90,'90 dtk'],[120,'120 dtk']], SET.time, v => SET.time=v);
   chips($('#setPts'), [[500,'500'],[1000,'1000'],[2000,'2000']], SET.maxPts, v => SET.maxPts=v);
   chips($('#setSel'), [['acak','🎲 Acak per subtopik'],['manual','✋ Pilih manual']], SET.selection, v => SET.selection=v);
@@ -3179,7 +3216,10 @@ function recommendation(){
     akurasi:'Mode Akurasi + waktu <b>30–45 detik</b> paling adil untuk <b>asesmen awal</b>. Nyalakan <b>Tanya Yakin/Ragu</b> agar miskonsepsi terdeteksi.',
     keyakinan:'Pilihan terbaik untuk <b>asesmen diagnostik</b>: 10 soal · 30 detik · tampilkan pembahasan setiap soal. Laporan akhir mengelompokkan murid: paham, menebak, belum paham, dan <b>miskonsepsi</b>.',
     tim:'Mode Tim cocok untuk <b>kelas yang beragam</b>: 4 tim, 20–30 detik. Setelah pembahasan, beri 30 detik diskusi tim sebelum lanjut.',
-    balap:'Balap Roket paling seru sebagai <b>penutup / review</b>. Gunakan 10 soal · 20 detik dengan bonus beruntun.'
+    balap:'Balap Roket paling seru sebagai <b>penutup / review</b>. Gunakan 10 soal · 20 detik dengan bonus beruntun.',
+    kejar:'Kabur dari Lubang Hitam sangat seru untuk <b>latihan & pemanasan</b>: 10 soal · 5 menit. Murid yang salah langsung melihat jawaban benar & pembahasan di HP-nya. Soal yang sama muncul berulang → bagus untuk penguatan konsep. Nilai diagnostik diambil dari <b>jawaban pertama</b> tiap soal.',
+    bulan:'Misi ke Bulan cocok untuk <b>review mandiri</b>: 10 soal · 5 menit (target ±8 jawaban benar untuk mendarat). Nyalakan “Tanya Yakin/Ragu” bila ingin data miskonsepsi.',
+    tambang:'Tarik Tambang Gaya sangat pas untuk <b>materi resultan gaya</b>: 2 tim · 5–7 menit. Setelah permainan, diskusikan: “Mengapa pita bergerak ke kanan? Berapa resultan gayanya?”'
   }[m];
   return base + r + `<br><span class="muted">Alur 1 JP: buat ruang → murid scan QR (±3 menit) → 10 soal (±20 menit) → bahas podium & laporan (±10 menit).</span>`;
 }
@@ -3212,9 +3252,10 @@ function createRoom(){
   const qs = pickQuestions(); if(!qs.length){ toast('Bank soal kosong'); return; }
   H = newHost(); H.qs = qs; H.perms = qs.map(() => H.cfg.shuffleOpt ? shuffle([0,1,2,3]) : [0,1,2,3]);
   if(H.mode==='tim') H.teams = Array.from({length:H.cfg.teams}, (_,i) => ({name:TEAM_NAMES[i], color:TEAM_COLORS[i]}));
+  if(H.mode==='tambang') H.teams = [{name:'Tim Newton', color:'#ef4444'}, {name:'Tim Galileo', color:'#3b82f6'}];
   H.pin = String(Math.floor(100000 + Math.random()*900000));
   $('#lobTitle').textContent = `${MATERI[H.materi].icon} ${MATERI[H.materi].nama}`;
-  $('#lobSub').textContent = `Mode ${MODES[H.mode].nama} · ${qs.length} soal · ${H.cfg.time} dtk/soal`;
+  $('#lobSub').textContent = isSelf(H.mode) ? `Mode ${MODES[H.mode].nama} · paket ${qs.length} soal · ${H.cfg.duration} menit` : `Mode ${MODES[H.mode].nama} · ${qs.length} soal · ${H.cfg.time} dtk/soal`;
   show('s-lobby'); $('#qr').dataset.key = ''; renderLobby(); MUSIC.play('lobby');
   HostNet.start(H.pin, onHostData, renderNetStatus);
   clearInterval(H.hb);
@@ -3269,7 +3310,7 @@ function renderLobby(){
   $('#lobStatus').textContent = !ok ? (HostNet.allFailed() ? 'Koneksi gagal — lihat petunjuk di bawah' : 'Menghubungkan ke server…') : online ? `${online} murid siap bermain` : 'Siap! Menunggu murid bergabung…';
   $('#startGame').disabled = online === 0;
   const bub = p => `<div class="bub ${p.online?'':'off'}" data-kick="${esc(p.pid)}" title="Klik untuk mengeluarkan">${avHTML(p.av,36)}${esc(p.name)}</div>`;
-  if(H.mode==='tim'){
+  if(H.teams.length){
     $('#lobbyPlayers').innerHTML = `<div class="teamcols">${H.teams.map((t,i) => `<div class="teamcol" style="border-color:${t.color}"><h4 style="color:${t.color}">${t.name} <span class="muted" style="font-size:13px">(${list.filter(p=>p.team===i).length})</span></h4><div class="bubbles">${list.filter(p=>p.team===i).map(bub).join('')}</div></div>`).join('')}</div>`;
   } else {
     $('#lobbyPlayers').innerHTML = list.length ? `<div class="bubbles">${list.map(bub).join('')}</div>` : `<div class="waiting-hint">⏳ Menunggu murid… scan QR atau masukkan PIN</div>`;
@@ -3283,7 +3324,7 @@ function kick(pid){
 }
 $('#cancelRoom').onclick = () => { if(confirm('Batalkan ruang game ini?')) destroyHost(); };
 $('#testPlayer').onclick = () => { if(!H) return; window.open(joinURL(true), '_blank'); };
-$('#startGame').onclick = () => { MUSIC.stop(); SFX.gong(); nextQuestion(); };
+$('#startGame').onclick = () => { MUSIC.stop(); SFX.gong(); if(isSelf(H.mode)) startSelf(); else nextQuestion(); };
 function destroyHost(){
   if(H){ broadcast({t:'end'}); clearInterval(H.timer); clearInterval(H.hb); clearTimeout(H.readyT); setTimeout(() => HostNet.stop(), 600); }
   H = null; MUSIC.stop(); show('s-setup'); renderSetup();
@@ -3291,7 +3332,7 @@ function destroyHost(){
 addEventListener('beforeunload', e => { if(H && H.players.size && H.phase !== 'final'){ e.preventDefault(); e.returnValue=''; } });
 
 /* ---------- messaging ---------- */
-const STATEFUL = new Set(['welcome','ready','q','res','final','kick','end']);
+const STATEFUL = new Set(['welcome','ready','q','res','final','kick','end','sready','sq','sr']);
 function send(p, m){
   if(!p.reply) return;
   if(STATEFUL.has(m.t)){ m = Object.assign({}, m, {seq: ++p.seq}); p.lastState = m; }
@@ -3324,6 +3365,7 @@ function onHostData(pid, d, reply){
     return;
   }
   if(d.t==='answer') hostAnswer(p, d);
+  if(d.t==='sa') hostSelfAnswer(p, d);
 }
 function hostJoin(pid, d, reply){
   if(H.kicked.has(pid)) return reply({t:'kick', seq:1e9});
@@ -3335,14 +3377,15 @@ function hostJoin(pid, d, reply){
     if(H.players.size >= H.cfg.maxPlayers) return deny('Ruang sudah penuh.');
     let name = cleanName(d.name); if(!name) return deny('Nama kosong atau tidak pantas. Coba nama lain ya 🙂', true);
     name = uniqueName(name);
-    p = {pid, name, av: Math.max(0, Math.min(AVATARS.length-1, +d.av||0)), team: H.mode==='tim' ? leastTeam() : null,
+    p = {pid, name, av: Math.max(0, Math.min(AVATARS.length-1, +d.av||0)), team: H.teams.length ? leastTeam() : null,
          online:true, score:0, streak:0, answers:[], seq:0};
     H.players.set(pid, p); SFX.join();
   }
   p.reply = reply; p.online = true; p.lastSeen = Date.now();
-  send(p, {t:'welcome', name:p.name, av:p.av, score:p.score, mode:MODES[H.mode].nama, materi:MATERI[H.materi].nama,
+  send(p, {t:'welcome', name:p.name, av:p.av, score:p.score, modeKey:H.mode, mode:MODES[H.mode].nama, materi:MATERI[H.materi].nama,
            team: p.team!=null ? H.teams[p.team] : null, phase:H.phase});
   if(H.phase==='question' && !H.ans.has(pid)) send(p, qMsg());
+  if(H.phase==='self'){ if(!p.sp) initSP(p); if(H.selfStart) serveQ(p); }
   if(H.phase==='lobby') renderLobby(); else updateAnsCount();
 }
 function hostAnswer(p, d){
@@ -3502,7 +3545,7 @@ function teamScores(){
     const top = m.slice().sort((a,b)=>b.score-a.score)[0];
     return {i, name:t.name, color:t.color, n:m.length, avg, top}; });
 }
-$('#endGameBtn').onclick = () => { if(confirm('Akhiri permainan sekarang dan tampilkan podium?')) { clearInterval(H.timer); clearTimeout(H.readyT); if(H.phase==='question') endQuestion(); showPodium(); } };
+$('#endGameBtn').onclick = () => { if(confirm('Akhiri permainan sekarang dan tampilkan podium?')) { if(H.phase==='self'){ endSelf(); return; } if(H.phase==='selfend') return; clearInterval(H.timer); clearTimeout(H.readyT); if(H.phase==='question') endQuestion(); showPodium(); } };
 document.addEventListener('keydown', e => {
   if(e.target.matches('input,textarea,select')) return;
   if(e.key==='f' || e.key==='F'){ if($('#s-game').classList.contains('on')||$('#s-lobby').classList.contains('on')||$('#s-podium').classList.contains('on')) toggleFS(); }
@@ -3526,12 +3569,16 @@ function showPodium(){
   ranked.forEach((p,i) => { const s = finalStats(p); send(p, {t:'final', rank:i+1, of:ranked.length, score:p.score, ...s, team:p.team!=null?H.teams[p.team]:null}); });
   show('s-podium');
   let top;
-  if(H.mode==='tim'){
+  if(H.mode==='tambang'){
+    const ts = teamScores().map(t => ({...t, rounds:H.fx.rounds[t.i]})).sort((a,b) => b.rounds-a.rounds || (a.i===1 ? H.fx.rope : -H.fx.rope) > 0 ? -1 : 1);
+    top = ts.map((t,i) => ({name:t.name, val: t.rounds ? `${t.rounds} ronde menang` : (i===0 ? 'unggul tarikan' : '0 ronde'), color:t.color, ic: i===0 ? '🏆' : '💪'}));
+    $('#podSub').textContent = `Tarik Tambang Gaya · ${H.fx.rounds[0]} – ${H.fx.rounds[1]} · pemain terbaik: ${ranked[0] ? ranked[0].name : '-'}`;
+  } else if(H.mode==='tim'){
     top = teamScores().sort((a,b)=>b.avg-a.avg).slice(0,3).map(t => ({name:t.name, val:t.avg+' poin rata-rata', color:t.color, ic:'🤝'}));
     $('#podSub').textContent = 'Juara tim berdasarkan rata-rata poin anggota';
   } else {
     top = ranked.slice(0,3).map(p => ({name:p.name, val:p.score+' poin', color:AVATARS[p.av][1], ic:AVATARS[p.av][0]}));
-    $('#podSub').textContent = `${ranked.length} pemain · ${H.qi+1} soal · mode ${MODES[H.mode].nama}`;
+    $('#podSub').textContent = `${ranked.length} pemain · ${isSelf(H.mode) ? H.cfg.duration+' menit' : (H.qi+1)+' soal'} · mode ${MODES[H.mode].nama}`;
   }
   const order = [1,0,2], heights = [260,190,140];
   $('#podium').innerHTML = order.filter(i => top[i]).map(i => `<div class="pod" data-pos="${i}"><div class="crown">${['👑','🥈','🥉'][i]}</div>
@@ -3546,8 +3593,8 @@ $('#playAgain').onclick = () => {
   if(!confirm('Main lagi dengan pemain yang sama? Soal baru akan diambil dan skor direset.')) return;
   H.qs = pickQuestions(); H.perms = H.qs.map(() => H.cfg.shuffleOpt ? shuffle([0,1,2,3]) : [0,1,2,3]);
   H.qi = -1; H.phase = 'lobby'; H.startedAt = Date.now();
-  H.players.forEach(p => { p.score=0; p.streak=0; p.answers=[]; });
-  broadcast(p => ({t:'welcome', name:p.name, av:p.av, score:0, mode:MODES[H.mode].nama, materi:MATERI[H.materi].nama, team:p.team!=null?H.teams[p.team]:null, phase:'lobby'}));
+  H.players.forEach(p => { p.score=0; p.streak=0; p.answers=[]; p.sp=null; });
+  broadcast(p => ({t:'welcome', name:p.name, av:p.av, score:0, modeKey:H.mode, mode:MODES[H.mode].nama, materi:MATERI[H.materi].nama, team:p.team!=null?H.teams[p.team]:null, phase:'lobby'}));
   show('s-lobby'); renderLobby(); MUSIC.play('lobby');
 };
 
@@ -3601,8 +3648,8 @@ function renderReport(){
       <div style="border-color:#22c55e"><b>🚀 Pengayaan (nilai ≥ 80) · ${g.a.length}</b>${g.a.map(esc).join(', ')||'—'}<p>Soal HOTS, proyek mini (roket balon, mengukur kelajuan mainan), tutor sebaya.</p></div>
       <div style="border-color:#f59e0b"><b>🛠️ Penguatan (60–79) · ${g.b.length}</b>${g.b.map(esc).join(', ')||'—'}<p>LKPD berjenjang, contoh konteks sehari-hari, diskusi kelompok.</p></div>
       <div style="border-color:#ef4444"><b>🤝 Remedial (&lt; 60) · ${g.c.length}</b>${g.c.map(esc).join(', ')||'—'}<p>Demonstrasi konkret & simulasi PhET, fokus subtopik bertanda merah.</p></div></div></div>
-    <div class="card" style="margin-top:20px"><h3>🧑‍🎓 Nilai per Murid</h3><div style="overflow:auto"><table><thead><tr><th class="num">#</th><th>Nama</th>${H.mode==='tim'?'<th>Tim</th>':''}<th class="num">Poin</th><th class="num">Benar</th><th class="num">Nilai</th><th>Predikat</th>${askC?'<th>Miskonsepsi</th>':''}</tr></thead><tbody>
-      ${rows.map(r => { const [pl,pc] = predikat(r.nilai); return `<tr><td class="num">${r.rank}</td><td>${avHTML(r.p.av,24)} <b>${esc(r.p.name)}</b></td>${H.mode==='tim'?`<td style="color:${H.teams[r.p.team].color};font-weight:800">${H.teams[r.p.team].name}</td>`:''}
+    <div class="card" style="margin-top:20px"><h3>🧑‍🎓 Nilai per Murid</h3><div style="overflow:auto"><table><thead><tr><th class="num">#</th><th>Nama</th>${H.teams.length?'<th>Tim</th>':''}<th class="num">Poin</th><th class="num">Benar</th><th class="num">Nilai</th><th>Predikat</th>${askC?'<th>Miskonsepsi</th>':''}</tr></thead><tbody>
+      ${rows.map(r => { const [pl,pc] = predikat(r.nilai); return `<tr><td class="num">${r.rank}</td><td>${avHTML(r.p.av,24)} <b>${esc(r.p.name)}</b></td>${H.teams.length?`<td style="color:${H.teams[r.p.team].color};font-weight:800">${H.teams[r.p.team].name}</td>`:''}
         <td class="num">${r.p.score}</td><td class="num">${r.benar}/${r.n}</td><td class="num"><b style="font-size:17px">${r.nilai}</b></td><td><span class="pred" style="background:${pc}">${pl}</span></td>
         ${askC?`<td>${r.misk.map(k=>`<span class="mini-chip">${TOP[k]?.icon||''} ${TOP[k]?.name||k}</span>`).join('')||'<span class="muted">—</span>'}</td>`:''}</tr>`; }).join('')}
     </tbody></table></div><p class="muted" style="font-size:12px;margin:8px 0 0">Nilai = jawaban benar ÷ jumlah soal × 100 (tidak dipengaruhi kecepatan). Poin = skor permainan.</p></div>
@@ -3684,8 +3731,8 @@ function openGuide(){
   $('#guideBox').innerHTML = `<div class="gbar" style="margin-top:0"><h3 style="margin:0">💡 Panduan Arena IPA Live</h3><div class="sp"></div><button class="btn sm ghost" id="gClose">✕ Tutup</button></div>
   <h4>🌐 1. Agar murid bisa scan QR (sekali saja)</h4>
   <ol><li>Upload file ini ke hosting statis gratis, misalnya <b>Netlify Drop</b> (app.netlify.com/drop — cukup seret file) atau <b>GitHub Pages</b>. Ganti nama file menjadi <code>index.html</code>.</li>
-  <li>Buka alamat https hasil hosting di laptop guru → pilih <b>Saya Guru</b>. QR & tautan otomatis mengarah ke alamat itu. (Jika guru tetap membuka file dari komputer, isi kolom <b>🌐 Alamat online game</b> di Pengaturan.)</li>
-  <li>Laptop guru dan HP murid cukup terhubung internet. Game memakai 4 jalur koneksi cadangan (lihat lampu 🟢/🔴 di layar lobi); cukup satu jalur hijau agar game berjalan.</li><li>Jangan membuka file di dalam pratinjau aplikasi (mis. pratinjau Claude) — unduh dan buka dengan Chrome/Safari.</li></ol>
+  <li>Buka alamat https hasil hosting di laptop guru → pilih <b>Saya Guru</b>. QR & tautan otomatis mengarah ke alamat itu.</li>
+  <li>Laptop guru dan HP murid cukup terhubung internet (Wi-Fi sekolah atau data seluler). Tidak perlu akun atau aplikasi.</li></ol>
   <h4>🎮 2. Alur bermain</h4>
   <ol><li>Pilih materi → mode → atur pengaturan → <b>Buat Ruang Game</b>.</li>
   <li>Tayangkan layar lobi. Murid <b>scan QR</b> (atau buka alamat & ketik <b>PIN</b>), mengisi <b>nama</b>, lalu memilih <b>karakter</b>.</li>
@@ -3706,6 +3753,365 @@ function openGuide(){
   $('#gClose').onclick = () => $('#guideModal').classList.remove('on');
 }
 ['bankModal','editModal','guideModal'].forEach(id => $('#'+id).addEventListener('click', e => { if(e.target.id===id){ $('#'+id).classList.remove('on'); if(id==='bankModal') renderSetup(); } }));
+
+/* ============================================================ MODE PETUALANGAN (murid menjawab sesuai kecepatan masing-masing) */
+const SELF_MODES = new Set(['kejar','bulan','tambang']);
+const isSelf = m => SELF_MODES.has(m);
+const EMOJI_FONT = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+function moonGoal(){ return Math.max(5, Math.min(12, Math.round(H.cfg.duration * 1.6))); }
+function initSP(p){
+  const n = H.qs.length;
+  p.sp = {order: shuffle([...Array(n).keys()]), ptr:0, att:0, perm:null, qi:null, pos:45 + Math.random()*10, boost:0,
+          alt:0, valt:0, landed:0, caught:0, sucking:0, lane: Math.random(), flame:0, hurt:0};
+}
+function serveQ(p){
+  const sp = p.sp, n = H.qs.length;
+  if(sp.ptr > 0 && sp.ptr % n === 0){ const last = sp.order[n-1]; sp.order = shuffle(sp.order); if(n > 1 && sp.order[0] === last) sp.order.push(sp.order.shift()); }
+  sp.qi = sp.order[sp.ptr % n]; sp.att++;
+  sp.perm = H.cfg.shuffleOpt ? shuffle([0,1,2,3]) : [0,1,2,3];
+  const q = H.qs[sp.qi];
+  send(p, {t:'sq', att:sp.att, num:sp.ptr+1, text:q.q, opts:sp.perm.map(i => q.opts[i]), askConf:!!H.cfg.askConf,
+           left: Math.max(0, H.selfStart + H.dur - Date.now()), st:selfStatus(p)});
+}
+function selfStatus(p){
+  const sp = p.sp; if(!sp) return null;
+  if(H.mode==='kejar'){
+    const d = sp.pos;
+    return {pct: d, color: d>45?'#22c55e':d>25?'#f59e0b':'#ef4444', label: sp.sucking>0 ? '🌀 Tersedot! Bangkit lagi…' : d>45 ? '😎 Aman dari lubang hitam' : d>25 ? '😬 Hati-hati, makin dekat!' : '😱 BAHAYA! Jawab benar!'};
+  }
+  if(H.mode==='bulan'){
+    return sp.landed ? {pct:100, color:'#facc15', label:`🌕 Mendarat di Bulan! Urutan #${sp.landed}`}
+                     : {pct: sp.alt, color:'#38bdf8', label:`🚀 ${Math.round(sp.alt)}% menuju Bulan`};
+  }
+  if(H.mode==='tambang'){
+    const my = p.team ?? 0, rope = H.fx ? H.fx.rope : 0, adv = my===0 ? -rope : rope;
+    return {pct: 50 + adv/1.4, color: H.teams[my].color, label: `🪢 ${H.teams[my].name} ${adv>3?'unggul! 💪':adv<-3?'tertinggal, ayo!':'seimbang'}`};
+  }
+  return null;
+}
+function startSelf(){
+  H.qi = H.qs.length - 1; H.phase = 'self'; H.selfStart = 0;
+  H.dur = H.cfg.duration * 60 * 1000;
+  H.fx = {last:0, parts:[], feed:[], rope:0, F:[0,0], rounds:[0,0], round:1, pause:0, landOrder:0, answers:0, correct:0, caught:0, level:1};
+  H.players.forEach(p => initSP(p));
+  broadcast({t:'sready'});
+  show('s-game');
+  $('#gProg').textContent = `${MODES[H.mode].ic} Petualangan`;
+  $('#gMode').textContent = MODES[H.mode].nama; $('#gPin').textContent = H.pin;
+  $('#gameBody').innerHTML = `
+    <div class="arena-hud"><div class="tline"><div class="f" id="tFill"></div><span class="ic" id="tIc">${MODES[H.mode].ic}</span></div>
+      <span class="hudpill" id="hudLvl">${H.mode==='tambang'?'RONDE 1':'LEVEL 1/3'}</span><span class="hudpill" id="hudClock">--:--</span></div>
+    <div class="arena-wrap"><div class="arena-box"><canvas id="arena"></canvas><div class="cdover" id="cdOver"></div></div><div class="arena-side" id="arenaSide"></div></div>
+    <div class="arena-stats" id="arenaStats"></div>`;
+  arenaInit();
+  H.fx.last = 0; H.raf = requestAnimationFrame(arenaLoop);
+  let c = 3; const cd = () => { const o = $('#cdOver'); if(!o) return;
+    if(c > 0){ o.textContent = c; o.style.animation = 'none'; void o.offsetWidth; o.style.animation = 'pop .5s'; SFX.tick(); c--; H.cdT = setTimeout(cd, 1000); }
+    else { o.textContent = 'MULAI!'; SFX.gong(); setTimeout(() => { if($('#cdOver')) $('#cdOver').textContent = ''; }, 900); beginSelf(); } };
+  cd();
+}
+function beginSelf(){
+  H.selfStart = Date.now();
+  H.players.forEach(p => { if(!p.sp) initSP(p); serveQ(p); });
+  MUSIC.play('q');
+  clearInterval(H.selfTick); let k = 0;
+  H.selfTick = setInterval(() => {
+    if(!H || H.phase !== 'self') return;
+    const el = Date.now() - H.selfStart, left = Math.max(0, H.dur - el);
+    const mm = String(Math.floor(left/60000)).padStart(2,'0'), ss = String(Math.floor(left/1000)%60).padStart(2,'0');
+    if($('#hudClock')) $('#hudClock').textContent = `${mm}:${ss}`;
+    const pr = Math.min(100, el / H.dur * 100);
+    if($('#tFill')){ $('#tFill').style.width = pr + '%'; $('#tIc').style.left = pr + '%'; }
+    const lvl = Math.min(3, 1 + Math.floor(el / (H.dur/3)));
+    if(lvl !== H.fx.level){ H.fx.level = lvl; if(H.mode!=='tambang'){ feed(`⚠️ LEVEL ${lvl}! ${H.mode==='kejar'?'Lubang hitam makin kuat!':'Hujan meteor makin deras!'}`); SFX.gong(); } }
+    if($('#hudLvl')) $('#hudLvl').textContent = H.mode==='tambang' ? `RONDE ${H.fx.round}` : `LEVEL ${lvl}/3`;
+    if(left <= 5000 && left > 0) SFX.tick();
+    renderSide();
+    if(++k % 3 === 0) H.players.forEach(p => { if(p.online && p.sp) try{ p.reply({t:'st', st:selfStatus(p)}); }catch(e){} });
+    if(left <= 0) endSelf();
+  }, 1000);
+}
+function feed(msg){ if(H && H.fx){ H.fx.feed.unshift({msg, t:performance.now()}); H.fx.feed = H.fx.feed.slice(0,4); } }
+function hostSelfAnswer(p, d){
+  const sp = p.sp; if(!sp || H.phase !== 'self' || !H.selfStart) return;
+  if(d.att !== sp.att){ if(p.lastState) try{ p.reply(p.lastState); }catch(e){} return; }
+  if(Date.now() > H.selfStart + H.dur) return;
+  const q = H.qs[sp.qi], k = +d.k; if(!(k>=0 && k<4)) return;
+  const correct = sp.perm[k] === q.ans;
+  const conf = H.cfg.askConf ? (typeof d.conf==='boolean' ? d.conf : false) : null;
+  if(!p.answers[sp.qi]){ const rec = {k, chosen:q.opts[sp.perm[k]], correct, conf, ms:null, pts:0}; rec.cat = category(rec); p.answers[sp.qi] = rec; }
+  let pts = 0;
+  if(correct){ p.streak++; pts = 100 + Math.min(p.streak-1, 5) * 20; } else p.streak = 0;
+  pts += selfEffect(p, correct);
+  p.score = Math.max(0, p.score + pts);
+  H.fx.answers++; if(correct) H.fx.correct++;
+  sp.ptr++;
+  send(p, {t:'sr', correct, pts, score:p.score, correctText:q.opts[q.ans], exp: correct ? '' : q.exp, streak:p.streak, st:selfStatus(p)});
+  serveQ(p);
+}
+function selfEffect(p, correct){
+  const sp = p.sp;
+  if(H.mode==='kejar'){ if(sp.sucking > 0) return 0; if(correct) sp.boost += 12; else { sp.boost -= 4; sp.hurt = .5; } return 0; }
+  if(H.mode==='bulan'){
+    if(sp.landed) return 0;
+    if(correct){ sp.alt = Math.min(100, sp.alt + 100/moonGoal()); sp.flame = 1;
+      if(sp.alt >= 100){ sp.landed = ++H.fx.landOrder; feed(`🌕 ${p.name} mendarat di Bulan! (#${sp.landed})`); SFX.fanfare(); return [400,300,200][sp.landed-1] || 100; } }
+    else { sp.alt = Math.max(0, sp.alt - 100/moonGoal()/2); sp.hurt = .6; }
+    return 0;
+  }
+  if(H.mode==='tambang'){
+    if(H.fx.pause > 0 || !correct) return 0;
+    const t = p.team ?? 0, sizes = [0,1].map(i => Math.max(1, [...H.players.values()].filter(x => x.team===i && x.online).length));
+    const avg = (sizes[0] + sizes[1]) / 2;
+    H.fx.F[t] += 10 * avg / sizes[t]; sp.flame = 1;
+    return 0;
+  }
+  return 0;
+}
+function selfUpdate(dt){
+  const fx = H.fx;
+  if(H.mode==='kejar'){
+    const pull = [1.0, 1.5, 2.1][fx.level-1];
+    H.players.forEach(p => { const sp = p.sp; if(!sp) return;
+      if(sp.hurt > 0) sp.hurt -= dt;
+      if(sp.sucking > 0){ sp.sucking -= dt; if(sp.sucking <= 0){ sp.pos = 42 + Math.random()*8; sp.boost = 0; } return; }
+      const b = sp.boost * Math.min(1, dt*4); sp.pos += b; sp.boost -= b;
+      if(p.online) sp.pos -= pull * dt;
+      sp.pos = Math.min(96, sp.pos);
+      if(sp.pos < 8){ sp.caught++; fx.caught++; sp.sucking = 1.6; p.score = Math.max(0, p.score - 50); p.streak = 0;
+        feed(`🌀 ${p.name} tersedot lubang hitam!`); tone(180,.5,'sawtooth',.06);
+        try{ p.reply({t:'sx', ev:'caught', st:selfStatus(p)}); }catch(e){} }
+    });
+  } else if(H.mode==='bulan'){
+    H.players.forEach(p => { const sp = p.sp; if(!sp) return; sp.valt += (sp.alt - sp.valt) * Math.min(1, dt*3); if(sp.flame>0) sp.flame -= dt; if(sp.hurt>0) sp.hurt -= dt; });
+  } else if(H.mode==='tambang'){
+    H.players.forEach(p => { if(p.sp && p.sp.flame>0) p.sp.flame -= dt*1.5; });
+    if(fx.pause > 0){ fx.pause -= dt; if(fx.pause <= 0){ fx.rope = 0; fx.F = [0,0]; fx.round++; feed(`🔔 Ronde ${fx.round} dimulai!`); } return; }
+    fx.rope += (fx.F[1] - fx.F[0]) * 0.3 * dt;
+    fx.F = fx.F.map(f => f * Math.exp(-dt*0.7));
+    if(Math.abs(fx.rope) >= 70){ const w = fx.rope > 0 ? 1 : 0; fx.rounds[w]++; fx.pause = 3.5; fx.rope = Math.sign(fx.rope)*70;
+      feed(`🏆 ${H.teams[w].name} memenangkan ronde ${fx.round}!`); SFX.fanfare(); confetti(120); }
+  }
+}
+function endSelf(){
+  if(!H || H.phase !== 'self') return;
+  clearInterval(H.selfTick); clearTimeout(H.cdT); MUSIC.stop();
+  H.phase = 'selfend';
+  const o = $('#cdOver'); if(o){ o.textContent = '⏰ WAKTU HABIS!'; o.style.fontSize = '80px'; }
+  SFX.gong();
+  broadcast({t:'ready', qi:0, total:0, done:true});
+  setTimeout(() => { cancelAnimationFrame(H.raf); showPodium(); }, 2500);
+}
+function renderSide(){
+  const el = $('#arenaSide'); if(!el) return;
+  const fx = H.fx, ranked = rankPlayers();
+  let h = '';
+  if(H.mode==='tambang'){
+    h += `<div class="lbl">Skor Ronde</div>` + H.teams.map((t,i) => `<div class="side-row"><span class="dot" style="background:${t.color}"></span>${t.name}<span class="s" style="font-size:24px">${fx.rounds[i]}</span></div>`).join('');
+    h += `<div class="lbl" style="margin-top:12px">Penarik Terkuat</div>`;
+  } else h += `<div class="lbl">Peringkat</div>`;
+  h += ranked.slice(0,6).map((p,i) => `<div class="side-row"><span style="width:16px">${i+1}</span>${avHTML(p.av,26)}<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px">${esc(p.name)}</span><span class="s">${p.score}</span></div>`).join('');
+  el.innerHTML = h;
+  const acc = fx.answers ? Math.round(fx.correct/fx.answers*100) : 0;
+  const extra = H.mode==='kejar' ? `<span class="pill">🌀 ${fx.caught}× tersedot</span>` : H.mode==='bulan' ? `<span class="pill">🌕 ${fx.landOrder} mendarat</span>` : `<span class="pill">🪢 Ronde ${fx.round}</span>`;
+  $('#arenaStats').innerHTML = `<span class="pill">👥 ${[...H.players.values()].filter(p=>p.online).length} pemain</span><span class="pill">✍️ ${fx.answers} jawaban</span><span class="pill">🎯 Akurasi kelas ${acc}%</span>${extra}`;
+}
+
+/* ---------- canvas arena ---------- */
+function arenaInit(){
+  const cv = $('#arena'); if(!cv) return;
+  const W = cv.parentElement.clientWidth, Hh = Math.round(Math.max(360, Math.min(innerHeight - 250, W * 0.56)));
+  const dpr = window.devicePixelRatio || 1;
+  cv.width = W*dpr; cv.height = Hh*dpr; cv.style.height = Hh + 'px';
+  const ctx = cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
+  H.ar = {cv, ctx, W, H:Hh};
+  H.stars = Array.from({length:140}, () => ({x:Math.random()*W, y:Math.random()*Hh, s:Math.random()*1.8+.3, z:Math.random()*.8+.2}));
+}
+addEventListener('resize', () => { if(H && H.ar && (H.phase==='self' || H.phase==='selfend')) arenaInit(); });
+function arenaLoop(){
+  if(!H || !H.ar || (H.phase!=='self' && H.phase!=='selfend')) return;
+  const now = performance.now(), dt = H.fx.last ? Math.min(.05, (now - H.fx.last)/1000) : 0; H.fx.last = now;
+  if(H.phase==='self' && H.selfStart) selfUpdate(dt);
+  const {ctx, W, H:Hh} = H.ar, t = now/1000;
+  ctx.clearRect(0,0,W,Hh);
+  if(H.mode==='kejar') drawKejar(ctx, W, Hh, t, dt);
+  else if(H.mode==='bulan') drawBulan(ctx, W, Hh, t, dt);
+  else drawTambang(ctx, W, Hh, t, dt);
+  drawFeed(ctx, W, Hh, now);
+  H.raf = requestAnimationFrame(arenaLoop);
+}
+function drawFeed(ctx, W, Hh, now){
+  H.fx.feed = H.fx.feed.filter(f => now - f.t < 4500);
+  H.fx.feed.forEach((f,i) => { const a = Math.min(1, (4500 - (now - f.t))/600);
+    ctx.globalAlpha = a; ctx.font = '800 15px Nunito, sans-serif'; const w = ctx.measureText(f.msg).width + 24;
+    ctx.fillStyle = 'rgba(0,0,0,.55)'; roundRect(ctx, W - w - 14, Hh - 44 - i*38, w, 30, 10); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(f.msg, W - w + 12 - 14, Hh - 29 - i*38); ctx.globalAlpha = 1; });
+}
+function roundRect(ctx, x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function drawAvatar(ctx, p, x, y, size, opts={}){
+  const a = AVATARS[p.av] || AVATARS[0];
+  ctx.save(); ctx.translate(x, y); if(opts.rot) ctx.rotate(opts.rot); if(opts.scale) ctx.scale(opts.scale, opts.scale);
+  if(!opts.noShadow){ ctx.fillStyle = 'rgba(0,0,0,.28)'; ctx.beginPath(); ctx.ellipse(0, size*.62, size*.42, size*.12, 0, 0, Math.PI*2); ctx.fill(); }
+  ctx.fillStyle = opts.hurt ? '#ef4444' : a[1]; ctx.beginPath(); ctx.arc(0, 0, size/2, 0, Math.PI*2); ctx.fill();
+  ctx.lineWidth = 3; ctx.strokeStyle = opts.ring || '#fff'; ctx.stroke();
+  ctx.font = `${size*.62}px ${EMOJI_FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(a[0], 0, size*.04);
+  ctx.restore();
+  if(opts.label){ ctx.font = '800 12px Nunito, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+    const nm = p.name.length > 10 ? p.name.slice(0,9)+'…' : p.name; const w = ctx.measureText(nm).width + 10;
+    ctx.fillStyle = 'rgba(0,0,0,.5)'; roundRect(ctx, x - w/2, y + size*.62, w, 17, 6); ctx.fill(); ctx.fillStyle = '#fff'; ctx.fillText(nm, x, y + size*.62 + 2); }
+}
+function drawStars(ctx, W, Hh, vx, vy, dt){
+  H.stars.forEach(s => { s.x += vx*s.z*dt; s.y += vy*s.z*dt; if(s.x < 0) s.x += W; if(s.x > W) s.x -= W; if(s.y > Hh) s.y -= Hh; if(s.y < 0) s.y += Hh;
+    ctx.fillStyle = `rgba(255,255,255,${.3+s.z*.6})`; ctx.fillRect(s.x, s.y, s.s, s.s); });
+}
+
+/* Kabur dari Lubang Hitam */
+function drawKejar(ctx, W, Hh, t, dt){
+  const g = ctx.createLinearGradient(0,0,0,Hh); g.addColorStop(0,'#1b0b45'); g.addColorStop(1,'#3a1670'); ctx.fillStyle = g; ctx.fillRect(0,0,W,Hh);
+  drawStars(ctx, W, Hh, -30, 0, dt);
+  const top = 60, bot = Hh - 20, off = (t*90) % 70;
+  ctx.fillStyle = 'rgba(255,255,255,.035)'; ctx.fillRect(0, top, W, bot-top);
+  ctx.strokeStyle = 'rgba(255,255,255,.08)'; ctx.lineWidth = 1;
+  for(let x = -off; x < W; x += 70){ ctx.beginPath(); ctx.moveTo(x, top); ctx.lineTo(x, bot); ctx.stroke(); }
+  for(let y = top; y <= bot; y += 70){ ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+  ctx.fillStyle = 'rgba(255,255,255,.12)'; ctx.fillRect(0, top-8, W, 8); ctx.fillRect(0, bot, W, 8);
+  const cx = Math.min(90, W*.07), cy = (top+bot)/2, R = (bot-top)*.42;
+  const dz = ctx.createLinearGradient(0,0,W*.3,0); dz.addColorStop(0,'rgba(239,68,68,.28)'); dz.addColorStop(1,'rgba(239,68,68,0)'); ctx.fillStyle = dz; ctx.fillRect(0, top, W*.3, bot-top);
+  const glow = ctx.createRadialGradient(cx, cy, R*.3, cx, cy, R*1.9); glow.addColorStop(0,'rgba(168,85,247,.75)'); glow.addColorStop(.5,'rgba(236,72,153,.25)'); glow.addColorStop(1,'rgba(168,85,247,0)');
+  ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(cx, cy, R*1.9, 0, Math.PI*2); ctx.fill();
+  for(let i = 0; i < 6; i++){ ctx.save(); ctx.translate(cx, cy); ctx.rotate(t*(1.2 + i*.35) + i);
+    ctx.strokeStyle = ['#fb923c','#f472b6','#facc15','#c084fc','#fb7185','#fde68a'][i]; ctx.globalAlpha = .75 - i*.08; ctx.lineWidth = 6 - i*.6;
+    ctx.beginPath(); ctx.ellipse(0, 0, R*(.62 + i*.11), R*(.28 + i*.06), 0, 0, Math.PI*1.35); ctx.stroke(); ctx.restore(); }
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(cx, cy, R*.42, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle = 'rgba(253,224,71,.9)'; ctx.lineWidth = 3; ctx.stroke();
+  if(Math.random() < .5) H.fx.parts.push({a:Math.random()*Math.PI*2, r:R*1.8, s:Math.random()*2+1});
+  H.fx.parts = H.fx.parts.filter(q => q.r > R*.4);
+  H.fx.parts.forEach(q => { q.r -= 70*dt; q.a += 2.4*dt; ctx.fillStyle = 'rgba(255,255,255,.7)'; ctx.fillRect(cx + Math.cos(q.a)*q.r, cy + Math.sin(q.a)*q.r*.6, q.s, q.s); });
+  ctx.font = '900 13px Nunito, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,.8)'; ctx.textAlign = 'center'; ctx.fillText('LUBANG HITAM', cx + 10, bot - 14);
+  const ps = [...H.players.values()].filter(p => p.sp).sort((a,b) => a.sp.lane - b.sp.lane);
+  const size = ps.length > 30 ? 30 : ps.length > 15 ? 36 : 44;
+  const x0 = cx + R*.6, x1 = W - 40;
+  ps.forEach((p, i) => { const sp = p.sp; let x = x0 + (x1 - x0) * (sp.pos/100), y = top + 30 + sp.lane*(bot - top - 70);
+    if(sp.sucking > 0){ const k = 1 - sp.sucking/1.6, e = Math.min(1, k*1.6);
+      x = x + (cx - x)*e; y = y + (cy - y)*e;
+      drawAvatar(ctx, p, x, y, size, {rot:k*12, scale:Math.max(.05, 1-e), noShadow:true}); return; }
+    const run = Math.sin(t*14 + i)*3;
+    if(sp.boost > 1){ ctx.strokeStyle = 'rgba(255,255,255,.5)'; ctx.lineWidth = 3; for(let k = 0; k < 3; k++){ ctx.beginPath(); ctx.moveTo(x - size*.7 - k*6, y - 8 + k*8); ctx.lineTo(x - size*1.4 - k*10, y - 8 + k*8); ctx.stroke(); } }
+    drawAvatar(ctx, p, x, y + run, size, {label:true, hurt: sp.hurt > 0, rot: Math.sin(t*14+i)*.08, ring: p.online ? '#fff' : '#777'});
+  });
+}
+
+/* Misi ke Bulan */
+function drawBulan(ctx, W, Hh, t, dt){
+  const g = ctx.createLinearGradient(0,0,0,Hh); g.addColorStop(0,'#05031a'); g.addColorStop(.6,'#1e0b55'); g.addColorStop(1,'#3b1a7a'); ctx.fillStyle = g; ctx.fillRect(0,0,W,Hh);
+  drawStars(ctx, W, Hh, 0, 40 + H.fx.level*25, dt);
+  const mx = W/2, my = 36, mr = 64;
+  const mg = ctx.createRadialGradient(mx-20, my-20, 10, mx, my, mr); mg.addColorStop(0,'#fffbe6'); mg.addColorStop(1,'#d6cfa8');
+  ctx.fillStyle = 'rgba(255,250,200,.18)'; ctx.beginPath(); ctx.arc(mx, my, mr*1.5, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = mg; ctx.beginPath(); ctx.arc(mx, my, mr, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = 'rgba(150,140,110,.45)'; [[-20,-10,12],[18,8,9],[-4,22,7],[28,-18,6]].forEach(([dx,dy,r]) => { ctx.beginPath(); ctx.arc(mx+dx, my+dy, r, 0, Math.PI*2); ctx.fill(); });
+  const finishY = my + mr + 14;
+  ctx.setLineDash([10,8]); ctx.strokeStyle = 'rgba(250,204,21,.7)'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, finishY); ctx.lineTo(W, finishY); ctx.stroke(); ctx.setLineDash([]);
+  ctx.font = '900 13px Nunito'; ctx.fillStyle = '#fde047'; ctx.textAlign = 'left'; ctx.fillText('🌕 GARIS BULAN', 12, finishY - 8);
+  ctx.fillStyle = '#1d4ed8'; ctx.beginPath(); ctx.ellipse(W/2, Hh + W*.55, W*.85, W*.62, 0, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#16a34a'; ctx.beginPath(); ctx.ellipse(W*.35, Hh + W*.5, W*.25, W*.55, .3, 0, Math.PI*2); ctx.fill();
+  if(H.fx.level >= 2) for(let i = 0; i < H.fx.level; i++){ const mxp = (t*120*(i+1) + i*300) % (W + 200) - 100, myp = ((t*60*(i+1)) % (Hh*.6)) + finishY + 30;
+    ctx.fillStyle = '#a16207'; ctx.beginPath(); ctx.arc(mxp, myp, 7, 0, Math.PI*2); ctx.fill(); ctx.strokeStyle = 'rgba(251,146,60,.6)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(mxp-6, myp-6); ctx.lineTo(mxp-26, myp-20); ctx.stroke(); }
+  const ps = [...H.players.values()].filter(p => p.sp);
+  const n = ps.length, size = n > 30 ? 26 : n > 16 ? 32 : 40;
+  const baseY = Hh - 60, travel = baseY - finishY - 30;
+  ps.forEach((p, i) => { const sp = p.sp; let x, y;
+    if(sp.landed){ const k = sp.landed - 1, row = Math.floor(k/12), col = k%12, inRow = Math.min(12, H.fx.landOrder - row*12); x = mx + (col - (inRow-1)/2) * (size*.85); y = my + mr*.45 - row*size*.7;
+      drawAvatar(ctx, p, x, y, size*.8, {noShadow:true}); ctx.font = '900 11px Nunito'; ctx.fillStyle = '#facc15'; ctx.textAlign = 'center'; ctx.fillText('#'+sp.landed, x, y - size*.6); return; }
+    x = 30 + (W - 60) * ((i + .5) / n); y = baseY - travel * (sp.valt/100) + (i % 2) * 14 + Math.sin(t*3 + i)*2;
+    if(sp.flame > 0 || true){ const fl = 8 + (sp.flame > 0 ? 26*sp.flame : 6) + Math.random()*6;
+      const fg = ctx.createLinearGradient(0, y + size*.5, 0, y + size*.5 + fl); fg.addColorStop(0,'#fde047'); fg.addColorStop(1,'rgba(239,68,68,0)');
+      ctx.fillStyle = fg; ctx.beginPath(); ctx.moveTo(x - size*.22, y + size*.5); ctx.lineTo(x + size*.22, y + size*.5); ctx.lineTo(x, y + size*.5 + fl); ctx.fill(); }
+    ctx.fillStyle = '#e5e7eb'; ctx.beginPath(); ctx.moveTo(x, y - size*.95); ctx.quadraticCurveTo(x + size*.55, y - size*.3, x + size*.32, y + size*.5); ctx.lineTo(x - size*.32, y + size*.5); ctx.quadraticCurveTo(x - size*.55, y - size*.3, x, y - size*.95); ctx.fill();
+    ctx.fillStyle = (AVATARS[p.av]||AVATARS[0])[1]; ctx.beginPath(); ctx.moveTo(x - size*.32, y + size*.2); ctx.lineTo(x - size*.55, y + size*.6); ctx.lineTo(x - size*.25, y + size*.5); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x + size*.32, y + size*.2); ctx.lineTo(x + size*.55, y + size*.6); ctx.lineTo(x + size*.25, y + size*.5); ctx.fill();
+    drawAvatar(ctx, p, x, y - size*.15, size*.55, {noShadow:true, hurt: sp.hurt > 0, ring:'#94a3b8'});
+    if(n <= 24){ ctx.font = '800 11px Nunito'; ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; ctx.fillText(p.name.length > 9 ? p.name.slice(0,8)+'…' : p.name, x, y + size*.5 + 26); }
+  });
+}
+
+/* Tarik Tambang Gaya */
+function drawTambang(ctx, W, Hh, t, dt){
+  const fx = H.fx;
+  const g = ctx.createLinearGradient(0,0,0,Hh); g.addColorStop(0,'#4c1d95'); g.addColorStop(.55,'#db2777'); g.addColorStop(.56,'#15803d'); g.addColorStop(1,'#14532d'); ctx.fillStyle = g; ctx.fillRect(0,0,W,Hh);
+  ctx.fillStyle = 'rgba(255,255,255,.08)'; for(let i = 0; i < 8; i++) ctx.fillRect(0, Hh*.56 + i*22, W, 10);
+  const cx = W/2, half = W*.42, ropeY = Hh*.63, off = fx.rope/100*half;
+  [[-.7,H.teams[0].color],[.7,H.teams[1].color]].forEach(([k,c]) => { ctx.strokeStyle = c; ctx.lineWidth = 5; ctx.setLineDash([12,8]); ctx.beginPath(); ctx.moveTo(cx + k*half, Hh*.5); ctx.lineTo(cx + k*half, Hh - 10); ctx.stroke(); });
+  ctx.setLineDash([]); ctx.strokeStyle = 'rgba(255,255,255,.6)'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, Hh*.5); ctx.lineTo(cx, Hh-10); ctx.stroke();
+  ctx.strokeStyle = '#a16207'; ctx.lineWidth = 9; ctx.beginPath(); ctx.moveTo(W*.02 + off, ropeY); ctx.lineTo(W*.98 + off, ropeY); ctx.stroke();
+  ctx.strokeStyle = '#ca8a04'; ctx.lineWidth = 3; for(let x = W*.02 + off; x < W*.98 + off; x += 14){ ctx.beginPath(); ctx.moveTo(x, ropeY - 4); ctx.lineTo(x + 7, ropeY + 4); ctx.stroke(); }
+  ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.moveTo(cx + off, ropeY); ctx.lineTo(cx + off - 12, ropeY + 34); ctx.lineTo(cx + off + 12, ropeY + 34); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.font = '900 12px Nunito'; ctx.textAlign = 'center'; ctx.fillText('PITA', cx + off, ropeY + 48);
+  [0,1].forEach(ti => {
+    const team = [...H.players.values()].filter(p => p.team === ti && p.sp), show = team.slice(0, 10), dir = ti===0 ? -1 : 1;
+    const size = 40, lean = Math.sin(t*6)*.06 + dir*.18;
+    show.forEach((p, i) => { const x = cx + off + dir*(70 + i*(half*.85/Math.max(5, show.length))), y = ropeY - 8 + (i%2)*6;
+      drawAvatar(ctx, p, x, y + Math.sin(t*8 + i)*2, size, {rot: lean + (p.sp.flame>0 ? dir*.25 : 0), label: show.length <= 8}); });
+    if(team.length > show.length){ ctx.fillStyle = '#fff'; ctx.font = '900 14px Nunito'; ctx.fillText(`+${team.length - show.length}`, cx + off + dir*(half*.95), ropeY - 34); }
+  });
+  const mxF = Math.max(30, fx.F[0], fx.F[1]);
+  const arrow = (x, y, len, dirn, col, lab) => { ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 8; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + dirn*len, y); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x + dirn*(len + 16), y); ctx.lineTo(x + dirn*len, y - 12); ctx.lineTo(x + dirn*len, y + 12); ctx.fill();
+    ctx.font = '900 16px Fredoka, Nunito'; ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.fillText(lab, x + dirn*len/2, y - 16); };
+  const ay = Hh*.3;
+  arrow(cx - 10, ay, Math.max(4, fx.F[0]/mxF*half*.75), -1, H.teams[0].color, `F = ${fx.F[0].toFixed(0)} N`);
+  arrow(cx + 10, ay, Math.max(4, fx.F[1]/mxF*half*.75), 1, H.teams[1].color, `F = ${fx.F[1].toFixed(0)} N`);
+  const net = fx.F[1] - fx.F[0];
+  ctx.font = '900 18px Fredoka, Nunito'; ctx.textAlign = 'center'; ctx.fillStyle = '#fff';
+  ctx.fillText(Math.abs(net) < 1 ? 'Resultan gaya ≈ 0 N → seimbang' : `Resultan = ${Math.abs(net).toFixed(0)} N ${net > 0 ? '→ ke ' + H.teams[1].name : '← ke ' + H.teams[0].name}`, cx, ay + 44);
+  ctx.font = '900 22px Fredoka, Nunito';
+  ctx.fillStyle = H.teams[0].color; ctx.textAlign = 'left'; ctx.fillText(`${H.teams[0].name}  ${fx.rounds[0]}`, 16, 34);
+  ctx.fillStyle = H.teams[1].color; ctx.textAlign = 'right'; ctx.fillText(`${fx.rounds[1]}  ${H.teams[1].name}`, W - 16, 34);
+  ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.fillText(`Ronde ${fx.round}`, cx, 34);
+  if(fx.pause > 0){ ctx.fillStyle = 'rgba(0,0,0,.45)'; ctx.fillRect(0, Hh*.38, W, 80); ctx.fillStyle = '#fde047'; ctx.font = '900 40px Fredoka, Nunito';
+    ctx.fillText(`🏆 ${H.teams[fx.rope > 0 ? 1 : 0].name} menang ronde!`, cx, Hh*.38 + 52); }
+}
+
+/* ---------- HP murid: mode petualangan ---------- */
+function pStatHTML(st){
+  if(!st) return '';
+  return `<div class="pstat" id="pStat"><div class="fill" style="width:${Math.max(3,Math.min(100,st.pct))}%;background:${st.color}"></div><span>${esc(st.label)}</span><b id="pClock"></b></div>`;
+}
+function pUpdateStat(st){ if(!st) return; P.st = st; const el = $('#pStat'); if(el) el.outerHTML = pStatHTML(st); pClockTick(); }
+function pClockTick(){ const c = $('#pClock'); if(!c || !P.selfEnd) return; const left = Math.max(0, P.selfEnd - Date.now()); c.textContent = `⏱ ${Math.floor(left/60000)}:${String(Math.floor(left/1000)%60).padStart(2,'0')}`; }
+function pSelfQ(d){
+  P.sq = d; P.sent = false; P.selfEnd = Date.now() + d.left; P.st = d.st || P.st;
+  if(P.fbUntil && Date.now() < P.fbUntil){ clearTimeout(P.sqT); P.sqT = setTimeout(() => pSelfQ(d), P.fbUntil - Date.now() + 10); return; }
+  pRender(`${pTop()}${pStatHTML(P.st)}<div class="pq-text">${esc(d.text)}</div>
+    <div class="pbtns">${[0,1,2,3].map(k => `<button class="pbtn c${k}" data-k="${k}"><span class="sh">${SHAPES[k]}</span><span>${esc(d.opts[k])}</span></button>`).join('')}</div>`);
+  clearInterval(P.clk); P.clk = setInterval(pClockTick, 1000); pClockTick();
+  $$('#pPlay .pbtn').forEach(b => b.onclick = () => pSelfChoose(+b.dataset.k));
+}
+function pSelfChoose(k){
+  if(P.sent) return; P.choice = k; SFX.click();
+  if(P.sq.askConf){
+    pRender(`${pTop()}${pStatHTML(P.st)}<div class="pcenter"><div class="pbtn c${k}" style="width:100px;height:100px;border-radius:22px"><span class="sh">${SHAPES[k]}</span></div>
+      <h2 class="fred" style="margin:4px 0;font-size:26px">Seberapa yakin?</h2><div class="confbtns"><button style="background:#16a34a" id="cY">😎 Yakin</button><button style="background:#d97706" id="cR">🤔 Ragu</button></div></div>`);
+    pClockTick(); $('#cY').onclick = () => pSelfSubmit(true); $('#cR').onclick = () => pSelfSubmit(false);
+  } else pSelfSubmit(null);
+}
+function pSelfSubmit(conf){
+  if(P.sent) return; P.sent = true;
+  const m = {t:'sa', att:P.sq.att, k:P.choice, conf}; pSend(m); P.awaitAck = {msg:m, t:Date.now(), n:0};
+  $$('#pPlay .pbtn').forEach(b => { b.disabled = true; if(+b.dataset.k !== P.choice) b.style.opacity = .35; });
+}
+function pSelfResult(d){
+  P.awaitAck = null; P.score = d.score; P.st = d.st || P.st;
+  const dur = d.correct ? 900 : 2200; P.fbUntil = Date.now() + dur;
+  if(d.correct){ SFX.right(); if(navigator.vibrate) try{ navigator.vibrate(40); }catch(e){} } else SFX.wrong();
+  const fx = {kejar: d.correct ? '💨 Melesat menjauh!' : '🐢 Melambat…', bulan: d.correct ? '🔥 Roket naik!' : '💨 Bahan bakar bocor…', tambang: d.correct ? '💪 Tarik!' : '😵 Pegangan lepas…'}[H_MODE_P()] || '';
+  pRender(`${pTop()}<div class="pcenter"><div class="res-ic" style="font-size:70px">${d.correct?'✅':'❌'}</div><div class="res-big">${d.correct?'Benar!':'Belum tepat'}</div>
+    ${d.pts ? `<div class="res-pts">${d.pts>0?'+':''}${d.pts}</div>` : ''}<div style="font-weight:900;font-size:18px">${fx}${d.correct && d.streak>1 ? ` · 🔥${d.streak}x` : ''}</div>
+    ${!d.correct ? `<div style="background:rgba(0,0,0,.22);border-radius:12px;padding:10px 14px;font-weight:800;max-width:420px">✔ ${esc(d.correctText)}${d.exp?`<div style="font-weight:700;font-size:13px;opacity:.9;margin-top:6px">${esc(d.exp)}</div>`:''}</div>` : ''}</div>`, d.correct ? 'res-ok' : 'res-no');
+}
+function H_MODE_P(){ return P.modeKey || ''; }
+function pBanner(msg){ const b = document.createElement('div'); b.className = 'pbanner'; b.textContent = msg; document.body.appendChild(b); setTimeout(() => b.remove(), 1800); if(navigator.vibrate) try{ navigator.vibrate([80,40,80]); }catch(e){} }
 
 /* ============================================================ PLAYER */
 function pidGet(){ let s = store.get('arena_pid', null, true); if(!s){ s = 'p' + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(-4); store.set('arena_pid', s, true); } return s; }
@@ -3776,24 +4182,30 @@ function onPlayerData(d){
     case 'hi':
       if(P.rejoin && P.name){ pSend({t:'join', name:P.name, av:P.av}); break; }
       if(d.phase!=='lobby' && !d.lateJoin){ show('p-join'); $('#pinErr').textContent = 'Permainan sudah berjalan.'; return; }
-      if(!P.joined && !P.profiled){ P.profiled = true; pProfile(d); } break;
+      if(!P.joined) pProfile(d); break;
     case 'denied':
       if(d.retry){ $('#nameErr').textContent = d.msg; show('p-profile'); $('#joinGo').disabled=false; P.rejoin=false; P.name=''; store.del('arena_sess',true); if(P.av==null) pProfile(); }
       else { show('p-join'); $('#pinErr').textContent = d.msg; P.ended = true; PlayerNet.close(); }
       break;
     case 'welcome':
-      Object.assign(P, {name:d.name, av:d.av, score:d.score, team:d.team, joined:true, rejoin:false});
+      Object.assign(P, {name:d.name, av:d.av, score:d.score, team:d.team, joined:true, rejoin:false, modeKey:d.modeKey});
       store.set('arena_sess', {pin:P.pin, name:d.name, av:d.av}, true);
       pWait(d.phase==='lobby' ? null : 'Kamu masuk! Tunggu soal berikutnya ⏳');
       SFX.join(); break;
     case 'ready':
-      clearInterval(P.tm);
+      clearInterval(P.tm); clearInterval(P.clk); clearTimeout(P.sqT);
+      if(d.done){ pRender(`${pTop()}<div class="pcenter"><div style="font-size:80px">⏰</div><h2 class="fred" style="font-size:34px;margin:0">Waktu habis!</h2><div class="spinner"></div><div style="font-weight:800">Menunggu hasil akhir…</div></div>`); break; }
       pRender(`${pTop()}<div class="pcenter"><div class="pill" style="font-size:18px">Soal ${d.qi+1} dari ${d.total}</div><div class="spinner"></div><h2 class="fred" style="font-size:32px;margin:0">Bersiap! 👀</h2><div class="muted" style="font-weight:800">Baca soal di layar guru</div></div>`);
       break;
     case 'q': pQuestion(d); break;
+    case 'sready': clearInterval(P.tm); pRender(`${pTop()}<div class="pcenter"><div style="font-size:80px">${{kejar:'🕳️',bulan:'🌕',tambang:'🪢'}[P.modeKey]||'🎮'}</div><h2 class="fred" style="font-size:32px;margin:0">Bersiap!</h2><div class="spinner"></div><div style="font-weight:800">Jawab secepat & setepat mungkin.<br>Lihat layar guru untuk melihat karaktermu!</div></div>`); break;
+    case 'sq': pSelfQ(d); break;
+    case 'sr': pSelfResult(d); break;
+    case 'st': pUpdateStat(d.st); break;
+    case 'sx': if(d.ev==='caught'){ pBanner('🌀 Tersedot lubang hitam! −50'); pUpdateStat(d.st); } break;
     case 'ack': if(P.awaitAck && P.awaitAck.msg.qi === d.qi) P.awaitAck = null; break;
     case 'res': P.awaitAck = null; pResult(d); break;
-    case 'final': pFinal(d); break;
+    case 'final': clearInterval(P.clk); clearTimeout(P.sqT); P.fbUntil = 0; pFinal(d); break;
     case 'kick': P.ended = true; store.del('arena_sess',true); PlayerNet.close(); pRender(`<div class="pcenter"><div style="font-size:70px">🚪</div><h2 class="fred">Kamu dikeluarkan oleh guru</h2><p class="muted">Gunakan nama yang sopan ya 🙂</p></div>`); break;
     case 'end': P.ended = true; store.del('arena_sess',true); PlayerNet.close(); pRender(`<div class="pcenter"><div style="font-size:70px">👋</div><h2 class="fred">Permainan ditutup guru</h2><p class="muted">Terima kasih sudah bermain!</p></div>`); break;
   }
