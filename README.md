@@ -21,6 +21,6 @@ Struktur:
 
 Buka: https://azizrizky.github.io/course/
 
-Cadangan: setiap pembaruan diberi tag Git `backup-YYYY-MM-DD-…`. Unduh versi lama lewat tab **Tags** di GitHub (Download ZIP).
+Cadangan: setiap pembaruan disimpan sebagai cabang `backup/YYYY-MM-DD-…` di GitHub. Untuk mengunduh versi lama: pilih cabangnya di menu **Branches**, lalu **Code → Download ZIP**.
 
 Kredit tekstur Bumi & Bulan: NASA (Blue Marble, Black Marble, LRO) — domain publik.
