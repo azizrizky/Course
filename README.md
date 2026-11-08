@@ -1,5 +1,8 @@
-# Arena IPA Live
+# Lab Petualang IPA
 
-Kuis interaktif IPA Kelas 7 (Gerak dan Gaya) ala game show untuk SMPN 4 Magelang — guru: Nella Alfiani Rofiqoh.
+Media permainan & asesmen diagnostik IPA Kelas 7 (Gerak dan Gaya) — SMPN 4 Magelang, guru: Nella Alfiani Rofiqoh.
 
-Buka: https://azizrizky.github.io/Course/
+- 8 mode dengan HP siswa (Tantangan Bersama & Petualangan)
+- 6 Mode Kelas tanpa HP (satu layar proyektor)
+
+Buka: https://azizrizky.github.io/course/
