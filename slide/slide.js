@@ -22,7 +22,7 @@ addEventListener('message', e => { if(e.data && e.data.type === 'lab-theme' && e
 
 /* muat data */
 setTimeout(() => { const l = document.querySelector('#loading'); if(l && !S.length && !l.querySelector('button')) init(); }, 9000);
-const sc = document.createElement('script'); sc.src = `data/${ID}.js?v=20261109c`; sc.onload = init; sc.onerror = () => { $('#loading').textContent = 'Slide materi ini belum tersedia.'; }; document.head.appendChild(sc);
+const sc = document.createElement('script'); sc.src = `data/${ID}.js?v=20261109d`; sc.onload = init; sc.onerror = () => { $('#loading').textContent = 'Slide materi ini belum tersedia.'; }; document.head.appendChild(sc);
 
 let D, S = [], cur = 0, scale = 1, SW = 1600, SH = 900;
 let SECS = [];
@@ -61,7 +61,10 @@ const strip = h => String(h).replace(/<[^>]+>/g, '');
 const vis = (k, big) => k.ghs && window.GHS ? `<span class="svgv${big ? ' big' : ''}">${GHS[k.ghs]}</span>` : k.ill && window.ILL ? `<span class="svgv ill${big ? ' big' : ''}">${ILL[k.ill]}</span>` : (k.e || '');
 const LBLT = {tujuan:'Tujuan & pertanyaan pemantik', mitos:'Mitos atau fakta?', rangkuman:'Peta konsep (rangkuman)', refleksi:'Refleksi & tindak lanjut', peta:'Peta Belajar', ingat:'Biar gampang ingat'};
 const ttl = d => strip(d.t === 'kuis' ? 'Kuis: ' + d.q : d.title || LBLT[d.t] || TYPE[d.t] || '');
-function fit(){ const wide = innerWidth >= 1180; document.body.classList.toggle('wide', wide); const vw = innerWidth - (wide ? 300 : 0), vh = innerHeight - 64 - 58, por = vh > vw*1.15; document.documentElement.classList.toggle('portrait', por);
+let SIDE = ls.get('slide_side', true);
+function sideToggle(v){ SIDE = v ?? !SIDE; ls.set('slide_side', SIDE); fit(); const b = $('#bToc'); if(b) b.classList.toggle('on', SIDE && innerWidth >= 1180); }
+function menuBtn(){ if(innerWidth >= 1180) sideToggle(); else toc(); }
+function fit(){ const can = innerWidth >= 1180, wide = can && SIDE; document.body.classList.toggle('canSide', can); { const b = $('#bToc'); if(b){ b.classList.toggle('on', wide); b.title = can ? (wide ? 'Sembunyikan menu kiri (G)' : 'Tampilkan menu kiri (G)') : 'Daftar isi (G)'; } } document.body.classList.toggle('wide', wide); const vw = innerWidth - (wide ? 300 : 0), vh = innerHeight - 64 - 58, por = vh > vw*1.15; document.documentElement.classList.toggle('portrait', por);
   SW = por ? 1000 : 1600; SH = por ? 1640 : 900; const st = $('#stage'); st.style.width = SW + 'px'; st.style.height = SH + 'px';
   scale = Math.min(vw/SW, vh/SH); st.style.transform = `translate(-50%,-50%) scale(${scale})`; S.forEach(x => x.el.querySelectorAll('canvas.anim').forEach(sizeCanvas)); if(S[cur] && S[cur].d.t === 'rangkuman') layoutMind(S[cur].el); }
 
@@ -225,7 +228,8 @@ function secBanner(id){ const x = SECS.find(z => z.id === id), b = $('#secfx'); 
   b.style.setProperty('--c', x.color); b.classList.remove('on'); void b.offsetWidth; b.classList.add('on'); clearTimeout(secBanner.t); secBanner.t = setTimeout(() => b.classList.remove('on'), 1400); }
 function buildToc(){ const html = SECS.map(x => `<div class="tsec" style="--c:${x.color}"><div class="tsh"><span>${x.icon}</span><b>${x.name}</b></div>
     ${S.map((o, k) => o.sec === x.id ? `<button class="ti" data-i="${k}"><span class="n">${k + 1}</span><span class="e">${o.d.e || EMO[o.d.t] || '📄'}</span><span class="tt">${ttl(o.d)}</span><i>✅</i></button>` : '').join('')}</div>`).join('');
-  $('#tocList').innerHTML = html; $('#sideList').innerHTML = `<div class="sideh"><img src="../assets/logo.svg" alt=""><div><small>Bab ${MAT.bab || ''} · Kelas ${MAT.kelas || ''}</small><b>${MAT.nama || ''}</b></div></div><button class="ti home" data-i="${HUB}"><span class="e">🏠</span><span class="tt">Menu Materi</span></button>` + html;
+  $('#tocList').innerHTML = html; $('#sideList').innerHTML = `<button class="sidex" data-sidex title="Sembunyikan menu kiri (G)">⇤ Sembunyikan</button><div class="sideh"><img src="../assets/logo.svg" alt=""><div><small>Bab ${MAT.bab || ''} · Kelas ${MAT.kelas || ''}</small><b>${MAT.nama || ''}</b></div></div><button class="ti home" data-i="${HUB}"><span class="e">🏠</span><span class="tt">Menu Materi</span></button>` + html;
+  const sx = $('#sideList [data-sidex]'); if(sx) sx.onclick = () => sideToggle(false);
   $$('#tocList .ti, #sideList .ti').forEach(b => b.onclick = () => { go(+b.dataset.i, true); toc(false); }); }
 function updToc(){ $$('#tocList .ti, #sideList .ti').forEach(b => { const k = +b.dataset.i; b.classList.toggle('cur', k === cur); b.classList.toggle('vis', visited.has(k)); }); }
 function toc(on){ $('#toc').classList.toggle('on', on ?? !$('#toc').classList.contains('on')); if($('#toc').classList.contains('on')){ const c = $('#tocList .ti.cur'); if(c) c.scrollIntoView({block:'center'}); } }
@@ -249,7 +253,7 @@ function popCard(c, color){ const more = c.more ? `<div class="lbm">${c.more.map
   pop(vis(c, true), c.n, `<p>${c.d}</p>${more}`, c.ex ? `💡 Contoh: ${c.ex}` : '', color); }
 function closePop(){ const lb = $('#lb'); if(lb) lb.classList.remove('on'); }
 $$on('#bNext').onclick = next; $('#bPrev').onclick = prev;
-$$on('#bToc').onclick = () => toc(); $('#tocX').onclick = () => toc(false); $('#toc').addEventListener('click', e => { if(e.target.id === 'toc') toc(false); });
+$$on('#bToc').onclick = () => menuBtn(); $('#tocX').onclick = () => toc(false); $('#toc').addEventListener('click', e => { if(e.target.id === 'toc') toc(false); });
 $$on('#bHub').onclick = () => go(HUB, true);
 $$on('#bMenu').onclick = () => go(HUB, true);
 $$on('#bFs').onclick = () => { try{ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }catch(e){} };
@@ -261,7 +265,7 @@ addEventListener('keydown', e => {
   if(k === 'ArrowRight' || k === ' ' || k === 'PageDown' || k === 'Enter'){ e.preventDefault(); next(); }
   else if(k === 'ArrowLeft' || k === 'PageUp'){ e.preventDefault(); prev(); }
   else if(k === 'Home') go(0, true); else if(k === 'End') go(S.length - 1, true);
-  else if(k === 'g' || k === 'G') toc();
+  else if(k === 'g' || k === 'G') menuBtn();
   else if(k === 'h' || k === 'H') go(HUB, true);
   else if(k >= '1' && k <= '9' && SECS[+k - 1]) goSec(SECS[+k - 1].id);
   else if(k === 'f' || k === 'F') $('#bFs').click();
