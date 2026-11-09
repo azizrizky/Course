@@ -786,7 +786,7 @@ T3['usaha'] = {
     R.sec('Rumus', '<div class="formula">W = <i>F</i> · <i>s</i> · cos θ</div><p>W dalam joule (J), F dalam newton (N), s dalam meter (m). Jika benda tidak berpindah (s = 0), usahanya <b>nol</b> walaupun kita mendorong dengan kuat!</p>');
     let v = 0;
     E.tick((dt, t) => { const fx = F*Math.cos(ang*PI/180), fy = F*Math.sin(ang*PI/180), N = Math.max(0, m*9.8 - fy), fric = fr*N;
-      if(run && s < 10){ const net = fx - (v > 0 || fx > fric ? fric : fx); const a = Math.max(-v/dt, net/m); v = Math.max(0, v + a*dt); const ds = v*dt; s = Math.min(10, s + ds); W += fx*ds; if(v === 0 && fx <= fric) run = false; }
+      if(run && s < 10 && dt > 0){ const net = fx - (v > 0 || fx > fric ? fric : fx); const a = Math.max(-v/dt, net/m); v = Math.max(0, v + a*dt); const ds = v*dt; s = Math.min(10, s + ds); W += fx*ds; if(v === 0 && fx <= fric) run = false; }
       box.position.x = -4 + s;
       if(arr) E.root.remove(arr); if(F > 0){ const dir = E.V3(Math.cos(ang*PI/180), Math.sin(ang*PI/180), 0), len = .5 + F/150*2.2; arr = E.arrow(box.position.clone().add(E.V3(-.6 - Math.cos(ang*PI/180)*len, .1 - Math.sin(ang*PI/180)*len*.3, 0)), dir, len, 0xef4444); } else arr = null;
       rd.s(`${s.toFixed(2).replace('.',',')} m`); rd.fx(`${fx.toFixed(1).replace('.',',')} N`); rd.w(`${W.toFixed(0)} J`); rd.k(fx <= fric && s === 0 ? 'Kotak diam → W = 0' : s >= 10 ? 'Sampai 10 m' : run ? 'Bergerak…' : 'Siap'); });
@@ -937,27 +937,29 @@ T3['getaran-gelombang'] = {
    build(E){ E.platform(7);
     const N = 60, beads = []; for(let i = 0; i < N; i++) beads.push(E.mesh(new THREE.SphereGeometry(.09, 12, 8), E.mat(i === 30 ? 0xef4444 : 0x38bdf8, {roughness:.3}), null, [-6 + i*.2, 1.6, 0]));
     const hand = E.mesh(new THREE.SphereGeometry(.25, 16, 12), E.mat(0xf2c9a0), null, [-6.3,1.6,0]);
-    let A = .8, f = .8, v = 3; const lb = E.label(E.V3(), '⛰️ Bukit'), ll = E.label(E.V3(), '🕳️ Lembah'); const lam = E.label(E.V3(), 'λ');
+    let A = .8, f = .8, n = 3, tt = 0; const LR = (N - 1)*.2; const lb = E.label(E.V3(), '⛰️ Bukit'), ll = E.label(E.V3(), '🕳️ Lembah'); const lam = E.label(E.V3(), 'λ');
     E.ui.head('GELOMBANG', 'Gelombang Transversal (tali)', 'Arah getar ⟂ arah rambat. Bola merah hanya naik-turun, tidak ikut merambat!');
-    const sc = E.ui.sec('Pengaturan'); E.ui.slider(sc, {label:'Amplitudo', min:.2, max:1.4, step:.1, value:.8, unit:'m', on:x => A = x}); E.ui.slider(sc, {label:'Frekuensi', min:.2, max:2, step:.1, value:.8, unit:'Hz', on:x => f = x}); E.ui.slider(sc, {label:'Cepat rambat', min:1, max:6, step:.5, value:3, unit:'m/s', on:x => v = x});
-    const rd = E.ui.reads(E.ui.sec('Hasil'), [['l','Panjang gelombang λ'],['T','Periode T']]);
-    E.ui.sec('Rumus', '<div class="formula">v = λ · f &nbsp; λ = v / f</div><p>Contoh gelombang transversal: gelombang tali, gelombang air, cahaya.</p>');
-    E.tick((dt, t) => { const lamb = v/f, k = 2*PI/lamb;
+    const sc = E.ui.sec('Pengaturan'); E.ui.slider(sc, {label:'Amplitudo', min:.2, max:1.4, step:.1, value:.8, unit:'m', on:x => A = x}); E.ui.slider(sc, {label:'Frekuensi', min:.1, max:2, step:.1, value:.8, unit:'Hz', on:x => f = x}); E.ui.slider(sc, {label:'Jumlah gelombang', min:.5, max:8, step:.5, value:3, unit:'', on:x => n = x});
+    E.ui.buttons(sc, [{label:'↺ Ulang dari awal', cls:'p', on:() => tt = 0}]);
+    const rd = E.ui.reads(E.ui.sec('Hasil (panjang tali ' + LR.toFixed(1).replace('.', ',') + ' m)'), [['bl','Bukit & lembah'],['l','Panjang gelombang λ'],['T','Periode T'],['v','Cepat rambat v']]);
+    E.ui.sec('Rumus', '<div class="formula">λ = panjang tali / n &nbsp; v = λ · f &nbsp; T = 1/f</div><p>1 gelombang = 1 bukit + 1 lembah. Contoh gelombang transversal: gelombang tali, gelombang air, cahaya.</p>');
+    E.tick((dt) => { tt += dt; const t = tt, lamb = LR/n, v = lamb*f, k = 2*PI/lamb;
       beads.forEach((b, i) => { const x = i*.2, ph = Math.max(0, t - x/v); b.position.y = 1.6 + (t > x/v ? A*Math.sin(2*PI*f*t - k*x) : 0); }); hand.position.y = 1.6 + A*Math.sin(2*PI*f*t);
       const xc = ((PI/2 + 2*PI*f*t)/k) % lamb; lb.target.set(-6 + xc, 1.6 + A + .4, 0); ll.target.set(-6 + (xc + lamb/2) % lamb, 1.6 - A - .1, 0); lam.target.set(-6 + lamb/2, 1.6 - A - .6, 0);
-      rd.l(`${lamb.toFixed(2).replace('.',',')} m`); rd.T(`${(1/f).toFixed(2).replace('.',',')} s`); });
+      const fx = x => (+x.toFixed(2)).toString().replace('.', ','); rd.bl(`${Math.ceil(n)} bukit · ${Math.floor(n)} lembah`); rd.l(`${fx(lamb)} m`); rd.T(`${fx(1/f)} s`); rd.v(`${fx(v)} m/s`); });
    }},
   {id:'longitudinal', label:'🌀 Gelombang Longitudinal', view:{target:[0,1.6,0], radius:11, theta:.3, phi:1.25},
    say:'Pada gelombang longitudinal, arah getar sejajar arah rambat, membentuk rapatan dan renggangan. Contohnya gelombang pada slinki dan gelombang bunyi.',
    build(E){ E.platform(7);
     const N = 70, rings = []; for(let i = 0; i < N; i++){ const r = E.mesh(new THREE.TorusGeometry(.45, .03, 8, 32), E.mat(i === 35 ? 0xef4444 : 0x94a3b8, {metalness:.8, roughness:.25}), null, [-6 + i*.17, 1.6, 0]); r.rotation.y = PI/2; rings.push(r); }
-    let A = .25, f = .7, v = 3; const lr = E.label(E.V3(), 'Rapatan'), lg = E.label(E.V3(), 'Renggangan');
+    let A = .25, f = .7, n = 3, tt = 0; const LR = (N - 1)*.17; const lr = E.label(E.V3(), 'Rapatan'), lg = E.label(E.V3(), 'Renggangan');
     E.ui.head('GELOMBANG', 'Gelombang Longitudinal (slinki)', 'Arah getar ∥ arah rambat. Satu gelombang = satu rapatan + satu renggangan.');
-    const sc = E.ui.sec('Pengaturan'); E.ui.slider(sc, {label:'Amplitudo', min:.05, max:.4, step:.05, value:.25, unit:'m', on:x => A = x}); E.ui.slider(sc, {label:'Frekuensi', min:.2, max:1.6, step:.1, value:.7, unit:'Hz', on:x => f = x});
-    const rd = E.ui.reads(E.ui.sec('Hasil'), [['l','Panjang gelombang λ'],['v','Cepat rambat']]);
+    const sc = E.ui.sec('Pengaturan'); E.ui.slider(sc, {label:'Amplitudo', min:.05, max:.4, step:.05, value:.25, unit:'m', on:x => A = x}); E.ui.slider(sc, {label:'Frekuensi', min:.1, max:1.6, step:.1, value:.7, unit:'Hz', on:x => f = x}); E.ui.slider(sc, {label:'Jumlah gelombang', min:.5, max:8, step:.5, value:3, unit:'', on:x => n = x});
+    const rd = E.ui.reads(E.ui.sec('Hasil (panjang slinki ' + LR.toFixed(1).replace('.', ',') + ' m)'), [['rr','Rapatan & renggangan'],['l','Panjang gelombang λ'],['v','Cepat rambat']]);
     E.ui.sec('Bunyi', '<p>Bunyi adalah gelombang longitudinal yang memerlukan medium (padat, cair, gas); tidak dapat merambat di ruang hampa. Cepat rambat bunyi di udara ± 340 m/s.</p>');
-    E.tick((dt, t) => { const lamb = v/f, k = 2*PI/lamb; rings.forEach((r, i) => { const x = i*.17; r.position.x = -6 + x + A*Math.sin(2*PI*f*t - k*x); });
-      const xr = ((2*PI*f*t)/k) % lamb; lr.target.set(-6 + xr, 2.3, 0); lg.target.set(-6 + (xr + lamb/2) % lamb, 2.3, 0); rd.l(`${lamb.toFixed(2).replace('.',',')} m`); rd.v(`${v} m/s`); });
+    E.tick((dt) => { tt += dt; const t = tt, lamb = LR/n, v = lamb*f, k = 2*PI/lamb; rings.forEach((r, i) => { const x = i*.17; r.position.x = -6 + x + A*Math.sin(2*PI*f*t - k*x); });
+      const xr = ((2*PI*f*t)/k) % lamb; lr.target.set(-6 + xr, 2.3, 0); lg.target.set(-6 + (xr + lamb/2) % lamb, 2.3, 0); const fx = x => (+x.toFixed(2)).toString().replace('.', ',');
+      rd.rr(`${Math.ceil(n)} rapatan · ${Math.floor(n)} renggangan`); rd.l(`${fx(lamb)} m`); rd.v(`${fx(v)} m/s`); });
    }}
   ]
 };

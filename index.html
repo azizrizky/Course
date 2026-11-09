@@ -706,7 +706,7 @@ details.help ol{line-height:1.7;font-size:14px}
     <div class="navh" data-role="guru">Mengajar</div>
     <button class="navi" data-nav="home" data-role="guru"><span class="ni">🏠</span><span>Beranda</span></button>
     <button class="navi" data-nav="mood" data-role="guru"><span class="ni">😊</span><span>Cek Perasaan</span><span class="nb">3D</span></button>
-    <button class="navi" data-nav="slides"><span class="ni">📽️</span><span>Slide Materi</span><span class="nb">14</span></button>
+    <button class="navi" data-nav="slides"><span class="ni">📽️</span><span>Slide Materi</span><span class="nb">13</span></button>
     <button class="navi" data-nav="lab"><span class="ni">🔬</span><span>Lab 3D &amp; Kuis</span><span class="nb">7·8</span></button>
     <button class="navi" data-nav="games" data-role="guru"><span class="ni">🎮</span><span>Permainan &amp; Kuis</span></button>
     <div class="navh" data-role="guru">Kelola</div>
@@ -3200,8 +3200,8 @@ var qrcode = function() {
 }));
 
 </script>
-<script src="assets/dialog.js?v=20261109b"></script>
-<script src="assets/materi.js?v=20261109b"></script>
+<script src="assets/dialog.js?v=20261109c"></script>
+<script src="assets/materi.js?v=20261109c"></script>
 <script>
 /* ============================================================
    DATA MATERI — tambahkan materi lain di MATERI di bawah ini
@@ -5624,6 +5624,12 @@ function renderSettings(){
       <span class="lbl">Tema</span><div class="chips" id="sTheme"></div>
       <span class="lbl" style="margin-top:14px">Kualitas grafis Lab 3D (bawaan)</span><div class="chips" id="sQual"></div>
       <p class="muted" style="font-size:13px;font-weight:700">HD: resolusi tinggi, bayangan tajam & tekstur 4K (laptop/proyektor kuat). Standar: seimbang. Hemat: untuk laptop lama / HP.</p></div>
+    <div class="card" style="margin-top:16px"><h3>🎞️ Animasi & Narasi Bu Nella</h3>
+      <span class="lbl">Gerak animasi (slide & Lab 3D)</span><div class="chips" id="sMotion"></div>
+      <p class="muted" style="font-size:13px;font-weight:700">Setiap animasi tetap punya tombol ⏸/▶ (atau tombol <kbd>J</kbd>). “Diam dulu” membuat animasi berhenti sampai ditekan ▶ — cocok bila gerakan membuat pusing.</p>
+      <span class="lbl" style="margin-top:14px">Bu Nella di Lab 3D</span><div class="chips" id="sGuide"></div>
+      <span class="lbl" style="margin-top:14px">Suara narasi</span><div class="chips" id="sVoice"></div>
+      <p class="muted" style="font-size:13px;font-weight:700">Bawaan: Bu Nella disembunyikan & senyap. Pengaturan tersimpan di perangkat ini dan langsung berlaku saat lab dibuka.</p></div>
     <div class="card" style="margin-top:16px"><h3>☁️ Sinkron GitHub</h3>
       <p style="font-weight:700;margin-top:0">Dipakai untuk menyimpan <b>rekaman suara</b> dan <b>cadangan bank soal & riwayat</b> ke repositori, sehingga ikut online di semua perangkat.</p>
       <div class="formrow"><div><span class="lbl">Pemilik (owner)</span><input class="inp" id="ghO" value="${esc(c.owner)}"></div><div><span class="lbl">Repositori</span><input class="inp" id="ghR" value="${esc(c.repo)}"></div><div><span class="lbl">Cabang (branch)</span><input class="inp" id="ghB" value="${esc(c.branch)}"></div></div>
@@ -5643,6 +5649,11 @@ function renderSettings(){
     <div class="card" style="margin-top:16px"><h3>👩‍🏫 Akun</h3><p style="font-weight:700">Masuk sebagai <b>nella</b>. Login mencegah siswa membuka Ruang Guru secara tidak sengaja.</p><button class="btn red" id="sOut">⎋ Keluar dari Ruang Guru</button></div>`;
   chips($('#sTheme'), [['light','☀️ Terang'],['dark','🌙 Gelap'],['auto','🖥️ Ikuti perangkat']], pref, v => { store.set('lab_theme_pref', v); applyTheme(); });
   chips($('#sQual'), [['hemat','Hemat'],['std','Standar'],['hd','HD']], q, v => { store.set('lab_quality_pref', v); try{ localStorage.setItem('lab_quality', v); }catch(e){} });
+  const raw = (k, d) => { try{ return String(localStorage.getItem(k) ?? d).replace(/"/g, ''); }catch(e){ return d; } }, setRaw = (k, v) => { try{ localStorage.setItem(k, v); }catch(e){} };
+  chips($('#sMotion'), [['normal','▶️ Normal'],['pelan','🐢 Pelan'],['jeda','⏸ Diam dulu']], raw('anim_motion', 'normal'), v => { setRaw('anim_motion', v); toast('🎞️ Gerak animasi: ' + {normal:'normal', pelan:'pelan', jeda:'diam dulu'}[v]); });
+  chips($('#sGuide'), [['hide','🙈 Sembunyikan'],['avatar','👩‍🏫 Avatar saja'],['text','💬 Avatar + teks']], raw('lab_guide_mode', 'hide'), v => { setRaw('lab_guide_mode', v); });
+  chips($('#sVoice'), [['0','🔇 Senyap'],['1','🔊 Bacakan otomatis']], raw('lab_autonarasi', '0'), v => { setRaw('lab_autonarasi', v); });
+  $$('#sMotion .chip, #sGuide .chip, #sVoice .chip').forEach(b => b.addEventListener('click', () => setTimeout(renderSettings, 0)));
   $$('#sTheme .chip, #sQual .chip').forEach(b => b.addEventListener('click', () => setTimeout(renderSettings, 0)));
   const saveGH = () => { store.set('lab_gh', {owner:$('#ghO').value.trim(), repo:$('#ghR').value.trim(), branch:$('#ghB').value.trim() || 'main'});
     const t = $('#ghT').value.trim(); store.set('lab_gh_token', t, true); if($('#ghRem').checked) store.set('lab_gh_token', t); else store.del('lab_gh_token'); };

@@ -123,7 +123,8 @@ A.neraca = {draw(g, w, h, t, st, o){
 }};
 
 /* ============ WUJUD ZAT ============ */
-A.partikel = {ctl:[['all','Semua'],['padat','Padat'],['cair','Cair'],['gas','Gas']], draw(g, w, h, t, st, o){
+A.partikel = {ctl:[['all','Semua'],['padat','Padat'],['cair','Cair'],['gas','Gas']], par:[['suhu','Suhu',0,100,1,25,'°C']], draw(g, w, h, t, st, o, dt = 1/60){
+  const kT = .25 + ((st.p && st.p.suhu != null ? st.p.suhu : 25)/100)*1.5; t = (st.tt = (st.tt || 0) + dt*kT*3) / 3;
   const L = st.mode === 'all' ? ['padat','cair','gas'] : [st.mode]; const bw = (w*.9)/L.length;
   if(!st.P) st.P = {}; L.forEach((k, j) => { const x0 = w*.05 + j*bw + 10, y0 = h*.12, W = bw - 20, Hh = h*.66, r = Math.min(13, W/18);
     rr(g, x0, y0, W, Hh, 14, H.panel(o), C[[1,6,0][['padat','cair','gas'].indexOf(k)]], 4);
@@ -131,11 +132,12 @@ A.partikel = {ctl:[['all','Semua'],['padat','Padat'],['cair','Cair'],['gas','Gas
       for(let i = 0; i < n; i++){ const sp = k === 'cair' ? 2.7 : 2.15, nxx = k === 'cair' ? Math.floor((W - 20)/(r*2.7)) : nx; const hx = x0 + 12 + r*1.6 + (i % nxx)*r*sp, hy = y0 + Hh - 10 - r*1.2 - Math.floor(i/nxx)*r*sp; P.push({hx, hy, x:k === 'gas' ? x0 + 20 + R()*(W - 40) : hx, y:k === 'gas' ? y0 + 20 + R()*(Hh - 40) : hy, vx:(R() - .5)*(k === 'gas' ? 380 : 60), vy:(R() - .5)*(k === 'gas' ? 380 : 40)}); } }
     P.forEach((p, i) => { if(k === 'padat'){ p.x = p.hx + Math.sin(t*25 + i)*2; p.y = p.hy + Math.cos(t*23 + i*1.3)*2; }
       else if(k === 'cair'){ p.x = p.hx + Math.sin(t*1.3 + i*1.7)*r*1.6 + Math.sin(t*.7 + i)*r*.8; p.y = p.hy + Math.cos(t*1.1 + i*2.3)*r*.9; }
-      else { p.x += p.vx/60; p.y += p.vy/60;
+      else { p.x += p.vx*dt*kT; p.y += p.vy*dt*kT;
         if(p.x < x0 + r){ p.x = x0 + r; p.vx = Math.abs(p.vx); } if(p.x > x0 + W - r){ p.x = x0 + W - r; p.vx = -Math.abs(p.vx); } if(p.y < y0 + r){ p.y = y0 + r; p.vy = Math.abs(p.vy); } if(p.y > y0 + Hh - r){ p.y = y0 + Hh - r; p.vy = -Math.abs(p.vy)*(k === 'cair' ? .5 : 1); } }
       circ(g, p.x, p.y, r, C[[1,6,0][['padat','cair','gas'].indexOf(k)]], 'rgba(255,255,255,.5)', 1.5); });
     txt(g, {padat:'🧊 PADAT', cair:'💧 CAIR', gas:'☁️ GAS'}[k], x0 + W/2, y0 + Hh + 30, 22, H.ink(o));
     txt(g, {padat:'rapat · bergetar di tempat', cair:'agak renggang · bergeser', gas:'sangat renggang · bebas'}[k], x0 + W/2, y0 + Hh + 58, 16, H.mut(o)); });
+  txt(g, `Suhu ${st.p ? st.p.suhu : 25} °C → makin panas, partikel bergerak makin cepat`, w/2, h*.05, 16, H.mut(o));
 }};
 A.perubahan = {draw(g, w, h, t, st, o){
   const P = {padat:[w*.18, h*.78, '🧊', 'PADAT'], cair:[w*.82, h*.78, '💧', 'CAIR'], gas:[w*.5, h*.18, '☁️', 'GAS']};
@@ -148,13 +150,17 @@ A.perubahan = {draw(g, w, h, t, st, o){
   Object.values(P).forEach(p => { circ(g, p[0], p[1], 50, H.panel(o), H.ln(o), 3); emo(g, p[2], p[0], p[1] - 4, 50); txt(g, p[3], p[0], p[1] + 70, 19, H.ink(o)); });
   txt(g, '🔥 menyerap kalor   ❄️ melepas kalor', w/2, h*.97, 17, H.mut(o));
 }};
-A.terapung = {draw(g, w, h, t, st, o){
+A.terapung = {par:[['rho','ρ benda uji',.2,3,.05,.6,'g/cm³'],['rhoc','ρ zat cair',.7,1.4,.01,1,'g/cm³']], draw(g, w, h, t, st, o){
+  const P = st.p || {rho:.6, rhoc:1};
   const x0 = w*.08, y0 = h*.2, W = w*.84, Hh = h*.62, wl = y0 + Hh*.18;
   rr(g, x0, y0, W, Hh, 12, null, H.mut(o), 4); g.fillStyle = 'rgba(56,189,248,.35)'; g.beginPath(); g.moveTo(x0 + 2, wl); for(let x = 0; x <= W - 4; x += 10) g.lineTo(x0 + 2 + x, wl + Math.sin(t*2 + x*.04)*3); g.lineTo(x0 + W - 2, y0 + Hh - 2); g.lineTo(x0 + 2, y0 + Hh - 2); g.fill();
-  const Obj = [['🪵','Terapung','ρ benda < ρ air', wl - 6, C[2]],['🥚','Melayang','ρ benda = ρ air', y0 + Hh*.55, C[5]],['🪨','Tenggelam','ρ benda > ρ air', y0 + Hh - 34, C[8]]];
-  Obj.forEach((b, i) => { const x = x0 + W*(.18 + i*.32), k = clamp((t % 6)/2, 0, 1), y = lerp(y0 - 40, b[3], ease(k)) + (k >= 1 ? Math.sin(t*2 + i)*3 : 0);
+  const r = P.rho/P.rhoc, st3 = Math.abs(r - 1) < .03 ? 1 : r < 1 ? 0 : 2;
+  const Obj = [['🪵','Terapung','ρ benda < ρ zat cair', wl - 6, C[2]],['🥚','Melayang','ρ benda = ρ zat cair', y0 + Hh*.55, C[5]],['🪨','Tenggelam','ρ benda > ρ zat cair', y0 + Hh - 34, C[8]]];
+  { const x = x0 + W*.92, bh = 70, yT = st3 === 0 ? wl - bh*(1 - r) : st3 === 1 ? y0 + Hh*.45 : y0 + Hh - bh - 4; rr(g, x - 28, yT, 56, bh, 10, '#f59e0b', '#fff', 3); txt(g, 'benda uji', x, yT - 14, 14, H.ink(o));
+    pill(g, ['Terapung','Melayang','Tenggelam'][st3], x, y0 - 22, [C[2], C[5], C[8]][st3], '#fff', 15); if(st3 === 0) txt(g, `${Math.round(r*100)}% tercelup`, x, yT + bh + 16, 13, H.ink(o)); }
+  Obj.forEach((b, i) => { const x = x0 + W*(.14 + i*.26), k = clamp((t % 6)/2, 0, 1), y = lerp(y0 - 40, b[3], ease(k)) + (k >= 1 ? Math.sin(t*2 + i)*3 : 0);
     emo(g, b[0], x, y, 54); pill(g, b[1], x, y0 + Hh + 30, b[4], '#fff', 18); txt(g, b[2], x, y0 + Hh + 64, 16, H.ink(o)); });
-  txt(g, 'ρ air = 1 g/cm³', x0 + W - 70, wl + 26, 15, H.mut(o));
+  txt(g, `ρ zat cair = ${String(P.rhoc).replace('.', ',')} g/cm³ · ρ benda uji = ${String(P.rho).replace('.', ',')} g/cm³`, w/2, h*.05, 16, H.mut(o));
 }};
 
 /* ============ KALOR ============ */

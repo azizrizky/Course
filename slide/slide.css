@@ -292,3 +292,14 @@ html.portrait .lbr{grid-template-columns:1fr;gap:4px}
 .cards.many .svgv{width:72px;height:72px;border-radius:16px}
 .cards.many .kc.hasmore:before{top:12px;bottom:auto;font-size:13px}
 html.portrait .cards.many{grid-template-columns:1fr 1fr}html.portrait .cards.many .kc{grid-template-columns:1fr;padding:14px}html.portrait .cards.many .kc .e{grid-row:auto}html.portrait .cards.many .kc h3{padding-right:0;font-size:26px}html.portrait .cards.many .kc.hasmore:before{display:none}
+/* kontrol animasi: jeda & nilai manual */
+.animtools{position:absolute;right:12px;top:12px;display:flex;gap:8px;z-index:3}
+.animtools button{width:50px;height:50px;border-radius:50%;border:1px solid var(--line);background:var(--card2);color:var(--ink);font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.animtools button.on{background:var(--a);color:#fff;border-color:transparent;animation:pulseP 1.6s ease-in-out infinite}
+@keyframes pulseP{50%{transform:scale(1.08)}}
+.animpar{flex:none;display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;padding:8px 16px 4px;border-top:1px solid var(--line)}
+.animpar .ap{display:flex;align-items:center;gap:10px;font-weight:900;font-size:18px;color:var(--ink)}
+.animpar .ap input[type=range]{width:190px;accent-color:var(--a)}
+.animpar .ap input[type=number]{width:96px;padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:var(--card2);color:var(--ink);font:900 18px 'Nunito',sans-serif}
+.animpar .ap i{font-style:normal;color:var(--muted);font-size:16px;min-width:30px}
+html.portrait .animpar .ap{font-size:24px}html.portrait .animpar .ap input[type=range]{width:300px}html.portrait .animpar .ap input[type=number]{font-size:24px;width:120px}

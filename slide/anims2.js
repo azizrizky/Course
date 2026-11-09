@@ -163,33 +163,38 @@ A.pisah = {ctl:[['filtrasi','Penyaringan'],['evaporasi','Penguapan'],['destilasi
 }};
 
 /* ============ GETARAN & GELOMBANG ============ */
-A.bandul = {draw(g, w, h, t, st, o){
-  const cx = w*.4, top = h*.08, L = h*.62, T = 2.2, th = Math.cos(t/T*TAU)*.5, bx = cx + Math.sin(th)*L, by = top + Math.cos(th)*L;
-  line(g, cx - 90, top, cx + 90, top, H.mut(o), 8); line(g, cx, top, bx, by, H.ink(o), 3); circ(g, bx, by, 26, '#f59e0b', '#fff', 3);
-  [['A', -.5], ['O', 0], ['B', .5]].forEach(([n, a]) => { const x = cx + Math.sin(a)*L, y = top + Math.cos(a)*L; circ(g, x, y + 46, 4, H.mut(o)); txt(g, n, x, y + 66, 20, H.ink(o)); });
-  g.beginPath(); g.arc(cx, top, L + 40, PI/2 - .5, PI/2 + .5); g.strokeStyle = H.ln(o); g.setLineDash([6, 8]); g.lineWidth = 2; g.stroke(); g.setLineDash([]);
-  const n = Math.floor(t/T); txt(g, `getaran: ${n}`, w*.82, h*.2, 22, H.ink(o)); txt(g, `waktu: ${t.toFixed(1).replace('.', ',')} s`, w*.82, h*.28, 18, H.mut(o));
-  pill(g, '1 getaran = A → O → B → O → A', w*.82, h*.42, C[0], '#fff', 16); pill(g, `T = ${T.toFixed(1).replace('.', ',')} s`, w*.82, h*.52, C[1], '#fff', 18); pill(g, `f = 1/T ≈ ${(1/T).toFixed(2).replace('.', ',')} Hz`, w*.82, h*.62, C[2], '#fff', 18);
-  txt(g, 'amplitudo = simpangan terjauh (O → A atau O → B)', w/2, h*.96, 16, H.mut(o));
+A.bandul = {par:[['L','Panjang tali',.1,2,.05,1,'m'],['sud','Simpangan',5,40,1,25,'°']], draw(g, w, h, t, st, o){
+  const P = st.p || {L:1, sud:25}, T = 2*PI*Math.sqrt(P.L/9.8), amp = P.sud*PI/180, cx = w*.38, top = h*.08, L = h*(.25 + .45*P.L/2), th = Math.cos(t/T*TAU)*amp, bx = cx + Math.sin(th)*L, by = top + Math.cos(th)*L;
+  line(g, cx - 90, top, cx + 90, top, H.mut(o), 8); line(g, cx, top, bx, by, H.ink(o), 3); circ(g, bx, by, 24, '#f59e0b', '#fff', 3);
+  [['A', -amp], ['O', 0], ['B', amp]].forEach(([n, a]) => { const x = cx + Math.sin(a)*L, y = top + Math.cos(a)*L; circ(g, x, y + 40, 4, H.mut(o)); txt(g, n, x, y + 60, 20, H.ink(o)); });
+  g.beginPath(); g.arc(cx, top, L + 34, PI/2 - amp, PI/2 + amp); g.strokeStyle = H.ln(o); g.setLineDash([6, 8]); g.lineWidth = 2; g.stroke(); g.setLineDash([]);
+  const n = Math.floor(t/T), f2 = v => v.toFixed(2).replace('.', ','); txt(g, `getaran: ${n}`, w*.8, h*.14, 22, H.ink(o)); txt(g, `waktu: ${t.toFixed(1).replace('.', ',')} s`, w*.8, h*.22, 18, H.mut(o));
+  pill(g, '1 getaran = A → O → B → O → A', w*.8, h*.34, C[0], '#fff', 15); pill(g, `T = 2π√(L/g) = ${f2(T)} s`, w*.8, h*.46, C[1], '#fff', 17); pill(g, `f = 1/T = ${f2(1/T)} Hz`, w*.8, h*.58, C[2], '#fff', 17);
+  txt(g, `L = ${String(P.L).replace('.', ',')} m · g = 9,8 m/s²`, w*.8, h*.68, 15, H.mut(o));
+  txt(g, 'Tali makin panjang → periode makin besar. Simpangan (amplitudo) tidak mengubah periode.', w/2, h*.96, 15, H.mut(o));
 }};
-A.gelombang = {ctl:[['transversal','Transversal'],['longitudinal','Longitudinal']], draw(g, w, h, t, st, o){
-  const y0 = h*.45, A1 = h*.16, lam = w*.32, x0 = w*.06, W = w*.88;
-  if(st.mode === 'transversal'){ g.beginPath(); for(let x = 0; x <= W; x += 3) g.lineTo(x0 + x, y0 - Math.sin((x/lam - t*.5)*TAU)*A1); g.strokeStyle = C[1]; g.lineWidth = 5; g.stroke(); line(g, x0, y0, x0 + W, y0, H.ln(o), 2, [6, 8]);
-    for(let i = 0; i < 14; i++){ const x = i*W/13; circ(g, x0 + x, y0 - Math.sin((x/lam - t*.5)*TAU)*A1, 6, '#f97316'); }
-    const ph = (t*.5) % 1, xc = x0 + ((.25 + ph) % 1)*lam; arrow(g, xc + lam*0, y0 - A1 - 40, xc + lam, y0 - A1 - 40, C[2], 3, 10); txt(g, 'λ (1 bukit + 1 lembah)', xc + lam/2, y0 - A1 - 62, 16, C[2]);
-    arrow(g, x0 + W - 20, y0, x0 + W - 20, y0 - A1, C[8], 3, 10); txt(g, 'A', x0 + W - 4, y0 - A1/2, 18, C[8]); arrow(g, w*.4, h*.85, w*.6, h*.85, H.ink(o), 3, 12); txt(g, 'arah rambat', w/2, h*.92, 15, H.mut(o)); txt(g, '↕ arah getar', w*.15, h*.88, 15, H.mut(o)); }
-  else { for(let i = 0; i < 60; i++){ const xr = i/59*W, x = x0 + xr + Math.sin((xr/lam - t*.5)*TAU)*16; line(g, x, y0 - 60, x, y0 + 60, i % 10 === 0 ? '#f97316' : C[7], 3); }
-    const ph = (t*.5) % 1; for(let k = 0; k < 3; k++){ const xc = x0 + ((k + ph + .75) % 3)*lam*(W/(3*lam)); }
-    txt(g, 'rapatan', x0 + ((.75 + (t*.5)) % 1)*lam, y0 - 84, 16, C[0]); txt(g, 'renggangan', x0 + ((.25 + (t*.5)) % 1)*lam, y0 + 86, 16, C[1]);
-    arrow(g, w*.4, h*.85, w*.6, h*.85, H.ink(o), 3, 12); txt(g, 'arah rambat = arah getar ↔', w/2, h*.92, 15, H.mut(o)); }
-  txt(g, 'v = λ × f = λ / T', w/2, h*.08, 22, H.ink(o));
+A.gelombang = {ctl:[['transversal','Transversal'],['longitudinal','Longitudinal']], par:[['n','Jumlah gelombang',.5,6,.5,2.5,''],['A','Amplitudo',1,10,.5,5,'cm'],['f','Frekuensi',.1,3,.1,.5,'Hz']], draw(g, w, h, t, st, o){
+  const P = st.p || {n:2.5, A:5, f:.5}, Ltot = 2, y0 = h*.47, A1 = h*.2*P.A/10, x0 = w*.06, W = w*.88, lam = W/P.n, ph = t*P.f, lamM = Ltot/P.n, f2 = v => (+v.toFixed(2)).toString().replace('.', ',');
+  if(st.mode === 'transversal'){ g.beginPath(); for(let x = 0; x <= W; x += 3) g.lineTo(x0 + x, y0 - Math.sin((x/lam - ph)*TAU)*A1); g.strokeStyle = C[1]; g.lineWidth = 5; g.stroke(); line(g, x0, y0, x0 + W, y0, H.ln(o), 2, [6, 8]);
+    // tandai bukit & lembah
+    let bk = 0, lb = 0; for(let k = -2; k < P.n + 2; k++){ [.25, .75].forEach(q => { const xr = (k + q + ph)*lam; if(xr < 0 || xr > W) return; const isB = q === .25; isB ? bk++ : lb++; const xx = x0 + xr, yy = y0 - (isB ? A1 : -A1); txt(g, isB ? 'bukit' : 'lembah', xx, yy + (isB ? -22 : 24), 14, isB ? C[0] : C[3]); circ(g, xx, yy, 7, isB ? C[0] : C[3]); }); }
+    const xc = x0 + (((.25 + ph) % 1 + 1) % 1)*lam; if(xc + lam <= x0 + W){ arrow(g, xc, y0 - A1 - 46, xc + lam, y0 - A1 - 46, C[2], 3, 10); txt(g, `λ = ${f2(lamM)} m`, xc + lam/2, y0 - A1 - 66, 16, C[2]); }
+    arrow(g, x0 + W - 14, y0, x0 + W - 14, y0 - A1, C[8], 3, 10); txt(g, `A = ${String(P.A).replace('.', ',')} cm`, x0 + W - 60, y0 - A1/2, 15, C[8]);
+    txt(g, `Jumlah gelombang ${f2(P.n)} → ±${Math.round(P.n)} bukit & ±${Math.round(P.n)} lembah dalam tali ${Ltot} m (yang terlihat: ${bk} bukit, ${lb} lembah)`, w/2, h*.92, 15, H.mut(o)); }
+  else { const nr = Math.round(W/3.2/4); for(let i = 0; i < 64; i++){ const xr = i/63*W, x = x0 + xr + Math.sin((xr/lam - ph)*TAU)*(6 + P.A*2.2); line(g, x, y0 - 60, x, y0 + 60, i % 10 === 0 ? '#f97316' : C[7], 3); }
+    for(let k = -1; k < P.n + 1; k++){ const xr1 = (k + .75 + ph)*lam - lam*.0, xr2 = (k + .25 + ph)*lam; if(xr1 > 0 && xr1 < W) txt(g, 'rapatan', x0 + xr1, y0 - 84, 14, C[0]); if(xr2 > 0 && xr2 < W) txt(g, 'renggangan', x0 + xr2, y0 + 86, 14, C[1]); }
+    txt(g, `λ = 1 rapatan + 1 renggangan = ${f2(lamM)} m · arah rambat = arah getar ↔`, w/2, h*.92, 15, H.mut(o)); }
+  txt(g, `v = λ × f = ${f2(lamM)} × ${f2(P.f)} = ${f2(lamM*P.f)} m/s · T = 1/f = ${f2(1/P.f)} s`, w/2, h*.07, 19, H.ink(o));
 }};
-A.bunyi = {draw(g, w, h, t, st, o){
-  const sx = w*.14, sy = h*.42; emo(g, '🔊', sx, sy, 80); for(let i = 0; i < 6; i++){ const r = ((t*120 + i*80) % 480); g.beginPath(); g.arc(sx + 30, sy, r, -.6, .6); g.strokeStyle = `rgba(14,165,233,${1 - r/480})`; g.lineWidth = 6; g.stroke(); }
-  emo(g, '👂', w*.75, sy, 70);
+A.bunyi = {par:[['f','Frekuensi',1,40000,1,440,'Hz'],['v','Cepat rambat',300,5000,10,340,'m/s']], draw(g, w, h, t, st, o){
+  const P = st.p || {f:440, v:340}, sx = w*.14, sy = h*.4, band = P.f < 20 ? 0 : P.f <= 20000 ? 1 : 2, gap = 30 + 140*Math.max(0, Math.min(1, 1 - Math.log10(P.f)/4.6));
+  emo(g, '🔊', sx, sy, 80); for(let i = 0; i < 8; i++){ const r = ((t*90 + i*gap) % (gap*8)); g.beginPath(); g.arc(sx + 30, sy, r, -.6, .6); g.strokeStyle = `rgba(14,165,233,${Math.max(0, 1 - r/(gap*8))})`; g.lineWidth = 5; g.stroke(); }
+  emo(g, band === 1 ? '👂' : '🙉', w*.75, sy, 70); txt(g, band === 1 ? 'terdengar manusia' : 'tidak terdengar manusia', w*.75, sy + 56, 15, H.ink(o));
+  const lam = P.v/P.f, f2 = v => (v >= 100 ? v.toFixed(0) : v >= 1 ? v.toFixed(2) : v.toFixed(4)).replace('.', ',');
+  pill(g, `λ = v/f = ${f2(lam)} m`, w*.45, sy - 60, C[2], '#fff', 16);
   const B = [['Infrasonik','< 20 Hz','🐘 gajah, 🌋 gempa', C[7]], ['Audiosonik','20 – 20.000 Hz','🧑 telinga manusia', C[2]], ['Ultrasonik','> 20.000 Hz','🦇 kelelawar, 🐬 lumba-lumba, USG', C[0]]];
-  B.forEach((b, i) => { const x = w*(.18 + i*.32); rr(g, x - 120, h*.68, 240, 110, 18, b[3]); txt(g, b[0], x, h*.68 + 26, 20, '#fff'); txt(g, b[1], x, h*.68 + 54, 17, '#fff', 'center', 800); txt(g, b[2], x, h*.68 + 84, 14, '#fff', 'center', 700); });
-  txt(g, 'Bunyi merambat lewat medium (padat, cair, gas) — tidak bisa di ruang hampa', w/2, h*.08, 17, H.ink(o));
+  B.forEach((b, i) => { const x = w*(.18 + i*.32); g.globalAlpha = i === band ? 1 : .35; rr(g, x - 120, h*.68, 240, 110, 18, b[3], i === band ? '#fff' : null, 4); txt(g, b[0], x, h*.68 + 26, 20, '#fff'); txt(g, b[1], x, h*.68 + 54, 17, '#fff', 'center', 800); txt(g, b[2], x, h*.68 + 84, 14, '#fff', 'center', 700); g.globalAlpha = 1; });
+  txt(g, `f = ${P.f.toLocaleString('id-ID')} Hz → ${B[band][0]} · v udara ≈ 340 m/s, air ≈ 1.500 m/s, baja ≈ 5.000 m/s`, w/2, h*.07, 16, H.ink(o));
 }};
 
 /* ============ STRUKTUR BUMI ============ */

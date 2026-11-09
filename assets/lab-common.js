@@ -66,7 +66,7 @@
     clearTimeout(talkT); talkT = setTimeout(() => setTalk(false), Math.min(30000, text.length*80));
   }
   LAB.guide = {
-    sim: null, auto: ls.get('lab_autonarasi','0') === '1', txt: ls.get('lab_guide_text','1') !== '0', cur: null,
+    sim: null, auto: ls.get('lab_autonarasi','0') === '1', mode: ls.get('lab_guide_mode','hide'), txt: ls.get('lab_guide_mode','hide') === 'text', cur: null,
     init(sim, greetKey, greetText){
       this.sim = sim;
       const el = guideEl = document.createElement('div'); el.id = 'labGuide';
@@ -77,21 +77,28 @@
       document.body.appendChild(el);
       const upd = () => { const sb = el.querySelector('.lg-sound'), tb = el.querySelector('.lg-txtb');
         sb.textContent = this.auto ? '🔊' : '🔇'; sb.classList.toggle('on', this.auto); sb.title = this.auto ? 'Narasi suara: NYALA (ketuk untuk mematikan)' : 'Narasi suara: MATI (ketuk untuk menyalakan)';
-        tb.textContent = this.txt ? '💬' : '🙈'; tb.classList.toggle('on', this.txt); tb.title = this.txt ? 'Teks narasi: tampil (ketuk untuk menyembunyikan)' : 'Teks narasi: tersembunyi (ketuk untuk menampilkan)';
+        tb.textContent = this.txt ? '💬' : '🗨️'; tb.classList.toggle('on', this.txt); tb.title = this.txt ? 'Teks narasi: tampil (ketuk untuk menyembunyikan)' : 'Teks narasi: tersembunyi (ketuk untuk menampilkan)';
         el.classList.toggle('notext', !this.txt); };
       el.querySelector('.lg-sound').onclick = () => { this.auto = !this.auto; ls.set('lab_autonarasi', this.auto ? '1' : '0'); upd();
         if(this.auto && this.cur) speak(this.sim, this.cur.key, this.cur.text); else stop(); };
-      el.querySelector('.lg-txtb').onclick = () => { this.txt = !this.txt; ls.set('lab_guide_text', this.txt ? '1' : '0'); upd(); if(this.txt && this.cur) el.classList.add('open'); else el.classList.remove('open'); };
+      el.querySelector('.lg-txtb').onclick = () => { this.txt = !this.txt; this.mode = this.txt ? 'text' : 'avatar'; ls.set('lab_guide_mode', this.mode); upd(); if(this.txt && this.cur) el.classList.add('open'); else el.classList.remove('open'); };
       el.querySelector('.lg-ava').onclick = () => { if(this.txt) el.classList.toggle('open'); if(this.cur) speak(this.sim, this.cur.key, this.cur.text); };
       el.querySelector('.lg-x').onclick = () => { el.classList.remove('open'); };
       el.querySelector('.lg-play').onclick = () => this.cur && speak(this.sim, this.cur.key, this.cur.text);
       el.querySelector('.lg-stop').onclick = stop;
-      upd(); this.show(greetKey, greetText, false);
+      // tombol kecil untuk memunculkan Bu Nella bila disembunyikan
+      const peek = document.createElement('button'); peek.id = 'labGuidePeek'; peek.type = 'button'; peek.title = 'Tampilkan Bu Nella (narasi)'; peek.innerHTML = `<img src="${LAB.assetBase}nella/avatar.jpg" alt="">`; document.body.appendChild(peek);
+      const hideBtn = document.createElement('button'); hideBtn.className = 'lg-hide'; hideBtn.type = 'button'; hideBtn.title = 'Sembunyikan Bu Nella'; hideBtn.textContent = '✕'; el.querySelector('.lg-tools').appendChild(hideBtn);
+      const applyMode = () => { const hid = this.mode === 'hide'; el.style.display = hid ? 'none' : ''; peek.style.display = hid ? '' : 'none'; if(hid){ stop(); el.classList.remove('open'); } };
+      peek.onclick = () => { this.mode = 'avatar'; this.txt = false; ls.set('lab_guide_mode', 'avatar'); applyMode(); upd(); };
+      hideBtn.onclick = () => { this.mode = 'hide'; ls.set('lab_guide_mode', 'hide'); applyMode(); };
+      upd(); applyMode(); this.show(greetKey, greetText, false);
       setTimeout(() => { if(!this.cur || this.cur.key === greetKey) el.classList.remove('open'); }, 9000);
     },
     show(key, text, autoplay = this.auto){
       if(!guideEl) return; this.cur = {key, text};
-      guideEl.querySelector('.lg-t').textContent = text; if(this.txt) guideEl.classList.add('open');
+      guideEl.querySelector('.lg-t').textContent = text; if(this.mode === 'hide') return;
+      if(this.txt) guideEl.classList.add('open');
       if(autoplay) speak(this.sim, key, text); else stop();
     },
     stop

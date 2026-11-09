@@ -17,10 +17,10 @@ A.kingdom = {draw(g, w, h, t, st, o){
 }};
 
 /* Optik: cermin & lensa dengan sinar istimewa */
-A.optik = {ctl:[['cekung','Cermin cekung'],['cembung','Cermin cembung'],['lcembung','Lensa cembung'],['lcekung','Lensa cekung']], draw(g, w, h, t, st, o){
+A.optik = {par:[['s','Jarak benda s',2,40,.5,15,'cm'],['f','Jarak fokus |f|',5,20,.5,10,'cm']], ctl:[['cekung','Cermin cekung'],['cembung','Cermin cembung'],['lcembung','Lensa cembung'],['lcekung','Lensa cekung']], draw(g, w, h, t, st, o){
   const m = st.mode, cx = m.startsWith('l') ? w*.5 : w*.66, ay = h*.56, f = w*.13, ink = H.ink(o), mu = H.mut(o);
   line(g, w*.03, ay, w*.97, ay, mu, 2, [8, 6]);
-  const s = .5 + .5*Math.sin(t*.5), d = f*(1.3 + s*1.4), ho = h*.16; // jarak benda
+  const s = .5 + .5*Math.sin(t*.5), d = st.user && st.p ? f*(st.p.s/st.p.f) : f*(1.3 + s*1.4), ho = h*.16; // jarak benda (slider: skala s/f)
   // alat optik
   if(m === 'cekung' || m === 'cembung'){ g.beginPath(); const bow = m === 'cekung' ? 1 : -1; g.moveTo(cx, ay - h*.36); g.quadraticCurveTo(cx + bow*w*.05, ay, cx, ay + h*.36); g.strokeStyle = C[1]; g.lineWidth = 7; g.stroke();
     for(let i = -6; i <= 6; i++){ const yy = ay + i*h*.055; line(g, cx + bow*w*.02 + 6, yy, cx + bow*w*.02 + 18, yy - 10, mu, 2); } }
@@ -46,7 +46,7 @@ A.optik = {ctl:[['cekung','Cermin cekung'],['cembung','Cermin cembung'],['lcembu
   if(isFinite(sp) && Math.abs(hi) < h*.5 && ix > w*.02 && ix < w*.98){ g.globalAlpha = real ? 1 : .55; arrow(g, ix, ay, ix, ay - hi, C[4], 6, 16); g.globalAlpha = 1; txt(g, real ? 'bayangan nyata' : 'bayangan maya', ix, ay - hi + (hi > 0 ? -22 : 22), 15, C[4]); }
   const sifat = (real ? 'nyata, terbalik' : 'maya, tegak') + ', ' + (Math.abs(M) > 1.02 ? 'diperbesar' : Math.abs(M) < .98 ? 'diperkecil' : 'sama besar');
   txt(g, {cekung:'Cermin cekung (konkaf) — mengumpulkan cahaya', cembung:'Cermin cembung (konveks) — menyebarkan cahaya', lcembung:'Lensa cembung (konvergen)', lcekung:'Lensa cekung (divergen)'}[m], w/2, h*.07, 19, ink);
-  txt(g, `s = ${(d/f*10).toFixed(0)} cm · f = ${fs > 0 ? '' : '−'}10 cm · sifat bayangan: ${sifat}`, w/2, h*.95, 16, mu);
+  const fc = st.user && st.p ? st.p.f : 10, sc2 = (d/f*fc), spc = sp/f*fc; txt(g, `s = ${sc2.toFixed(1).replace('.', ',')} cm · f = ${fs > 0 ? '' : '−'}${String(fc).replace('.', ',')} cm · s′ = ${isFinite(spc) && Math.abs(spc) < 1e4 ? spc.toFixed(1).replace('.', ',') : '∞'} cm · ${sifat}${st.user ? '' : ' (otomatis — geser slider untuk mengatur)'}`, w/2, h*.95, 15, mu);
 }};
 
 /* Mata & cacat mata */

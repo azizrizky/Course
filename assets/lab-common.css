@@ -67,3 +67,10 @@ h1,h2,h3,.kicker,#brand b,#title h1,#homeCard h1{font-family:'Baloo 2','Nunito',
 [data-theme=light] #labGuide .lg-tools button{background:rgba(255,255,255,.95);border-color:rgba(15,31,61,.2)}
 [data-theme=light] #labGuide .lg-tools button.on{background:#2DD4BF}
 #labGuide.notext .lg-card{display:none}
+#labGuide .lg-tools .lg-hide{font-size:.8em;font-weight:900;color:#fff}
+[data-theme=light] #labGuide .lg-tools .lg-hide{color:#0F1F3D}
+#labGuidePeek{position:fixed;left:1em;bottom:1em;z-index:50;width:2.8em;height:2.8em;border-radius:50%;padding:0;border:2px solid #FBBF24;background:#fff;opacity:.55;cursor:pointer;overflow:hidden;box-shadow:0 .3em .8em rgba(0,0,0,.35);font-size:clamp(13px,.95vw,18px)}
+#labGuidePeek:hover{opacity:1}#labGuidePeek img{width:100%;height:100%;object-fit:cover;display:block}
+@media (max-width:900px){#labGuidePeek{bottom:4.2em}}
+[data-lab=tata-surya] #labGuidePeek{bottom:auto;top:8.2em}
+[data-lab=newton] #labGuidePeek{display:none!important}

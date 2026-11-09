@@ -98,10 +98,16 @@ const ui = {
   sec(title, inner = ''){ return this.html(`<div class="sec"><b>${title}</b>${inner}</div>`).firstChild; },
   slider(parent, o){ const id = 's' + Math.random().toString(36).slice(2,8);
     const row = document.createElement('div'); row.className = 'srow';
-    row.innerHTML = `<label for="${id}">${o.label}</label><input id="${id}" type="range" min="${o.min}" max="${o.max}" step="${o.step || 1}" value="${o.value}"><output>${fmt(o.value, o)}</output>`;
-    (parent || pb()).appendChild(row); const inp = row.querySelector('input'), out = row.querySelector('output');
-    inp.oninput = () => { const v = +inp.value; out.textContent = fmt(v, o); o.on && o.on(v); }; o.on && o.on(+o.value);
-    return {set(v){ inp.value = v; out.textContent = fmt(+v, o); }, get:() => +inp.value}; },
+    const numMode = !o.fmt;
+    row.innerHTML = `<label for="${id}">${o.label}</label><input id="${id}" type="range" min="${o.min}" max="${o.max}" step="${o.step || 1}" value="${o.value}">` + (numMode ? `<span class="nv"><input type="number" class="num" min="${o.min}" max="${o.max}" step="${o.step || 1}" value="${o.value}" aria-label="${o.label}"><small>${o.unit || ''}</small></span>` : `<output>${fmt(o.value, o)}</output>`);
+    if(numMode) row.classList.add('hasnum');
+    (parent || pb()).appendChild(row); const inp = row.querySelector('input[type=range]'), out = row.querySelector('output'), num = row.querySelector('.num');
+    const show = v => { if(out) out.textContent = fmt(v, o); if(num && document.activeElement !== num) num.value = +(+v).toFixed(4); };
+    inp.oninput = () => { const v = +inp.value; show(v); o.on && o.on(v); };
+    if(num){ const apply = () => { if(num.value === '') return; let v = Math.min(+o.max, Math.max(+o.min, +num.value)); if(!isFinite(v)) return; inp.value = v; o.on && o.on(v); };
+      num.oninput = apply; num.onchange = () => { apply(); num.value = +(+inp.value).toFixed(4); }; num.onkeydown = e => e.stopPropagation(); }
+    o.on && o.on(+o.value);
+    return {set(v){ inp.value = v; show(+v); }, get:() => +inp.value}; },
   buttons(parent, list){ const d = document.createElement('div'); d.className = 'btns';
     list.forEach(b => { const el = document.createElement('button'); el.className = 'btn ' + (b.cls || ''); el.innerHTML = b.label; el.onclick = () => b.on(el); d.appendChild(el); b.el = el; });
     (parent || pb()).appendChild(d); return list; },
@@ -246,9 +252,15 @@ addEventListener('resize', topH); setTimeout(topH, 50); setTimeout(topH, 800);
 function resize(){ renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix(); }
 addEventListener('resize', resize); resize();
 let last = performance.now(), T = 0;
-function frame(now){ const dt = Math.max(0, Math.min(.05, (now - last)/1000)); last = now; T += dt;
+const MOTION = () => { try{ return String(localStorage.getItem('anim_motion') || 'normal').replace(/"/g, ''); }catch(e){ return 'normal'; } };
+let PAUSED = MOTION() === 'jeda';
+function setPause(v){ PAUSED = v; const b = $('#pauseBtn'); if(b){ b.textContent = PAUSED ? '▶' : '⏸'; b.classList.toggle('on', PAUSED); b.title = PAUSED ? 'Jalankan animasi (J)' : 'Jeda animasi (J)'; } }
+{ const b = $('#pauseBtn'); if(b) b.onclick = () => setPause(!PAUSED); setPause(PAUSED);
+  addEventListener('keydown', e => { if((e.key === 'j' || e.key === 'J') && !/INPUT|TEXTAREA|SELECT/.test((e.target || {}).tagName || '')) setPause(!PAUSED); }); }
+E.paused = () => PAUSED;
+function frame(now){ const rdt = Math.max(0, Math.min(.05, (now - last)/1000)); last = now; const dt = PAUSED ? 0 : rdt*(MOTION() === 'pelan' ? .45 : 1); T += dt;
   TICKS.forEach(f => { try{ f(dt, T); }catch(e){ console.error(e); } });
-  applyCam(dt); updLabels(); renderer.render(scene, camera); requestAnimationFrame(frame); }
+  applyCam(rdt); updLabels(); renderer.render(scene, camera); requestAnimationFrame(frame); }
 setMode(P.get('m') || DEF.modes[0].id);
 const firstView = DEF.modes.find(x => x.id === E.mode).view; if(firstView) setView(firstView, true);
 if(window.LAB && LAB.guide) LAB.guide.init(ID, ID + '_greet', DEF.greet || `Halo! Selamat datang di simulasi ${DEF.title}. Ayo bereksperimen!`);

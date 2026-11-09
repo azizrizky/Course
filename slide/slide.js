@@ -22,7 +22,7 @@ addEventListener('message', e => { if(e.data && e.data.type === 'lab-theme' && e
 
 /* muat data */
 setTimeout(() => { const l = document.querySelector('#loading'); if(l && !S.length && !l.querySelector('button')) init(); }, 9000);
-const sc = document.createElement('script'); sc.src = `data/${ID}.js?v=20261109b`; sc.onload = init; sc.onerror = () => { $('#loading').textContent = 'Slide materi ini belum tersedia.'; }; document.head.appendChild(sc);
+const sc = document.createElement('script'); sc.src = `data/${ID}.js?v=20261109c`; sc.onload = init; sc.onerror = () => { $('#loading').textContent = 'Slide materi ini belum tersedia.'; }; document.head.appendChild(sc);
 
 let D, S = [], cur = 0, scale = 1, SW = 1600, SH = 900;
 let SECS = [];
@@ -68,7 +68,9 @@ function fit(){ const wide = innerWidth >= 1180; document.body.classList.toggle(
 /* ---------- render ---------- */
 const kick = (s, def) => `<div class="kick">${s.kick || def}</div>`;
 const animBox = (name, o, cap, extra = '') => { const A = window.ANIMS && ANIMS[name]; const ctl = A && A.ctl ? `<div class="animctl">${A.ctl.map((c, k) => `<button data-v="${c[0]}" class="${k === 0 ? 'on' : ''}">${c[1]}</button>`).join('')}</div>` : '';
-  return `<div class="animbox ${extra}"><canvas class="anim" data-anim="${name}" data-o='${JSON.stringify(o || {}).replace(/'/g, '&#39;')}'></canvas>${ctl}${cap ? `<div class="cap">${cap}</div>` : ''}</div>`; };
+  const par = A && A.par ? `<div class="animpar">${A.par.map(p => `<label class="ap"><span>${p[1]}</span><input type="range" data-pk="${p[0]}" min="${p[2]}" max="${p[3]}" step="${p[4]}" value="${p[5]}"><input type="number" data-pn="${p[0]}" min="${p[2]}" max="${p[3]}" step="${p[4]}" value="${p[5]}"><i>${p[6] || ''}</i></label>`).join('')}</div>` : '';
+  return `<div class="animbox ${extra}"><canvas class="anim" data-anim="${name}" data-o='${JSON.stringify(o || {}).replace(/'/g, '&#39;')}'></canvas>${ctl}<div class="animtools"><button data-apause title="Jeda / jalankan animasi (tombol J)">⏸</button><button data-areset title="Ulang dari awal">⟲</button></div>${par}${cap ? `<div class="cap">${cap}</div>` : ''}</div>`; };
+const MOTION = () => { try{ return String(localStorage.getItem('anim_motion') || 'normal').replace(/"/g, ''); }catch(e){ return 'normal'; } };
 function render(s, i){
   const c = PAL;
   switch(s.t){
@@ -155,6 +157,16 @@ function wire(s, el){
   const lb = el.querySelector('[data-lab]'); if(lb) lb.onclick = openLab;
   const qb = el.querySelector('[data-quiz]'); if(qb) qb.onclick = openQuiz;
   const rs = el.querySelector('[data-restart]'); if(rs) rs.onclick = () => go(0, true);
+  $$('.animbox', el).forEach(box => { const cv = box.querySelector('canvas'), A = window.ANIMS && ANIMS[cv.dataset.anim]; cv._st = cv._st || {};
+    if(A && A.par){ cv._st.p = cv._st.p || {}; A.par.forEach(p => { if(cv._st.p[p[0]] === undefined) cv._st.p[p[0]] = +p[5]; }); }
+    if(MOTION() === 'jeda') cv._st.paused = true;
+    const pb = box.querySelector('[data-apause]'), upd = () => { pb.textContent = cv._st.paused ? '▶' : '⏸'; pb.classList.toggle('on', !!cv._st.paused); }; upd();
+    pb.onclick = e => { e.stopPropagation(); cv._st.paused = !cv._st.paused; upd(); };
+    box.querySelector('[data-areset]').onclick = e => { e.stopPropagation(); cv._st.t = 0; cv._st.P = null; delete cv._st.s; };
+    box.querySelectorAll('[data-pk]').forEach(r => { const k = r.dataset.pk, nb = box.querySelector(`[data-pn="${k}"]`);
+      const setv = v => { v = Math.min(+r.max, Math.max(+r.min, +v)); if(!isFinite(v)) return; cv._st.p[k] = v; cv._st.user = true; r.value = v; if(document.activeElement !== nb) nb.value = v; };
+      r.oninput = () => setv(r.value); nb.oninput = () => { if(nb.value !== '') setv(nb.value); }; nb.onchange = () => { setv(nb.value); nb.value = cv._st.p[k]; };
+      [r, nb].forEach(x => { x.onclick = e => e.stopPropagation(); x.onkeydown = e => e.stopPropagation(); }); }); });
   $$('.animctl button', el).forEach(b => b.onclick = e => { e.stopPropagation(); const box = b.closest('.animbox'); box.querySelectorAll('.animctl button').forEach(x => x.classList.toggle('on', x === b)); const cv = box.querySelector('canvas'); cv._st = cv._st || {}; cv._st.mode = b.dataset.v; cv._st.t0 = performance.now(); });
 }
 function revealStep(el){ const steps = $$('.step', el), nx = steps.find(x => !x.classList.contains('in'));
@@ -253,6 +265,7 @@ addEventListener('keydown', e => {
   else if(k === 'h' || k === 'H') go(HUB, true);
   else if(k >= '1' && k <= '9' && SECS[+k - 1]) goSec(SECS[+k - 1].id);
   else if(k === 'f' || k === 'F') $('#bFs').click();
+  else if(k === 'j' || k === 'J'){ const b = S[cur] && S[cur].el.querySelector('[data-apause]'); if(b) b.click(); }
   else if(k === 'b' || k === 'B') $('#bRead').click();
   else if(k === 'p' || k === 'P'){ const el = S[cur].el; if(el.querySelector('[data-reveal]:not([disabled])')) revealStep(el); }
 });
@@ -285,10 +298,10 @@ function loop(now){ const dt = Math.min(.05, Math.max(0, (now - last)/1000)); la
   const el = S[cur] && S[cur].el;
   if(el && window.ANIMS) el.querySelectorAll('canvas.anim').forEach(cv => { const A = ANIMS[cv.dataset.anim]; if(!A) return; if(!cv._k) sizeCanvas(cv); if(!cv._w) return;
     const g = cv.getContext('2d'); g.setTransform(cv._k, 0, 0, cv._k, 0, 0); g.clearRect(0, 0, cv._w, cv._h);
-    cv._st = cv._st || {}; if(cv._st.mode === undefined && A.ctl) cv._st.mode = A.ctl[0][0]; cv._st.t = (cv._st.t || 0) + dt;
+    cv._st = cv._st || {}; if(cv._st.mode === undefined && A.ctl) cv._st.mode = A.ctl[0][0]; const sp = cv._st.paused ? 0 : (MOTION() === 'pelan' ? .45 : 1); cv._st.t = (cv._st.t || 0) + dt*sp;
     const o = cv._o || (cv._o = JSON.parse(cv.dataset.o || '{}')); o.dark = document.documentElement.dataset.theme !== 'light';
     if(window.AH) AH.fs = Math.max(.72, Math.min(1.3, cv._w/760));
-    try{ (A.draw || A)(g, cv._w, cv._h, cv._st.t, cv._st, o, dt); }catch(err){ if(!cv._err){ cv._err = 1; console.warn(cv.dataset.anim, err); } } });
+    try{ (A.draw || A)(g, cv._w, cv._h, cv._st.t, cv._st, o, dt*sp); }catch(err){ if(!cv._err){ cv._err = 1; console.warn(cv.dataset.anim, err); } } });
   requestAnimationFrame(loop); }
 window.SLIDE = {go, next, prev, goSec, setMode, togglePlay, get cur(){ return cur; }, get n(){ return S.length; }};
 })();
