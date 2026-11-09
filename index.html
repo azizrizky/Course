@@ -659,12 +659,41 @@ details.help ol{line-height:1.7;font-size:14px}
 .lk-seg button.on{background:var(--accent);color:#04211d;border-color:transparent}
 .lk-list{overflow:auto;display:flex;flex-direction:column;gap:7px;padding-right:2px}
 .lk-gh{font-weight:900;font-size:12px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:8px 4px 2px}
-.lk-item{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid transparent;background:var(--panel2);color:var(--ink);border-radius:14px;padding:7px;cursor:pointer;transition:.15s}
-.lk-item:hover{transform:translateX(3px);border-color:var(--line)}
-.lk-item.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,var(--panel2))}
-.lk-item img{width:62px;height:38px;object-fit:cover;border-radius:9px;flex:none}
-.lk-item span{display:flex;flex-direction:column;min-width:0}.lk-item small{font-weight:800;font-size:11px;color:var(--muted)}.lk-item b{font-size:13.5px;line-height:1.15}
-.lk-item i{font-style:normal;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lk-node{border-radius:16px}
+.lk-item{display:flex;align-items:stretch;gap:2px;border:2px solid transparent;background:var(--panel2);border-radius:14px;transition:.15s}
+.lk-item:hover{border-color:var(--line)}.lk-item.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,var(--panel2))}
+.lk-tg{flex:none;width:28px;border:none;background:none;color:var(--muted);font-size:15px;cursor:pointer;border-radius:12px 0 0 12px}.lk-tg:hover{color:var(--ink);background:rgba(127,127,127,.12)}
+.lk-main-b{flex:1;display:flex;gap:9px;align-items:center;text-align:left;border:none;background:none;color:var(--ink);padding:7px 7px 7px 0;cursor:pointer;min-width:0}
+.lk-main-b img{width:58px;height:36px;object-fit:cover;border-radius:9px;flex:none}
+.lk-main-b span{display:flex;flex-direction:column;min-width:0}.lk-main-b small{font-weight:800;font-size:11px;color:var(--muted)}.lk-main-b b{font-size:13.5px;line-height:1.15}
+.lk-main-b i{font-style:normal;font-size:11.5px;color:var(--muted)}
+.lk-subs{display:none;flex-direction:column;gap:4px;margin:5px 0 4px 18px;padding-left:10px;border-left:2px solid color-mix(in srgb,var(--c) 60%,transparent)}
+.lk-node.open .lk-subs{display:flex}
+.lk-sitem{display:flex;gap:9px;align-items:flex-start;text-align:left;border:1.5px solid transparent;background:none;color:var(--ink);border-radius:11px;padding:6px 8px;cursor:pointer}
+.lk-sitem:hover{background:var(--panel2)}.lk-sitem.on{background:color-mix(in srgb,var(--c) 22%,var(--panel2));border-color:var(--c)}
+.lk-sitem>b{flex:none;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;background:var(--c);color:#fff;font-size:12px}
+.lk-sitem span{display:flex;flex-direction:column;font-weight:800;font-size:12.5px;line-height:1.2;min-width:0}.lk-sitem span i{font-style:normal;font-weight:700;font-size:11px;color:var(--muted);margin-top:2px}
+.lk-sitem em{margin-left:auto;font-style:normal;font-size:12px}
+.lk-legend{margin:0;font-size:11.5px;font-weight:800;color:var(--muted);text-align:center}
+/* toolbar editor */
+.lk-tb{position:sticky;top:64px;z-index:6;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 0;padding:8px;border-radius:16px;background:var(--panel);border:1.5px solid var(--accent);box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.lk-tb .g{display:flex;gap:3px;align-items:center;padding-right:6px;border-right:1px solid var(--line)}.lk-tb .g:last-child{border-right:none}
+.lk-tb button:not(.btn),.lk-tb select,.lk-tb .clr{height:32px;min-width:32px;padding:0 8px;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:9px;font:800 13px 'Nunito',sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:4px}
+.lk-tb button:not(.btn):hover,.lk-tb select:hover{border-color:var(--accent)}
+.lk-tb select{padding:0 4px;max-width:118px}
+.lk-tb .clr{position:relative;color:#dc2626;font-weight:900}.lk-tb .clr input{width:20px;height:20px;border:none;padding:0;background:none;cursor:pointer}
+.lk-tb .st{margin-left:auto;gap:6px;flex-wrap:wrap}
+#lkSt{font-size:12.5px;font-weight:800;color:var(--muted);max-width:330px}#lkSt.ok{color:#22c55e}#lkSt.warn{color:#f59e0b}#lkSt a{color:var(--accent)}
+.lk-tb .dd{position:relative}.lk-tb .ddm{display:none;position:absolute;top:36px;left:0;z-index:9;min-width:230px;max-height:60vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);flex-direction:column;gap:3px}
+.lk-tb .dd.open .ddm{display:flex}.lk-tb .ddm button{justify-content:flex-start!important;width:100%;height:auto!important;padding:7px 9px!important;border-color:transparent!important;background:none!important}.lk-tb .ddm button:hover{background:var(--panel2)!important}
+.lk-tb .ddm hr{border:none;border-top:1px solid var(--line);margin:4px 0}
+.lk-tb .grid{display:grid;grid-template-columns:repeat(8,20px);gap:3px;padding:4px}.lk-tb .grid i{width:20px;height:20px;border:1px solid var(--line);border-radius:4px;cursor:pointer;background:var(--panel2)}.lk-tb .grid i.on{background:var(--accent);border-color:var(--accent)}
+.lk-tb .ddm small{font-weight:800;color:var(--muted);padding:0 6px}
+.lk-tb .cc{display:flex;align-items:center;gap:6px;font-weight:800;font-size:12.5px;padding:4px 8px}.lk-tb .cc input{width:28px;height:24px;border:none;padding:0;background:none}.lk-tb .cc button{width:auto!important;background:var(--panel2)!important;border:1px solid var(--line)!important}
+.lk-steps.ed{display:none}
+.lk-sheet.editing{outline:3px dashed var(--accent);outline-offset:6px;cursor:text}
+.lk-sheet.editing .lk-dot,.lk-sheet.editing .lk-pb{cursor:default}
+.lk-sheet img.lk-sel{outline:3px solid #2563eb}
 .lk-empty{display:none;text-align:center;font-weight:800}
 .lk-head{display:flex;gap:18px;align-items:center;background:linear-gradient(120deg,color-mix(in srgb,var(--c) 30%,var(--panel)),var(--panel));border:1px solid var(--line);border-radius:22px;padding:16px}
 .lk-head>img{width:200px;border-radius:16px;flex:none}
@@ -674,7 +703,7 @@ details.help ol{line-height:1.7;font-size:14px}
 .lk-steps button{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 13px;font:900 12.5px 'Nunito',sans-serif;cursor:pointer}
 .lk-steps button:hover{border-color:var(--accent)}
 .lk-paper{background:repeating-linear-gradient(0deg,transparent 0 23px,rgba(127,163,207,.08) 23px 24px),repeating-linear-gradient(90deg,transparent 0 23px,rgba(127,163,207,.08) 23px 24px);border-radius:22px;padding:22px 10px}
-@media (max-width:1000px){.lk-wrap{grid-template-columns:1fr}.lk-side{position:static;max-height:none}.lk-list{flex-direction:row;overflow-x:auto;padding-bottom:6px}.lk-gh{display:none}.lk-item{flex:0 0 240px;width:240px}.lk-item span{overflow:hidden}.lk-head{flex-direction:column;align-items:stretch}.lk-head>img{width:170px}.lk-paper{padding:10px 0}}
+@media (max-width:1000px){.lk-wrap{grid-template-columns:1fr}.lk-side{position:static;max-height:none}.lk-list{max-height:46vh}.lk-tb{top:58px}.lk-tb .st{margin-left:0}.lk-head{flex-direction:column;align-items:stretch}.lk-head>img{width:170px}.lk-paper{padding:10px 0}}
 /* LKPD-SHEET */
 .lk-sheet{max-width:820px;margin:0 auto;background:#fff;color:#1f2937;font:15px/1.55 'Nunito',Calibri,Arial,sans-serif;padding:40px 46px;border-radius:6px;box-shadow:0 18px 40px rgba(0,0,0,.25);border-top:8px solid #F28C28}
 .lk-sheet p{margin:6px 0}.lk-sheet ol,.lk-sheet ul{margin:6px 0;padding-left:22px}.lk-sheet li{margin:3px 0}
@@ -709,8 +738,10 @@ details.help ol{line-height:1.7;font-size:14px}
 .lk-dot{border-bottom:1.5px dotted #9AA8BC;height:26px}
 .lk-quote{background:#FFD166;color:#7A4A00;font-weight:900;font-style:italic;text-align:center;padding:14px 18px;margin:22px 0 8px;border-radius:4px}
 .lk-foot{text-align:center;color:#5B6B82;font-size:12px;margin-top:14px}
+.lk-pb{text-align:center;color:#9AA8BC;font-size:11px;font-weight:800;letter-spacing:.1em;margin:18px 0;border-top:1px dashed #cbd5e1;padding-top:4px;user-select:none}
+.lk-sheet img{max-width:100%;height:auto}.lk-sheet table{margin:4px 0}
 @media (max-width:700px){.lk-sheet{padding:22px 16px}.lk-cover{flex-direction:column-reverse;align-items:flex-start}.lk-cover img{width:100%}.lk-bar{min-width:0;display:block}}
-@media print{@page{size:A4;margin:14mm}.lk-sheet{box-shadow:none;border-top:none;padding:0;max-width:none}.lk-bar,.lk-box>h3,.lk-quote,.lk-t th,.lk-read,.lk-id{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media print{@page{size:A4;margin:14mm}.lk-pb{break-after:page;visibility:hidden;margin:0;height:0;border:none;padding:0}.lk-sheet{box-shadow:none;border-top:none;padding:0;max-width:none}.lk-bar,.lk-box>h3,.lk-quote,.lk-t th,.lk-read,.lk-id{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 /* /LKPD-SHEET */
 </style>
 </head>
@@ -3267,7 +3298,10 @@ var qrcode = function() {
 </script>
 <script src="assets/dialog.js?v=20261109d"></script>
 <script src="assets/materi.js?v=20261109d"></script>
-<script src="assets/lkpd.js?v=20261109d"></script>
+<script src="assets/lkpd.js?v=20261109e"></script>
+<script src="assets/lkpd_sub.js?v=20261109e"></script>
+<script src="assets/lkpd_editor.js?v=20261109e"></script>
+<script src="assets/lkpd_docx_web.js?v=20261109e"></script>
 <script>
 /* ============================================================
    DATA MATERI — tambahkan materi lain di MATERI di bawah ini
@@ -5526,23 +5560,26 @@ addEventListener('message', e => { const d = e.data || {}; if(d.type === 'open-l
 const SL_COL = {'hakikat-sains':['#14b8a6','#6366f1'],'wujud-zat':['#0ea5e9','#8b5cf6'],'kalor':['#ef4444','#f59e0b'],'tata-surya':['#6366f1','#f59e0b'],'klasifikasi':['#22c55e','#0ea5e9'],'ekosistem':['#16a34a','#eab308'],'gerak-gaya':['#f97316','#ec4899'],
   'sel':['#ec4899','#8b5cf6'],'sistem-organ':['#ef4444','#0ea5e9'],'usaha':['#f59e0b','#14b8a6'],'materi':['#a855f7','#06b6d4'],'getaran-gelombang':['#0ea5e9','#a855f7'],'struktur-bumi':['#ea580c','#2563eb']};
 /* ---------- LKPD ---------- */
-const lkFile = id => { const m = MATERI[id]; return `lkpd/LKPD-IPA-Kelas${m.kelas}-Bab${m.bab}-${id}.docx`; };
-function lkSheet(id){
-  const D = LKPD_DATA[id], m = MATERI[id], kls = m.kelas === '7' ? 'VII' : 'VIII', dl = n => Array.from({length:n}, () => '<div class="lk-dot"></div>').join('');
+const lkFile = (id, sb) => { const m = MATERI[id]; return `lkpd/LKPD-IPA-Kelas${m.kelas}-Bab${m.bab}${sb || ''}-${id}.docx`; };
+const lkSplit = key => { const [id, sb] = key.split('__'); return {id, sb:sb || null}; };
+function lkInner(key){
+  const {id, sb} = lkSplit(key), D = lkpdDoc(id, sb), m = MATERI[id], kls = m.kelas === '7' ? 'VII' : 'VIII', dl = n => Array.from({length:n}, () => '<div class="lk-dot"></div>').join('');
+  const subT = sb ? (m.subs.find(x => x[0] === sb) || [])[1] : '';
   const tbl = (t, cls = '') => { const rows = Array.isArray(t.rows) ? t.rows : Array.from({length:t.rows}, (_, r) => t.head.map((_, c) => c === 0 && t.isi && t.isi[r] != null ? t.isi[r] : ''));
-    return `<div class="lk-tw"><table class="lk-t ${cls}"><thead><tr>${t.head.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((v, i) => `<td>${i === 0 && v ? `<b>${v}</b>` : v}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`; };
+    return `<table class="lk-t ${cls}"><thead><tr>${t.head.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((v, i) => `<td>${i === 0 && v ? `<b>${v}</b>` : v || '<br>'}</td>`).join('')}</tr>`).join('')}</tbody></table>`; };
   const ol = a => `<ol>${a.map(x => `<li>${x}</li>`).join('')}</ol>`;
-  return `<article class="lk-sheet" id="lkSheet">
-    <header class="lk-cover" id="lk-identitas"><div><div class="lk-kick">L E M B A R &nbsp; K E R J A &nbsp; P E S E R T A &nbsp; D I D I K</div><h1>LKPD IPA</h1><h2>“${D.judul}”</h2>
-      <p class="lk-meta">Kelas ${kls} · Fase D · Bab ${m.bab}: ${esc(m.nama)} · Tema: ${D.tema}</p></div><img src="lkpd/img/${id}.png" alt=""></header>
+  return `<header class="lk-cover" id="lk-identitas"><div><div class="lk-kick">L E M B A R &nbsp; K E R J A &nbsp; P E S E R T A &nbsp; D I D I K</div><h1>LKPD IPA</h1><h2>“${D.judul}”</h2>
+      <p class="lk-meta">Kelas ${kls} · Fase D · Bab ${m.bab}: ${esc(m.nama)}${sb ? ` · Sub Bab ${sb}. ${esc(subT)}` : ''} · Tema: ${D.tema}</p></div><img src="lkpd/img/${id}.png" alt="" width="260"></header>
     <div class="lk-id"><div><b>Kelompok :</b><span class="lk-ln"></span></div><div><b>Kelas :</b><span>${kls} / ....</span></div><div><b>Anggota :</b><ol>${'<li><span class="lk-ln"></span></li>'.repeat(6)}</ol></div></div>
     <section class="lk-box o"><h3>A. Petunjuk Belajar</h3><div>${ol(LKPD_DATA._petunjuk)}</div></section>
     <section class="lk-box o"><h3>B. Capaian Pembelajaran</h3><div><p>${D.cp}</p></div></section>
     <section class="lk-box o"><h3>C. Tujuan Pembelajaran</h3><div>${ol(D.tujuan)}</div></section>
+    <div class="lk-pb">✂ ─── halaman baru ───</div>
     <h3 class="lk-bar" id="lk-t1">Tahap 1: Orientasi Murid pada Masalah</h3>
     <div class="lk-frame"><p><b>Permasalahan:</b></p><p>${D.masalah}</p><p class="lk-q"><i>${D.pemantik}</i></p></div>
     <h3 class="lk-bar" id="lk-t2">Tahap 2: Mengorganisasikan Murid untuk Belajar</h3>
     <div class="lk-frame"><p><b>Berkumpullah sesuai kelompok yang telah ditentukan dan diskusikan pertanyaan berikut berdasarkan permasalahan di atas.</b></p><p class="lk-or"><b>AYO DISKUSI</b></p>${D.diskusi.map((q, i) => `<p>${i + 1}. ${q}</p>${dl(3)}`).join('')}</div>
+    <div class="lk-pb">✂ ─── halaman baru ───</div>
     <h3 class="lk-bar" id="lk-t3">Tahap 3: Membimbing Penyelidikan Kelompok maupun Individu</h3>
     ${D.kegiatan.map((k, ki) => `<h3 class="lk-bar k" id="lk-k${ki}">Kegiatan ${'ABCDE'[ki]} — ${k.judul}</h3>
       <p class="lk-sub">📖 Ayo Membaca!</p><div class="lk-read"><p>${k.baca}</p><ul>${k.poin.map(x => `<li>${x}</li>`).join('')}</ul></div>
@@ -5555,36 +5592,62 @@ function lkSheet(id){
     <h3 class="lk-bar" id="lk-t5">Tahap 5: Menganalisis dan Mengevaluasi Pembelajaran</h3>
     <section class="lk-box o"><h3>Refleksi Diri</h3><div><p>${D.refleksi}</p>${dl(5)}</div></section>
     <blockquote class="lk-quote">“${D.quote}”</blockquote>
-    <footer class="lk-foot">Lab Petualang · LKPD IPA SMPN 4 Magelang</footer></article>`;
+    <p class="lk-foot">Lab Petualang · LKPD IPA SMPN 4 Magelang</p>`;
 }
+let LKEDIT = false;
+function lkTitle(key){ const {id, sb} = lkSplit(key), m = MATERI[id]; return sb ? `Bab ${m.bab}${sb} ${(m.subs.find(x => x[0] === sb) || [])[1]}` : `Bab ${m.bab} ${m.nama}`; }
 function renderLkpd(sel){
-  const ids = Object.keys(MATERI).filter(id => window.LKPD_DATA && LKPD_DATA[id]);
-  let cur = sel || store.get('lab_lkpd_cur', ids[0]); if(!ids.includes(cur)) cur = ids[0]; store.set('lab_lkpd_cur', cur);
-  const m = MATERI[cur], D = LKPD_DATA[cur], f = lkFile(cur), q = (store.get('lab_lkpd_q', '') || '').toLowerCase(), kf = store.get('lab_lkpd_k', 'all');
-  const item = id => { const x = MATERI[id], d = LKPD_DATA[id], hit = !q || (x.nama + ' ' + d.judul + ' ' + d.tema).toLowerCase().includes(q);
-    if(!hit || (kf !== 'all' && x.kelas !== kf)) return '';
-    return `<button class="lk-item ${id === cur ? 'on' : ''}" data-lk="${id}" style="--c:${d.warna}"><img src="lkpd/img/${id}.png" alt="" loading="lazy"><span><small>Kelas ${x.kelas} · Bab ${x.bab}</small><b>${esc(x.nama)}</b><i>${d.judul}</i></span></button>`; };
-  const group = k => { const list = ids.filter(id => MATERI[id].kelas === k).map(item).join(''); return list ? `<div class="lk-gh">🎓 Kelas ${k === '7' ? 'VII' : 'VIII'}</div>${list}` : ''; };
+  if(LKEDIT && window.LKED && LKED.detach){ LKED.detach(); } LKEDIT = false;
+  const keys = lkpdKeys(), allKeys = keys.map(k => k.key);
+  let cur = sel || store.get('lab_lkpd_cur', allKeys[0]); if(!allKeys.includes(cur)) cur = allKeys[0]; store.set('lab_lkpd_cur', cur);
+  const {id, sb} = lkSplit(cur), m = MATERI[id], D = lkpdDoc(id, sb), kf = store.get('lab_lkpd_k', 'all'), opn = store.get('lab_lkpd_open', {});
+  opn[id] = true; store.set('lab_lkpd_open', opn);
+  const edited = k => !!LKED.local(k);
+  const tree = k => Object.keys(MATERI).filter(x => MATERI[x].kelas === k && LKPD_DATA[x]).map(x => { const M = MATERI[x], d = LKPD_DATA[x], subs = keys.filter(q => q.id === x && q.sub);
+    return `<div class="lk-node ${opn[x] ? 'open' : ''}" data-node="${x}" style="--c:${d.warna}"><div class="lk-item ${cur === x ? 'on' : ''}"><button class="lk-tg" data-tg="${x}" title="Buka/tutup sub bab">${opn[x] ? '▾' : '▸'}</button>
+      <button class="lk-main-b" data-lk="${x}"><img src="lkpd/img/${x}.jpg" alt="" loading="lazy"><span><small>Kelas ${M.kelas} · Bab ${M.bab}${edited(x) ? ' · ✏️' : ''}</small><b>${esc(M.nama)}</b><i>LKPD lengkap · ${d.kegiatan.length} kegiatan</i></span></button></div>
+      <div class="lk-subs">${subs.map(q => { const t = (M.subs.find(s => s[0] === q.sub) || [])[1]; return `<button class="lk-sitem ${cur === q.key ? 'on' : ''}" data-lk="${q.key}"><b>${q.sub}</b><span>${esc(t)}<i>${LKPD_DATA._sub[x][q.sub].judul}</i></span>${edited(q.key) ? '<em title="Sudah diedit">✏️</em>' : ''}</button>`; }).join('')}</div></div>`; }).join('');
   const steps = [['lk-identitas', '🪪 Identitas & tujuan'], ['lk-t1', '1️⃣ Orientasi masalah'], ['lk-t2', '2️⃣ Diskusi'], ...D.kegiatan.map((k, i) => [`lk-k${i}`, `🔬 Kegiatan ${'ABCDE'[i]}`]), ['lk-t4', '4️⃣ Presentasi'], ['lk-t5', '5️⃣ Refleksi']];
+  const subT = sb ? (m.subs.find(x => x[0] === sb) || [])[1] : '', pos = allKeys.indexOf(cur), guru = ROLE !== 'siswa';
   $('#pg-lkpd').innerHTML = `<div class="lk-wrap">
-    <aside class="lk-side"><div class="lk-tools"><input class="inp" id="lkQ" placeholder="🔎 Cari bab atau judul LKPD…" value="${esc(store.get('lab_lkpd_q', '') || '')}">
+    <aside class="lk-side"><div class="lk-tools"><input class="inp" id="lkQ" placeholder="🔎 Cari bab, sub bab, atau judul…">
       <div class="lk-seg">${[['all', 'Semua'], ['7', 'Kelas 7'], ['8', 'Kelas 8']].map(([k, t]) => `<button data-lkk="${k}" class="${kf === k ? 'on' : ''}">${t}</button>`).join('')}</div></div>
-      <div class="lk-list">${group('7')}${group('8')}<p class="muted lk-empty">Tidak ada LKPD yang cocok.</p></div></aside>
+      <div class="lk-list">${kf !== '8' ? `<div class="lk-gh">🎓 Kelas VII</div>${tree('7')}` : ''}${kf !== '7' ? `<div class="lk-gh">🎓 Kelas VIII</div>${tree('8')}` : ''}<p class="muted lk-empty">Tidak ada LKPD yang cocok.</p></div>
+      <p class="lk-legend">▸ buka sub bab · ✏️ sudah diedit</p></aside>
     <section class="lk-main">
-      <div class="lk-head" style="--c:${D.warna}"><img src="lkpd/img/${cur}.png" alt=""><div class="lk-hd"><small>LKPD · Kelas ${m.kelas} · Bab ${m.bab} · Model Problem Based Learning</small><h3>${D.judul}</h3><p>${esc(m.nama)} · Tema: ${D.tema} · ${D.kegiatan.length} kegiatan · ± 2 JP</p>
-        <div class="lk-act"><a class="btn green" href="${f}" download>⬇ Unduh Word (.docx)</a><button class="btn ghost" id="lkPrint">🖨️ Cetak / simpan PDF</button><button class="btn sm pink" data-slide="${cur}">📽️ Slide</button><button class="btn sm" data-sim="${(simOfMateri(cur) || {}).id}">🔬 Lab 3D</button>
-          <button class="btn sm ghost" id="lkPrev" ${ids.indexOf(cur) ? '' : 'disabled'}>◀ Bab sebelumnya</button><button class="btn sm ghost" id="lkNext" ${ids.indexOf(cur) < ids.length - 1 ? '' : 'disabled'}>Bab berikutnya ▶</button></div></div></div>
+      <div class="lk-head" style="--c:${D.warna}"><img src="lkpd/img/${id}.png" alt=""><div class="lk-hd"><small>LKPD · Kelas ${m.kelas} · Bab ${m.bab}${sb ? ' · Sub bab ' + sb : ' · Lengkap'} · Problem Based Learning</small><h3>${D.judul}</h3><p>${esc(m.nama)}${sb ? ' › ' + esc(subT) : ''} · ${D.kegiatan.length} kegiatan · <span id="lkVer">versi bawaan</span></p>
+        <div class="lk-act">${guru ? '<button class="btn violet" id="lkEdit">✏️ Edit LKPD</button>' : ''}<button class="btn green" id="lkWord">⬇ Unduh Word</button><button class="btn ghost" id="lkPrint">🖨️ Cetak / PDF</button><button class="btn sm pink" data-slide="${id}">📽️ Slide</button><button class="btn sm" data-sim="${(simOfMateri(id) || {}).id}">🔬 Lab 3D</button>
+          <button class="btn sm ghost" id="lkPrev" ${pos ? '' : 'disabled'} title="${pos ? esc(lkTitle(allKeys[pos - 1])) : ''}">◀ Sebelumnya</button><button class="btn sm ghost" id="lkNext" ${pos < allKeys.length - 1 ? '' : 'disabled'} title="${pos < allKeys.length - 1 ? esc(lkTitle(allKeys[pos + 1])) : ''}">Berikutnya ▶</button></div></div></div>
+      <div id="lkTbWrap"></div>
       <nav class="lk-steps">${steps.map(s => `<button data-lkgo="${s[0]}">${s[1]}</button>`).join('')}</nav>
-      <div class="lk-paper">${lkSheet(cur)}</div></section></div>`;
+      <div class="lk-paper"><article class="lk-sheet" id="lkSheet">${(LKED.local(cur) || {}).html || lkInner(cur)}</article></div></section></div>`;
+  const ver = () => { const d = LKED.local(cur); $('#lkVer').innerHTML = d ? `✏️ versi editan (${new Date(d.t).toLocaleString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'})})${d.gh === d.t ? ' · ☁️ GitHub' : ''}` : 'versi bawaan'; };
+  ver();
+  // versi online (tersimpan di GitHub oleh guru) – dipakai jika lebih baru
+  LKED.online(cur).then(o => { if(!o || CURPAGE !== 'lkpd' || store.get('lab_lkpd_cur') !== cur || LKEDIT) return; const l = LKED.local(cur);
+    if(!l || o.t > l.t){ try{ localStorage.setItem('lkpd_doc:' + cur, JSON.stringify({html:o.html, t:o.t, gh:o.t})); }catch(e){} $('#lkSheet').innerHTML = o.html; ver(); uiNotify('Versi LKPD tersimpan dari GitHub dimuat.', {icon:'☁️'}); } });
   $$('#pg-lkpd [data-lk]').forEach(b => b.onclick = () => { SFX.click(); renderLkpd(b.dataset.lk); $('#pg-lkpd .lk-main').scrollIntoView({behavior:'smooth', block:'start'}); });
+  $$('#pg-lkpd [data-tg]').forEach(b => b.onclick = e => { e.stopPropagation(); const o = store.get('lab_lkpd_open', {}), n = b.closest('.lk-node'), on = !n.classList.contains('open'); o[b.dataset.tg] = on; store.set('lab_lkpd_open', o); n.classList.toggle('open', on); b.textContent = on ? '▾' : '▸'; });
   $$('#pg-lkpd [data-lkk]').forEach(b => b.onclick = () => { store.set('lab_lkpd_k', b.dataset.lkk); renderLkpd(cur); });
-  const qi = $('#lkQ'); qi.oninput = () => { store.set('lab_lkpd_q', qi.value); const v = qi.value.toLowerCase(); let n = 0;
-    $$('#pg-lkpd .lk-item').forEach(b => { const ok = !v || b.textContent.toLowerCase().includes(v); b.style.display = ok ? '' : 'none'; n += ok; }); $('#pg-lkpd .lk-empty').style.display = n ? 'none' : 'block'; };
+  const qi = $('#lkQ'); qi.oninput = () => { const v = qi.value.toLowerCase().trim(); let n = 0;
+    $$('#pg-lkpd .lk-node').forEach(nd => { const head = nd.querySelector('.lk-item').textContent.toLowerCase(); let any = false;
+      nd.querySelectorAll('.lk-sitem').forEach(s => { const ok = !v || s.textContent.toLowerCase().includes(v) || head.includes(v); s.style.display = ok ? '' : 'none'; any = any || ok; });
+      const show = !v || head.includes(v) || any; nd.style.display = show ? '' : 'none'; if(v && any) nd.classList.add('open'); n += show; });
+    $('#pg-lkpd .lk-empty').style.display = n ? 'none' : 'block'; };
   $$('#pg-lkpd [data-lkgo]').forEach(b => b.onclick = () => { const t = document.getElementById(b.dataset.lkgo); if(t) t.scrollIntoView({behavior:'smooth', block:'start'}); });
-  $('#lkPrev').onclick = () => renderLkpd(ids[ids.indexOf(cur) - 1]); $('#lkNext').onclick = () => renderLkpd(ids[ids.indexOf(cur) + 1]);
+  $('#lkPrev').onclick = () => renderLkpd(allKeys[pos - 1]); $('#lkNext').onclick = () => renderLkpd(allKeys[pos + 1]);
+  const fname = `LKPD-IPA-Kelas${m.kelas}-Bab${m.bab}${sb || ''}-${id}`;
+  $('#lkWord').onclick = async () => { const d = LKED.local(cur);
+    if(!d){ const a = document.createElement('a'); a.href = lkFile(id, sb); a.download = ''; document.body.appendChild(a); a.click(); a.remove(); return; }
+    uiNotify('Menyiapkan file Word versi editan…', {icon:'⏳', ms:1600}); try{ const blob = await lkpdToDocx($('#lkSheet'), {title:'LKPD IPA — ' + D.judul, head:`Kelas ${m.kelas === '7' ? 'VII' : 'VIII'}  ·  ${lkTitle(cur)}`}); LKED.download(blob, fname + '-edit.docx'); }catch(e){ console.error(e); uiNotify('Gagal membuat Word: ' + e.message, {icon:'⚠️'}); } };
   $('#lkPrint').onclick = () => { const w = open('', '_blank'); if(!w){ uiNotify('Izinkan pop-up untuk mencetak LKPD.', {icon:'🖨️'}); return; }
     const css = [...document.querySelectorAll('style')].map(s => s.textContent).join('\n').match(/\/\* LKPD-SHEET \*\/[\s\S]*?\/\* \/LKPD-SHEET \*\//);
-    w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>LKPD ${esc(m.nama)}</title><base href="${location.href.replace(/[^/]*$/, '')}"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet"><style>${css ? css[0] : ''} body{margin:0;background:#fff} .lk-sheet{box-shadow:none;margin:0 auto}</style></head><body>${lkSheet(cur)}<script>setTimeout(()=>print(),700)<\/script></body></html>`); w.document.close(); };
+    w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>${fname}</title><base href="${location.href.replace(/[^/#?]*([?#].*)?$/, '')}"><style>${css ? css[0] : ''} body{margin:0;background:#fff} .lk-sheet{box-shadow:none;margin:0 auto;border-top:none}</style></head><body><article class="lk-sheet">${$('#lkSheet').innerHTML}</article><script>setTimeout(()=>print(),700)<\/script></body></html>`); w.document.close(); };
+  if($('#lkEdit')) $('#lkEdit').onclick = () => {
+    if(LKEDIT) return; LKEDIT = true; $('#lkTbWrap').innerHTML = LKED.toolbar(); $('#lkEdit').disabled = true; $('#pg-lkpd .lk-steps').classList.add('ed');
+    if(!LKED.hasToken()) uiNotify('Perubahan otomatis tersimpan di perangkat ini. Hubungkan GitHub di Pengaturan agar ikut tersimpan online.', {icon:'💾', ms:4500});
+    LKED.attach(cur, $('#lkSheet'), reset => { LKEDIT = false; renderLkpd(cur); if(reset) uiNotify('LKPD dikembalikan ke versi bawaan.', {icon:'↺'}); });
+    $('#lkSheet').focus(); };
   bindCommon($('#pg-lkpd'));
 }
 function renderSlides(){

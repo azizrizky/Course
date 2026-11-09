@@ -2,7 +2,7 @@
 global.window = global;
 const fs = require('fs'), path = require('path');
 const SITE = process.env.SITE || path.resolve(__dirname, '..');
-require(SITE + '/assets/materi.js'); require(SITE + '/assets/lkpd.js');
+require(SITE + '/assets/materi.js'); require(SITE + '/assets/lkpd.js'); require(SITE + '/assets/lkpd_sub.js');
 const {Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, ShadingType, BorderStyle, AlignmentType, ImageRun,
   Header, Footer, PageNumber, TabStopType, LineRuleType, PositionalTab, PositionalTabAlignment, PositionalTabRelativeTo, PositionalTabLeader, VerticalAlign, TableLayoutType, PageBreak} = require('docx');
 
@@ -49,9 +49,9 @@ function dataTable(t, o = {}){
   return new Table({width:{size:W, type:WidthType.DXA}, columnWidths:cw, layout:TableLayoutType.FIXED, rows:[hdr, ...body]});
 }
 
-function build(id){
-  const D = LKPD_DATA[id], M = MATERI_DATA[id], kls = M.kelas == 7 ? 'VII' : 'VIII', img = fs.readFileSync(`${SITE}/lkpd/img/${id}.png`);
-  const meta = `Kelas ${kls} · Fase D · Bab ${M.bab}: ${M.nama} · Tema: ${D.tema}`;
+function build(id, sb){
+  const D = lkpdDoc(id, sb), M = MATERI_DATA[id], subT = sb ? (M.subs.find(x => x[0] === sb) || [])[1] : '', kls = M.kelas == 7 ? 'VII' : 'VIII', img = fs.readFileSync(`${SITE}/lkpd/img/${id}.jpg`);
+  const meta = `Kelas ${kls} · Fase D · Bab ${M.bab}: ${M.nama}${sb ? ` · Sub Bab ${sb}. ${subT}` : ''} · Tema: ${D.tema}`;
   const kids = [];
   // Sampul
   kids.push(new Table({width:{size:W, type:WidthType.DXA}, columnWidths:[5300, W - 5300], layout:TableLayoutType.FIXED, rows:[new TableRow({children:[
@@ -59,7 +59,7 @@ function build(id){
       P('<b>LKPD IPA</b>', {run:{color:NAVY, size:56}, before:0, after:60}),
       P(`<b>“${D.judul}”</b>`, {run:{color:NAVY2, size:28}, after:100}),
       P(meta, {run:{color:MUTE, size:18}})], {w:5300, ml:0, va:VerticalAlign.CENTER}),
-    cell(new Paragraph({alignment:AlignmentType.RIGHT, children:[new ImageRun({type:'png', data:img, transformation:{width:240, height:146}})]}), {w:W - 5300, mr:0, va:VerticalAlign.CENTER})]})]}));
+    cell(new Paragraph({alignment:AlignmentType.RIGHT, children:[new ImageRun({type:'jpg', data:img, transformation:{width:240, height:146}})]}), {w:W - 5300, mr:0, va:VerticalAlign.CENTER})]})]}));
   kids.push(blank(120));
   const idRow = (k, v) => new TableRow({children:[cell(P(`<b>${k}</b>`, {before:0, after:0}), {w:1700, fill:CREAM, mt:50, mb:50}), cell(v, {w:W - 1700, fill:CREAM, mt:50, mb:50})]});
   kids.push(new Table({width:{size:W, type:WidthType.DXA}, columnWidths:[1700, W - 1700], layout:TableLayoutType.FIXED, borders:{top:B(ORANGE, 12), bottom:B(ORANGE, 12), left:NONE, right:NONE, insideHorizontal:NONE, insideVertical:NONE},
@@ -103,7 +103,7 @@ function build(id){
   kids.push(box(P(`<i><b>“${D.quote}”</b></i>`, {run:{color:'7A4A00'}, align:AlignmentType.CENTER, before:0, after:0}), {fill:YEL, w:W, mt:140, mb:140}));
 
   const header = new Header({children:[new Table({width:{size:W, type:WidthType.DXA}, columnWidths:[W - 900, 900], layout:TableLayoutType.FIXED, borders:{top:NONE, left:NONE, right:NONE, bottom:B(ORANGE, 12), insideHorizontal:NONE, insideVertical:NONE},
-    rows:[new TableRow({children:[cell(P(`<b>LKPD IPA</b>  ·  Kelas ${kls}  ·  Bab ${M.bab} ${M.nama}`, {run:{color:NAVY, size:17}, before:0, after:0}), {w:W - 900, ml:0, va:VerticalAlign.BOTTOM, mb:60}),
+    rows:[new TableRow({children:[cell(P(`<b>LKPD IPA</b>  ·  Kelas ${kls}  ·  Bab ${M.bab}${sb ? sb : ''} ${sb ? subT : M.nama}`, {run:{color:NAVY, size:17}, before:0, after:0}), {w:W - 900, ml:0, va:VerticalAlign.BOTTOM, mb:60}),
       cell(new Paragraph({alignment:AlignmentType.RIGHT, children:[new ImageRun({type:'png', data:LOGO, transformation:{width:32, height:32}})]}), {w:900, mr:0, mb:40})]})]})]});
   const footer = new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER, children:[new TextRun({text:'Lab Petualang · LKPD IPA SMPN 4 Magelang  |  ', font:FONT, size:16, color:MUTE}), new TextRun({children:[PageNumber.CURRENT], font:FONT, size:16, color:MUTE, bold:true})]})]});
   return new Document({creator:'Lab Petualang', title:`LKPD IPA — ${D.judul}`, description:meta,
@@ -111,9 +111,9 @@ function build(id){
     sections:[{properties:{page:{size:{width:11906, height:16838}, margin:{top:1134, bottom:1000, left:1134, right:1134, header:500, footer:450}}}, headers:{default:header}, footers:{default:footer}, children:kids}]});
 }
 
+const fileOf = (id, sb) => { const M = MATERI_DATA[id]; return `LKPD-IPA-Kelas${M.kelas}-Bab${M.bab}${sb || ''}-${id}.docx`; };
 (async () => {
   const only = process.argv[2];
-  for(const id of Object.keys(MATERI_DATA)){ if(only && id !== only) continue; if(!LKPD_DATA[id]) { console.log('skip', id); continue; }
-    const buf = await Packer.toBuffer(build(id)); const kls = MATERI_DATA[id].kelas, bab = MATERI_DATA[id].bab;
-    const fn = `${SITE}/lkpd/LKPD-IPA-Kelas${kls}-Bab${bab}-${id}.docx`; fs.writeFileSync(fn, buf); console.log(path.basename(fn), buf.length); }
+  for(const k of lkpdKeys()){ if(only && k.id !== only && k.key !== only) continue;
+    const buf = await Packer.toBuffer(build(k.id, k.sub)); const fn = `${SITE}/lkpd/${fileOf(k.id, k.sub)}`; fs.writeFileSync(fn, buf); console.log(path.basename(fn), buf.length); }
 })();
