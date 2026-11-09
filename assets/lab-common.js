@@ -66,25 +66,32 @@
     clearTimeout(talkT); talkT = setTimeout(() => setTalk(false), Math.min(30000, text.length*80));
   }
   LAB.guide = {
-    sim: null, auto: ls.get('lab_autonarasi','0') === '1', cur: null,
+    sim: null, auto: ls.get('lab_autonarasi','0') === '1', txt: ls.get('lab_guide_text','1') !== '0', cur: null,
     init(sim, greetKey, greetText){
       this.sim = sim;
       const el = guideEl = document.createElement('div'); el.id = 'labGuide';
-      el.innerHTML = `<button class="lg-ava" title="Bu Nella"><img src="${LAB.assetBase}nella/avatar.jpg" alt="Bu Nella"><i>🔊</i></button>
-        <div class="lg-card"><div class="lg-h"><b>Bu Nella</b><span class="lg-sp"></span><label class="lg-auto" title="Bacakan otomatis saat memilih objek"><input type="checkbox" ${this.auto?'checked':''}> Narasi otomatis</label><button class="lg-x" title="Tutup">✕</button></div>
+      el.innerHTML = `<div class="lg-col"><div class="lg-tools"><button class="lg-sound" type="button"></button><button class="lg-txtb" type="button"></button></div>
+        <button class="lg-ava" title="Bu Nella — ketuk untuk mendengarkan"><img src="${LAB.assetBase}nella/avatar.jpg" alt="Bu Nella"><i>🔊</i></button></div>
+        <div class="lg-card"><div class="lg-h"><b>Bu Nella</b><span class="lg-sp"></span><button class="lg-x" title="Sembunyikan teks">✕</button></div>
         <p class="lg-t"></p><div class="lg-b"><button class="lg-play">▶ Dengarkan</button><button class="lg-stop">⏹</button></div></div>`;
       document.body.appendChild(el);
-      el.querySelector('.lg-ava').onclick = () => { el.classList.toggle('open'); if(el.classList.contains('open') && this.cur) speak(this.sim, this.cur.key, this.cur.text); };
-      el.querySelector('.lg-x').onclick = () => { el.classList.remove('open'); stop(); };
+      const upd = () => { const sb = el.querySelector('.lg-sound'), tb = el.querySelector('.lg-txtb');
+        sb.textContent = this.auto ? '🔊' : '🔇'; sb.classList.toggle('on', this.auto); sb.title = this.auto ? 'Narasi suara: NYALA (ketuk untuk mematikan)' : 'Narasi suara: MATI (ketuk untuk menyalakan)';
+        tb.textContent = this.txt ? '💬' : '🙈'; tb.classList.toggle('on', this.txt); tb.title = this.txt ? 'Teks narasi: tampil (ketuk untuk menyembunyikan)' : 'Teks narasi: tersembunyi (ketuk untuk menampilkan)';
+        el.classList.toggle('notext', !this.txt); };
+      el.querySelector('.lg-sound').onclick = () => { this.auto = !this.auto; ls.set('lab_autonarasi', this.auto ? '1' : '0'); upd();
+        if(this.auto && this.cur) speak(this.sim, this.cur.key, this.cur.text); else stop(); };
+      el.querySelector('.lg-txtb').onclick = () => { this.txt = !this.txt; ls.set('lab_guide_text', this.txt ? '1' : '0'); upd(); if(this.txt && this.cur) el.classList.add('open'); else el.classList.remove('open'); };
+      el.querySelector('.lg-ava').onclick = () => { if(this.txt) el.classList.toggle('open'); if(this.cur) speak(this.sim, this.cur.key, this.cur.text); };
+      el.querySelector('.lg-x').onclick = () => { el.classList.remove('open'); };
       el.querySelector('.lg-play').onclick = () => this.cur && speak(this.sim, this.cur.key, this.cur.text);
       el.querySelector('.lg-stop').onclick = stop;
-      el.querySelector('.lg-auto input').onchange = e => { this.auto = e.target.checked; ls.set('lab_autonarasi', this.auto ? '1' : '0'); };
-      this.show(greetKey, greetText, false); el.classList.add('open');
+      upd(); this.show(greetKey, greetText, false);
       setTimeout(() => { if(!this.cur || this.cur.key === greetKey) el.classList.remove('open'); }, 9000);
     },
     show(key, text, autoplay = this.auto){
       if(!guideEl) return; this.cur = {key, text};
-      guideEl.querySelector('.lg-t').textContent = text; guideEl.classList.add('open');
+      guideEl.querySelector('.lg-t').textContent = text; if(this.txt) guideEl.classList.add('open');
       if(autoplay) speak(this.sim, key, text); else stop();
     },
     stop

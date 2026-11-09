@@ -353,3 +353,93 @@ D['struktur-bumi'] = {kelas:8, nama:'Struktur Bumi & Dinamikanya', icon:'🌋', 
   Q('sb','bencana','sedang','Gunung api terbentuk terutama di zona …',['Subduksi lempeng (batas konvergen) dan titik panas','Tengah lempeng yang stabil','Gurun pasir','Daerah kutub saja'],'Lempeng samudra yang menunjam meleleh menjadi magma yang naik membentuk gunung api.'),
   Q('sb','bencana','sulit','Tsunami dapat terjadi jika …',['Gempa besar terjadi di dasar laut dan menggeser dasar laut secara vertikal','Terjadi angin kencang di pantai','Air pasang karena Bulan purnama','Hujan deras berhari-hari'],'Pergeseran dasar laut mendorong kolom air sehingga timbul gelombang besar. Tanda alam: air laut surut tiba-tiba.')]};
 })();
+
+/* ===== Penyesuaian Buku Siswa IPA Kurikulum Merdeka (Kemendikbudristek): judul bab resmi, sub bab, 5 kingdom, materi pelengkap ===== */
+(function(){
+const D = window.MATERI_DATA; let n = 0;
+const Q = (id, topic, level, q, opts, exp) => ({id:id + '-x' + (++n), topic, level, q, opts, ans:0, exp, misc:''});
+// Bab 1: Pengukuran digabung ke Hakikat Ilmu Sains (sub bab D)
+const H = D['hakikat-sains'], P = D['pengukuran'];
+if(P){ Object.assign(H.topics, {besaran:P.topics.besaran, alatukur:P.topics.alat, konversi:P.topics.konversi});
+  H.bank = H.bank.concat(P.bank.map(q => Object.assign(q, {topic:q.topic === 'alat' ? 'alatukur' : q.topic}))); delete D['pengukuran']; }
+H.topics.pelaporan = {name:'Pelaporan Hasil Percobaan', icon:'📝', rec:'Minta kelompok menyajikan data percobaan dalam tabel & grafik, lalu presentasi singkat kesimpulannya.'};
+H.desc = 'Apa itu sains, laboratorium IPA (alat & simbol bahaya), merancang percobaan, pengukuran, dan pelaporan hasil percobaan.';
+const META = {
+  'hakikat-sains':[1, 'Hakikat Ilmu Sains dan Metode Ilmiah', [['A', 'Apa Itu Sains?'], ['B', 'Laboratorium IPA'], ['C', 'Merancang Percobaan'], ['D', 'Pengukuran'], ['E', 'Pelaporan Hasil Percobaan']]],
+  'wujud-zat':[2, 'Zat dan Perubahannya', [['A', 'Wujud Zat dan Model Partikel'], ['B', 'Perubahan Wujud Zat'], ['C', 'Perubahan Fisika dan Kimia'], ['D', 'Kerapatan Zat']]],
+  'kalor':[3, 'Suhu, Kalor dan Pemuaian', [['A', 'Suhu'], ['B', 'Kalor'], ['C', 'Pemuaian']]],
+  'gerak-gaya':[4, 'Gerak dan Gaya', [['A', 'Gerak Benda'], ['B', 'Gaya']]],
+  'klasifikasi':[5, 'Klasifikasi Makhluk Hidup', [['A', 'Makhluk Hidup atau Benda Mati?'], ['B', 'Mengapa Makhluk Hidup Dikelompokkan?'], ['C', 'Makhluk Hidup Beraneka Ragam']]],
+  'ekosistem':[6, 'Ekologi dan Keanekaragaman Hayati Indonesia', [['A', 'Pengaruh Lingkungan terhadap Organisme'], ['B', 'Interaksi Komponen Ekosistem'], ['C', 'Keanekaragaman Hayati Indonesia'], ['D', 'Pengaruh Manusia terhadap Ekosistem'], ['E', 'Konservasi Keanekaragaman Hayati']]],
+  'tata-surya':[7, 'Bumi dan Tata Surya', [['A', 'Sistem Tata Surya'], ['B', 'Bumi dan Satelitnya'], ['C', 'Mengenal Matahari Lebih Dekat']]],
+  'sel':[1, 'Pengenalan Sel', [['A', 'Sel dan Mikroskop'], ['B', 'Sel Hewan dan Sel Tumbuhan'], ['C', 'Spesialisasi Sel']]],
+  'sistem-organ':[2, 'Struktur dan Fungsi Tubuh Makhluk Hidup', [['A', 'Makanan dan Sistem Pencernaan'], ['B', 'Sistem Peredaran Darah'], ['C', 'Sistem Pernapasan'], ['D', 'Sistem Ekskresi']]],
+  'usaha':[3, 'Usaha, Energi dan Pesawat Sederhana', [['A', 'Usaha'], ['B', 'Energi'], ['C', 'Pesawat Sederhana']]],
+  'getaran-gelombang':[4, 'Getaran, Gelombang dan Cahaya', [['A', 'Getaran'], ['B', 'Gelombang dan Bunyi'], ['C', 'Cahaya dan Alat Optik']]],
+  'materi':[5, 'Unsur, Senyawa dan Campuran', [['A', 'Unsur'], ['B', 'Senyawa'], ['C', 'Campuran']]],
+  'struktur-bumi':[6, 'Struktur Bumi dan Perkembangannya', [['A', 'Struktur Bumi'], ['B', 'Lempeng Tektonik'], ['C', 'Gempa Bumi'], ['D', 'Gunung Berapi']]],
+};
+for(const id in META){ const m = D[id]; if(!m) continue; m.bab = META[id][0]; m.nama = META[id][1]; m.subs = META[id][2]; }
+// Bab 5 Kelas VII: sistem 5 kingdom (Whittaker)
+const KL = D['klasifikasi']; KL.desc = 'Ciri makhluk hidup, sistem 5 kingdom, takson, tata nama ganda, dan kunci dikotomi.';
+KL.topics.kingdom = {name:'Sistem 5 Kingdom', icon:'🌍', rec:'Kartu sortir organisme ke 5 kingdom (Monera, Protista, Fungi, Plantae, Animalia); tekankan prokariotik vs eukariotik dan autotrof vs heterotrof.'};
+KL.bank = KL.bank.filter(q => !/Archaebacteria|Eubacteria/.test(q.q + q.opts.join())).concat([
+  Q('kh', 'kingdom', 'mudah', 'Bakteri dan alga biru (Cyanobacteria) dalam sistem 5 kingdom termasuk kingdom …', ['Monera', 'Protista', 'Fungi', 'Plantae'], 'Keduanya prokariotik (tidak bermembran inti) sehingga masuk kingdom Monera.'),
+  Q('kh', 'kingdom', 'sedang', 'Ciri khas kingdom Monera adalah …', ['Sel prokariotik, tidak memiliki membran inti', 'Bersel banyak dan berklorofil', 'Dinding sel dari kitin', 'Bergerak dengan otot'], 'Monera = prokariot: materi genetik tidak dibungkus membran inti.'),
+  Q('kh', 'kingdom', 'sulit', 'Perbedaan utama Monera dan Protista adalah …', ['Monera tidak memiliki membran inti, Protista memiliki membran inti', 'Monera bersel banyak, Protista bersel satu', 'Monera berklorofil, Protista tidak', 'Monera hidup di darat, Protista di laut'], 'Monera prokariotik, sedangkan Protista sudah eukariotik.'),
+  Q('kh', 'kingdom', 'sedang', 'Sistem klasifikasi 5 kingdom dikemukakan oleh …', ['Robert H. Whittaker', 'Carolus Linnaeus', 'Carl Woese', 'Charles Darwin'], 'Whittaker (1969) membagi makhluk hidup menjadi Monera, Protista, Fungi, Plantae, Animalia.'),
+]);
+// Materi pelengkap: soal sub bab baru
+const add = (id, topics, qs) => { const m = D[id]; if(!m) return; Object.assign(m.topics, topics); m.bank = m.bank.concat(qs); };
+add('hakikat-sains', {}, [
+  Q('hs', 'alat', 'mudah', 'Simbol bahaya bergambar nyala api di dalam belah ketupat merah berarti bahan tersebut …', ['Mudah terbakar', 'Korosif', 'Beracun', 'Mudah meledak'], 'Piktogram api = flammable, contoh spiritus dan bensin.'),
+  Q('hs', 'alat', 'sedang', 'Bahan kimia dengan simbol tangan dan logam yang terkikis cairan harus ditangani dengan …', ['Sarung tangan dan kacamata pelindung', 'Dipanaskan langsung', 'Dicium dari dekat', 'Dibuang ke wastafel'], 'Simbol korosif: zat dapat merusak kulit & mata.'),
+  Q('hs', 'pelaporan', 'mudah', 'Bagian laporan percobaan yang menjawab tujuan atau hipotesis adalah …', ['Kesimpulan', 'Alat dan bahan', 'Judul', 'Daftar pustaka'], 'Kesimpulan menjawab pertanyaan/tujuan percobaan berdasarkan data.'),
+  Q('hs', 'pelaporan', 'sedang', 'Data perubahan suhu air setiap menit paling tepat disajikan dalam bentuk …', ['Grafik garis', 'Diagram lingkaran', 'Peta konsep', 'Gambar alat'], 'Grafik garis menunjukkan perubahan terhadap waktu.'),
+]);
+add('ekosistem', {adaptasi:{name:'Adaptasi', icon:'🦎', rec:'Tunjukkan gambar hewan/tumbuhan dan minta siswa menebak jenis adaptasinya (morfologi, fisiologi, tingkah laku).'}, kehati:{name:'Keanekaragaman Hayati Indonesia', icon:'🌺', rec:'Peta Indonesia dengan garis Wallace–Weber: tempel kartu fauna endemik ke wilayahnya.'}, konservasi:{name:'Pencemaran & Konservasi', icon:'♻️', rec:'Proyek kecil: audit sampah kelas lalu susun aksi 3R dan poster konservasi.'}}, [
+  Q('ek', 'adaptasi', 'mudah', 'Daun kaktus berubah menjadi duri untuk mengurangi penguapan. Ini contoh adaptasi …', ['Morfologi', 'Fisiologi', 'Tingkah laku', 'Kimiawi'], 'Perubahan bentuk organ = adaptasi morfologi.'),
+  Q('ek', 'adaptasi', 'sedang', 'Cicak memutuskan ekornya saat terancam merupakan adaptasi …', ['Tingkah laku', 'Morfologi', 'Fisiologi', 'Struktural'], 'Autotomi adalah perilaku untuk menyelamatkan diri.'),
+  Q('ek', 'kehati', 'sedang', 'Anoa, babirusa, dan maleo termasuk fauna tipe …', ['Peralihan', 'Asiatis', 'Australis', 'Eropa'], 'Hewan Sulawesi berada di antara garis Wallace dan Weber (peralihan).'),
+  Q('ek', 'kehati', 'mudah', 'Variasi mangga arumanis, gadung, dan manalagi menunjukkan keanekaragaman tingkat …', ['Gen', 'Jenis', 'Ekosistem', 'Kingdom'], 'Masih satu spesies, berbeda varietas → tingkat gen.'),
+  Q('ek', 'konservasi', 'mudah', 'Pelestarian komodo di Taman Nasional Komodo termasuk konservasi …', ['In situ', 'Ex situ', 'Buatan', 'Laboratorium'], 'Dilindungi di habitat aslinya = in situ.'),
+  Q('ek', 'konservasi', 'sedang', 'Penyebab utama eutrofikasi (ledakan eceng gondok) di perairan adalah …', ['Limbah pupuk dan deterjen', 'Penanaman mangrove', 'Penangkaran ikan', 'Terumbu karang'], 'Fosfat & nitrat dari pupuk/deterjen menyuburkan gulma air.'),
+]);
+add('tata-surya', {matahari:{name:'Matahari', icon:'☀️', rec:'Gunakan model lapisan Matahari (kertas berlapis) dan diskusikan dampak flare/aurora.'}}, [
+  Q('ts', 'matahari', 'mudah', 'Lapisan Matahari yang tampak sebagai permukaannya adalah …', ['Fotosfer', 'Inti', 'Korona', 'Zona konveksi'], 'Fotosfer (±5.500 °C) memancarkan cahaya yang kita lihat.'),
+  Q('ts', 'matahari', 'sedang', 'Energi Matahari dihasilkan dari reaksi …', ['Fusi hidrogen menjadi helium di inti', 'Pembakaran batu bara', 'Fisi uranium di korona', 'Gesekan angin matahari'], 'Di inti terjadi fusi nuklir pada suhu ±15 juta °C.'),
+  Q('ts', 'matahari', 'sulit', 'Aurora di daerah kutub terjadi karena …', ['Partikel angin matahari berinteraksi dengan medan magnet Bumi', 'Pantulan es kutub', 'Gerhana bulan', 'Pembiasan cahaya bulan'], 'Partikel bermuatan dari Matahari diarahkan medan magnet ke kutub.'),
+]);
+add('sel', {mikroskop:{name:'Mikroskop', icon:'🔬', rec:'Praktik menghitung perbesaran dan mengamati sel bawang & sel pipi.'}, spesialisasi:{name:'Spesialisasi Sel', icon:'🧩', rec:'Cocokkan bentuk sel (neuron, sel darah merah, sperma, rambut akar) dengan fungsinya.'}}, [
+  Q('se', 'mikroskop', 'mudah', 'Lensa okuler 10× dan objektif 40× menghasilkan perbesaran total …', ['400 kali', '50 kali', '30 kali', '4 kali'], 'Perbesaran = okuler × objektif = 10 × 40.'),
+  Q('se', 'mikroskop', 'sedang', 'Bagian mikroskop untuk mengatur fokus secara halus adalah …', ['Mikrometer (sekrup halus)', 'Makrometer', 'Revolver', 'Diafragma'], 'Makrometer = fokus kasar, mikrometer = fokus halus.'),
+  Q('se', 'spesialisasi', 'sedang', 'Sel darah merah berbentuk cakram bikonkaf tanpa inti agar …', ['Dapat mengangkut lebih banyak oksigen', 'Dapat berkontraksi', 'Dapat menghantarkan impuls', 'Dapat membelah cepat'], 'Ruang lebih luas untuk hemoglobin pengikat O₂.'),
+]);
+add('sistem-organ', {ekskresi:{name:'Sistem Ekskresi', icon:'🫘', rec:'Model nefron dari selang & saringan untuk memperagakan filtrasi–reabsorpsi–augmentasi.'}}, [
+  Q('so', 'ekskresi', 'mudah', 'Organ ekskresi yang menghasilkan urine adalah …', ['Ginjal', 'Hati', 'Paru-paru', 'Kulit'], 'Ginjal menyaring darah dan membentuk urine.'),
+  Q('so', 'ekskresi', 'sedang', 'Urutan pembentukan urine yang benar adalah …', ['Filtrasi – reabsorpsi – augmentasi', 'Reabsorpsi – filtrasi – augmentasi', 'Augmentasi – filtrasi – reabsorpsi', 'Filtrasi – augmentasi – reabsorpsi'], 'Filtrasi di glomerulus, reabsorpsi di tubulus proksimal, augmentasi di tubulus distal.'),
+  Q('so', 'ekskresi', 'sulit', 'Urine primer masih mengandung glukosa. Glukosa diserap kembali pada tahap …', ['Reabsorpsi', 'Filtrasi', 'Augmentasi', 'Defekasi'], 'Reabsorpsi di tubulus kontortus proksimal menghasilkan urine sekunder.'),
+  Q('so', 'cerna', 'sedang', 'Makanan mengandung 20 g karbohidrat, 5 g protein, dan 10 g lemak. Energinya …', ['190 kkal', '140 kkal', '350 kkal', '95 kkal'], '20×4 + 5×4 + 10×9 = 80 + 20 + 90 = 190 kkal.'),
+  Q('so', 'cerna', 'mudah', 'Uji amilum (pati) dengan larutan lugol positif jika berwarna …', ['Biru kehitaman', 'Ungu', 'Merah bata', 'Kuning'], 'Lugol + amilum → biru kehitaman.'),
+]);
+add('getaran-gelombang', {cahaya:{name:'Cahaya & Alat Optik', icon:'💡', rec:'Praktik pembentukan bayangan dengan senter, cermin, dan lup; bahas sifat bayangan.'}}, [
+  Q('gg', 'cahaya', 'mudah', 'Sedotan dalam gelas berisi air tampak patah karena cahaya mengalami …', ['Pembiasan', 'Pemantulan', 'Dispersi', 'Difraksi'], 'Cahaya berbelok saat berpindah dari air ke udara.'),
+  Q('gg', 'cahaya', 'sedang', 'Penderita miopi (rabun jauh) dibantu dengan kacamata lensa …', ['Cekung (negatif)', 'Cembung (positif)', 'Silinder', 'Rangkap'], 'Lensa cekung menyebarkan cahaya agar bayangan mundur tepat di retina.'),
+  Q('gg', 'cahaya', 'sulit', 'Benda berada 15 cm di depan lensa cembung berfokus 10 cm. Jarak bayangannya …', ['30 cm', '6 cm', '25 cm', '15 cm'], '1/s′ = 1/10 − 1/15 = 1/30 → s′ = 30 cm.'),
+  Q('gg', 'cahaya', 'sedang', 'Spion kendaraan memakai cermin cembung karena bayangannya …', ['Maya, tegak, diperkecil sehingga jangkauan pandang luas', 'Nyata dan diperbesar', 'Terbalik', 'Sama besar'], 'Cermin cembung memberi bidang pandang luas.'),
+]);
+add('materi', {atom:{name:'Atom & Tabel Periodik', icon:'⚛️', rec:'Model atom dari plastisin (proton, neutron, elektron) dan permainan mencari unsur di tabel periodik.'}, asambasa:{name:'Asam, Basa & Garam', icon:'🧪', rec:'Uji bahan dapur dengan indikator kubis ungu; kelompokkan asam, basa, netral.'}}, [
+  Q('mt', 'atom', 'mudah', 'Partikel atom yang bermuatan negatif adalah …', ['Elektron', 'Proton', 'Neutron', 'Inti atom'], 'Elektron (−) mengelilingi inti.'),
+  Q('mt', 'atom', 'sedang', 'Atom natrium memiliki 11 proton dan 12 neutron. Nomor massanya …', ['23', '11', '12', '1'], 'Nomor massa = proton + neutron = 23.'),
+  Q('mt', 'atom', 'sedang', 'Baris mendatar pada tabel periodik disebut …', ['Periode', 'Golongan', 'Kulit', 'Isotop'], 'Kolom tegak = golongan, baris mendatar = periode.'),
+  Q('mt', 'asambasa', 'mudah', 'Larutan yang mengubah lakmus merah menjadi biru bersifat …', ['Basa', 'Asam', 'Netral', 'Garam'], 'Basa: lakmus merah → biru.'),
+  Q('mt', 'asambasa', 'sedang', 'Obat maag (antasida) bekerja dengan cara …', ['Menetralkan asam lambung (basa lemah)', 'Menambah asam lambung', 'Membunuh bakteri', 'Mempercepat pencernaan lemak'], 'Reaksi netralisasi asam + basa.'),
+]);
+add('struktur-bumi', {gunungapi:{name:'Gunung Berapi', icon:'🌋', rec:'Diskusikan status aktivitas gunung (Normal–Waspada–Siaga–Awas) dan susun tas siaga bencana.'}}, [
+  Q('sb', 'gunungapi', 'mudah', 'Tempat berkumpulnya magma di bawah gunung api disebut …', ['Dapur magma', 'Kawah', 'Kaldera', 'Lereng'], 'Dapur magma adalah kantong magma di dalam kerak bumi.'),
+  Q('sb', 'gunungapi', 'sedang', 'Status gunung api tertinggi yang mewajibkan warga mengungsi adalah …', ['Awas (level IV)', 'Waspada (level II)', 'Siaga (level III)', 'Normal (level I)'], 'Urutan: Normal – Waspada – Siaga – Awas.'),
+]);
+// urutkan ulang per kelas → bab
+const ord = Object.keys(D).sort((a, b) => (D[a].kelas - D[b].kelas) || ((D[a].bab || 99) - (D[b].bab || 99))), tmp = {};
+ord.forEach(k => { tmp[k] = D[k]; delete D[k]; }); ord.forEach(k => { D[k] = tmp[k]; });
+})();

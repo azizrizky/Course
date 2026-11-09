@@ -3,13 +3,16 @@
 (function(){
 "use strict";
 const P = new URLSearchParams(location.search);
-const ID = P.get('t') || 'wujud-zat';
+let ID = P.get('t') || 'wujud-zat'; if(ID === 'pengukuran'){ ID = 'hakikat-sains'; if(!P.get('m')) P.set('m', 'sorong'); }
 const DEF = (window.TOPICS3D || {})[ID];
 const MAT = (window.MATERI_DATA || {})[ID] || {};
 const $ = s => document.querySelector(s);
 document.documentElement.dataset.lab = ID;
 document.documentElement.classList.add('engine');
 if(!DEF){ document.body.innerHTML = '<p style="padding:2em">Simulasi tidak ditemukan.</p>'; return; }
+{ const bb = $('#backBtn'), FROM = P.get('from'), EMB = P.get('embed');
+  if(bb && MAT.nama && (FROM === 'slide' || EMB)){ bb.style.display = ''; if(FROM === 'slide') bb.classList.add('hot');
+    bb.onclick = () => { if(EMB && parent !== window) parent.postMessage({type:'open-slide', id:ID}, '*'); else location.href = '../slide/slide.html?t=' + ID + (P.get('sp') ? '#' + (+P.get('sp') + 1) : ''); }; } }
 document.title = DEF.title + ' — Lab Petualang';
 $('#tTitle').innerHTML = DEF.titleHTML || DEF.title; $('#tSub').textContent = DEF.sub || ('IPA Kelas ' + (MAT.kelas || '') + ' · SMPN 4 Magelang');
 
@@ -189,7 +192,7 @@ function clearMode(){
 }
 function setMode(id){
   const m = DEF.modes.find(x => x.id === id) || DEF.modes[0]; E.mode = m.id; clearMode();
-  document.querySelectorAll('#modes .tbtn').forEach(b => b.classList.toggle('on', b.dataset.m === m.id));
+  document.querySelectorAll('#modes .tbtn').forEach(b => { b.classList.toggle('on', b.dataset.m === m.id); if(b.dataset.m === m.id) try{ b.scrollIntoView({block:'nearest', inline:'center'}); }catch(e){} });
   sun.position.set(8, 14, 9);
   setBg(); if((DEF.room || m.room) && m.room !== false) room(DEF.roomOpts || {});
   m.build(E);
@@ -200,6 +203,13 @@ function setMode(id){
 $('#modes').innerHTML = DEF.modes.length > 1 ? DEF.modes.map(m => `<button class="tbtn" data-m="${m.id}">${m.label}</button>`).join('') : '';
 document.querySelectorAll('#modes .tbtn').forEach(b => b.onclick = () => setMode(b.dataset.m));
 $('#panelBtn').onclick = () => { document.body.classList.toggle('noPanel'); $('#panelBtn').classList.toggle('on'); };
+/* HP: panel materi jadi bottom sheet yang bisa dikecilkan */
+{ const pn = $('#panel'), hd = document.createElement('button'); hd.id = 'pHandle'; hd.type = 'button'; pn.prepend(hd);
+  const mob = () => matchMedia('(max-width:900px)').matches, upd = () => { const m = document.body.classList.contains('pMin'); hd.innerHTML = m ? '<i></i><span>▲ Buka panel materi</span>' : '<i></i><span>▼ Kecilkan panel</span>'; };
+  let saved = null; try{ saved = localStorage.getItem('lab_panel_min'); }catch(e){}
+  if(mob() && saved !== '0') document.body.classList.add('pMin'); upd();
+  hd.onclick = () => { document.body.classList.toggle('pMin'); try{ localStorage.setItem('lab_panel_min', document.body.classList.contains('pMin') ? '1' : '0'); }catch(e){} upd(); };
+  addEventListener('resize', () => { if(!mob()) document.body.classList.remove('pMin'); upd(); }); }
 $('#resetView').onclick = () => { const m = DEF.modes.find(x => x.id === E.mode); if(m && m.view) setView(m.view); };
 $('#fsBtn').onclick = () => { try{ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }catch(e){} };
 addEventListener('message', e => { if(e.data && e.data.type === 'lab-theme') setTimeout(setBg, 50); });

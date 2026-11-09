@@ -18,10 +18,11 @@
 <canvas id="c"></canvas>
 <div id="labels"></div>
 <header id="top" class="glass">
+  <button class="ibtn back" id="backBtn" style="display:none" title="Kembali ke slide materi">⬅ <span>Materi</span></button>
   <div id="brand"><b id="tTitle">Lab Virtual</b><small id="tSub"></small></div>
   <div id="modes"></div>
-  <button class="ibtn" id="sumBtn" title="Ringkasan, ciri-ciri & rumus materi ini">📋 Ringkasan</button>
-  <button class="ibtn q" id="quizBtn" title="Kuis materi ini">📝 Kuis</button>
+  <button class="ibtn" id="sumBtn" title="Ringkasan, ciri-ciri & rumus materi ini">📋<span class="tx"> Ringkasan</span></button>
+  <button class="ibtn q" id="quizBtn" title="Kuis materi ini">📝<span class="tx"> Kuis</span></button>
   <button class="ibtn" id="panelBtn" title="Tampilkan/sembunyikan panel materi">📖</button>
   <button class="ibtn" id="resetView" title="Atur ulang pandangan">🎯</button>
   <button class="ibtn" id="fsBtn" title="Layar penuh">⛶</button>
@@ -33,6 +34,7 @@
 <div id="loading"><div class="sp"></div>Menyiapkan laboratorium…</div>
 <script src="../assets/three.min.js"></script>
 <script src="../assets/materi.js"></script>
+<script src="../slide/ill.js"></script>
 <script src="topics.js"></script>
 <script src="topics_plus.js"></script>
 <script src="engine.js"></script>

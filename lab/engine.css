@@ -82,3 +82,31 @@ body.noPanel #hint{left:50%}
 html.engine #labGuide{top:var(--toph,5.6em);bottom:auto;left:1em;flex-direction:column;align-items:flex-start}
 html.engine #labGuide .lg-card{transform-origin:0 0}
 @media (max-width:900px){.reads{grid-template-columns:1fr}}
+/* tombol kembali ke materi */
+#backBtn{padding:0 .8em;font-weight:900;white-space:nowrap}
+#backBtn.hot{background:linear-gradient(135deg,#7c3aed,#ec4899);color:#fff;border-color:transparent}
+@media (max-width:560px){#backBtn span{display:none}}
+/* panel materi: handle bottom sheet (HP) */
+#pHandle{display:none}
+@media (max-width:900px){
+  #pHandle{display:flex;align-items:center;justify-content:center;gap:.6em;width:calc(100% + 2.2em);margin:-1em -1.1em .5em;padding:.55em;border:none;border-bottom:1px solid var(--line);background:var(--panel2);color:var(--ink);font:900 .82em 'Nunito',sans-serif;position:sticky;top:-1em;z-index:2;cursor:pointer;border-radius:1em 1em 0 0}
+  #pHandle i{width:2.6em;height:.32em;border-radius:9px;background:var(--muted);opacity:.6}
+  body.pMin #panel{max-height:2.6em;overflow:hidden;padding-bottom:0}
+}
+/* simbol bahaya: grid & popup besar */
+.ghsgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:.45em;margin:.6em 0}
+.ghsgrid button{display:flex;flex-direction:column;align-items:center;gap:.2em;padding:.4em .2em;border-radius:.8em;border:1px solid var(--line);background:#fff;color:#1e293b;font:800 .7em 'Nunito',sans-serif;cursor:pointer;line-height:1.15}
+.ghsgrid svg{width:3.4em;height:3.4em}
+.ghsgrid button:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.2)}
+.ghsbig{width:9em;height:9em;margin:0 auto .6em;background:#fff;border-radius:1.4em;display:grid;place-items:center;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.ghsbig svg{width:85%;height:85%}
+/* HP: mode simulasi satu baris yang bisa digeser, top bar ringkas */
+@media (max-width:900px){
+  #modes{order:5;flex-basis:100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  #modes::-webkit-scrollbar{display:none}
+  #modes>*{flex:0 0 auto;white-space:nowrap}
+  #top{gap:.35em;padding:.35em .45em}
+  #brand{flex:1 1 7em;min-width:5em}#brand b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+  #top .ibtn{min-width:2.4em;min-height:2.4em}
+}
+@media (max-width:560px){#top .tx{display:none}}

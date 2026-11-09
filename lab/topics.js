@@ -123,26 +123,27 @@ T3['hakikat-sains'] = {
     E.ui.sec('Contoh variabel', `<p><b>Percobaan:</b> pengaruh cahaya terhadap pertumbuhan kecambah.</p><ul class="pts"><li><b>Variabel bebas:</b> ada/tidaknya cahaya</li><li><b>Variabel terikat:</b> tinggi & arah kecambah</li><li><b>Variabel kontrol:</b> jenis biji, air, tanah, suhu</li></ul>`);
     go(0);
    }},
-  {id:'bahaya', label:'⚠️ Simbol Bahaya', view:{target:[0,1.8,0], radius:11, theta:0, phi:1.25},
+  {id:'bahaya', label:'⚠️ Simbol Bahaya', view:{target:[0,3,0], radius:13, theta:0, phi:1.45},
    say:'Bahan kimia di laboratorium diberi simbol bahaya. Kenali simbolnya agar kita bisa bekerja dengan aman.',
    build(E){
-    E.platform(7.5);
-    const SY = [['🔥','Mudah terbakar','Bahan mudah menyala, misalnya alkohol & spiritus. Jauhkan dari api dan sumber panas.'],
-      ['☠️','Beracun','Dapat menyebabkan keracunan bila tertelan, terhirup, atau terkena kulit. Contoh: pestisida, merkuri.'],
-      ['🧴','Korosif','Dapat merusak kulit dan logam. Contoh: asam sulfat, natrium hidroksida. Gunakan sarung tangan & kacamata.'],
-      ['💥','Mudah meledak','Dapat meledak karena panas, gesekan, atau benturan. Contoh: bahan kembang api.'],
-      ['❗','Iritan / berbahaya','Menyebabkan iritasi kulit, mata, atau saluran napas. Contoh: amonia.'],
-      ['🐟','Berbahaya bagi lingkungan','Merusak makhluk hidup air & lingkungan. Jangan dibuang ke saluran air.']];
+    E.platform(8.5);
+    const SY = window.GHS_INFO || [];
     const plates = [];
-    SY.forEach(([ic, nm, tx], i) => { const x = (i%3 - 1)*3.4, y = i < 3 ? 3.2 : 1.1;
-      const tex = canvasTex(512, 512, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0,0,w,h); g.save(); g.translate(w/2, h/2); g.rotate(PI/4); g.strokeStyle = '#dc2626'; g.lineWidth = 34; g.strokeRect(-150, -150, 300, 300); g.restore();
-        g.font = '170px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(ic, w/2, h/2 + 10); });
-      const p = E.mesh(new THREE.BoxGeometry(1.9, 1.9, .12), [E.mat(0xffffff), E.mat(0xffffff), E.mat(0xffffff), E.mat(0xffffff), new THREE.MeshStandardMaterial({map:tex, roughness:.5}), E.mat(0xe2e8f0)], null, [x, y, 0]);
+    const pop = (k) => { const [key, nm, arti, cth, aman] = SY[k], svg = window.GHS ? GHS[key] : '';
+      E.info(nm, `<div class="ghsbig">${svg}</div><ul class="ilist"><li><b>Arti</b> ${arti}</li><li><b>Contoh bahan</b> ${cth}</li><li><b>Cara aman</b> ${aman}</li></ul>`);
+      E.say('sym' + k, `${nm}. ${arti} Contohnya ${cth} Cara aman: ${aman}`, false); plates.forEach((q, n) => q.userData.sel = n === k); };
+    SY.forEach(([key, nm], i) => { const x = (i%3 - 1)*3.1, y = 5.1 - Math.floor(i/3)*2.15;
+      const tex = canvasTex(512, 512, (g, w, h) => { g.fillStyle = '#fff'; g.fillRect(0,0,w,h); g.save(); g.translate(w/2, h/2); g.rotate(PI/4); g.strokeStyle = '#dc2626'; g.lineWidth = 34; g.strokeRect(-150, -150, 300, 300); g.restore(); });
+      if(window.GHS){ const im = new Image(); im.onload = () => { const g = tex.image.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, 512, 512); g.drawImage(im, 16, 16, 480, 480); tex.needsUpdate = true; }; im.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(GHS[key].replace('<svg ', '<svg width="480" height="480" ')); }
+      const p = E.mesh(new THREE.BoxGeometry(1.75, 1.75, .12), [E.mat(0xffffff), E.mat(0xffffff), E.mat(0xffffff), E.mat(0xffffff), new THREE.MeshStandardMaterial({map:tex, roughness:.5}), E.mat(0xe2e8f0)], null, [x, y, 0]);
       p.userData.base = y; plates.push(p);
-      E.pick(p, () => { E.info(nm, `<p>${tx}</p>`); E.say('sym' + i, nm + '. ' + tx, false); plates.forEach(q => q.userData.sel = q === p); });
-      E.label(p, nm, {off:E.V3(0, -1.15, 0)}); });
-    E.tick((dt, t) => plates.forEach((p, i) => { p.rotation.y += ((p.userData.sel ? PI*2*Math.floor(t/2) : Math.sin(t + i)*.2) - p.rotation.y)*Math.min(1, dt*3); p.position.y = p.userData.base + Math.sin(t*1.5 + i)*.06; }));
-    E.ui.head('KESELAMATAN KERJA', 'Simbol Bahaya Bahan Kimia', 'Ketuk setiap simbol untuk mengetahui artinya.');
+      E.pick(p, () => pop(i));
+      E.label(p, nm.replace(/ \(.+\)/, ''), {off:E.V3(0, -1.05, 0)}); });
+    // tidak berputar: yang dipilih maju & sedikit membesar
+    E.tick((dt, t) => plates.forEach((p, i) => { const sel = p.userData.sel, k = Math.min(1, dt*6); p.position.z += ((sel ? .9 : 0) - p.position.z)*k; const sc = sel ? 1.15 : 1; p.scale.setScalar(p.scale.x + (sc - p.scale.x)*k); p.rotation.y += (Math.sin(t*.8 + i)*.08 - p.rotation.y)*k; p.position.y = p.userData.base + Math.sin(t*1.5 + i)*.04; }));
+    E.ui.head('KESELAMATAN KERJA', 'Simbol Bahaya Bahan Kimia (GHS)', 'Ketuk simbol untuk melihat arti, contoh bahan, dan cara aman menanganinya.');
+    E.ui.html(`<div class="ghsgrid">${SY.map((r, i) => `<button data-g="${i}">${window.GHS ? GHS[r[0]] : '⚠️'}<span>${r[1].replace(/ \(.+\)/, '')}</span></button>`).join('')}</div>`);
+    document.querySelectorAll('.ghsgrid [data-g]').forEach(b => b.onclick = () => pop(+b.dataset.g));
     E.ui.sec('Aturan keselamatan di lab', `<ul class="pts"><li>Pakai jas lab, kacamata & sarung tangan.</li><li>Jangan makan/minum di laboratorium.</li><li>Jangan mencium bahan kimia langsung — kibaskan uapnya dengan tangan.</li><li>Baca label & simbol sebelum memakai bahan.</li><li>Segera lapor guru bila terjadi kecelakaan.</li></ul>`);
    }}
   ]
@@ -454,23 +455,22 @@ function mkOrganism(E, kind, parent){
   return g;
 }
 const KINGDOMS = [
-  ['archae','Archaebacteria','🔥','Uniseluler, prokariotik (tanpa membran inti), hidup di lingkungan ekstrem: sumber air panas, kawah, air sangat asin.','Contoh: <i>Methanobacterium</i>, <i>Thermococcus</i>, <i>Halobacterium</i>.'],
-  ['bakteri','Eubacteria','🦠','Uniseluler, prokariotik, dinding sel dari peptidoglikan. Ada yang menguntungkan dan ada yang menyebabkan penyakit.','Contoh: <i>Lactobacillus</i> (yoghurt), <i>Escherichia coli</i>, <i>Rhizobium</i>.'],
+  ['bakteri','Monera','🦠','Uniseluler, prokariotik (tanpa membran inti), dinding sel dari peptidoglikan, berkembang biak dengan membelah diri. Meliputi bakteri dan alga biru (Cyanobacteria). Ada yang menguntungkan dan ada yang menyebabkan penyakit.','Contoh: <i>Lactobacillus</i> (yoghurt), <i>Rhizobium</i>, <i>Escherichia coli</i>, alga biru <i>Anabaena</i>.'],
   ['protista','Protista','🧫','Eukariotik (memiliki membran inti), umumnya uniseluler, hidup di tempat lembap/berair. Ada yang mirip hewan, mirip tumbuhan, atau mirip jamur.','Contoh: <i>Amoeba</i>, <i>Paramecium</i>, <i>Euglena</i>, alga.'],
   ['jamur','Fungi (jamur)','🍄','Eukariotik, tidak berklorofil sehingga heterotrof (menyerap zat dari lingkungan), dinding sel dari kitin, berkembang biak dengan spora.','Contoh: jamur tiram, ragi (<i>Saccharomyces</i>), <i>Rhizopus</i> pada tempe.'],
   ['tumbuhan','Plantae (tumbuhan)','🌿','Eukariotik, multiseluler, berklorofil sehingga dapat berfotosintesis (autotrof), dinding sel dari selulosa.','Contoh: lumut, paku, mangga, padi.'],
   ['hewan','Animalia (hewan)','🐟','Eukariotik, multiseluler, tidak berklorofil (heterotrof), tidak berdinding sel, umumnya dapat bergerak aktif.','Contoh: ikan, kucing, burung, serangga.']];
 T3['klasifikasi'] = {
   title:'Klasifikasi Makhluk Hidup', titleHTML:'Klasifikasi <span>Makhluk Hidup</span>',
-  greet:'Halo! Makhluk hidup dikelompokkan ke dalam enam kingdom berdasarkan ciri-cirinya. Ketuk setiap model untuk mengenal ciri kingdom tersebut, lalu coba tantangan tebak kingdom!',
+  greet:'Halo! Makhluk hidup dikelompokkan ke dalam lima kingdom berdasarkan ciri-cirinya. Ketuk setiap model untuk mengenal ciri kingdom tersebut, lalu coba tantangan tebak kingdom!',
   modes:[
-  {id:'kingdom', label:'🌍 6 Kingdom', view:{target:[0,1.5,0], radius:13, theta:0, phi:1.15},
-   say:'Enam kingdom adalah Archaebacteria, Eubacteria, Protista, Fungi, Plantae, dan Animalia.',
+  {id:'kingdom', label:'🌍 5 Kingdom', view:{target:[0,1.5,0], radius:13, theta:0, phi:1.15},
+   say:'Sistem lima kingdom dari Whittaker terdiri atas Monera, Protista, Fungi, Plantae, dan Animalia.',
    build(E){
     E.platform(8.5);
     const gs = [];
-    KINGDOMS.forEach(([k, nm, ic, ciri, contoh], i) => { const a = i/6*PI*2 - PI/2, R = 5.4;
-      const ped = E.mesh(new THREE.CylinderGeometry(1, 1.15, .5, 32), E.mat([0xf97316,0x22c55e,0xa78bfa,0xdc2626,0x16a34a,0x0ea5e9][i], {roughness:.35}), null, [Math.cos(a)*R, .25, Math.sin(a)*R]);
+    KINGDOMS.forEach(([k, nm, ic, ciri, contoh], i) => { const a = i/5*PI*2 - PI/2, R = 5.2;
+      const ped = E.mesh(new THREE.CylinderGeometry(1, 1.15, .5, 32), E.mat([0xf97316,0xa78bfa,0xdc2626,0x16a34a,0x0ea5e9][i], {roughness:.35}), null, [Math.cos(a)*R, .25, Math.sin(a)*R]);
       const g = mkOrganism(E, k); g.position.set(Math.cos(a)*R, .3, Math.sin(a)*R); g.userData.k = k; gs.push(g);
       const show = () => { E.info(`${ic} ${nm}`, `<p>${ciri}</p><p>${contoh}</p>`); E.say('k_' + k, `${nm}. ${ciri.replace(/<[^>]+>/g,'')}`, false); E.setView({target:[g.position.x, 1.3, g.position.z], radius:5, theta:Math.atan2(g.position.x, g.position.z), phi:1.2}); };
       E.pick(g, show); E.pick(ped, show); E.label(g, `${ic} ${nm}`, {off:E.V3(0, 2.4, 0), onClick:show}); });
@@ -478,15 +478,15 @@ T3['klasifikasi'] = {
       if(g.userData.blob){ const geo = g.userData.blob.geometry, p = geo.attributes.position, b = g.userData.blob.userData.base; for(let j = 0; j < p.count; j++){ const x = b[j*3], y = b[j*3+1], z = b[j*3+2]; const f = 1 + .12*Math.sin(t*2 + x*4) * Math.cos(t*1.5 + z*5 + y*3); p.setXYZ(j, x*f, y*f, z*f); } p.needsUpdate = true; geo.computeVertexNormals(); }
       if(g.userData.tail) g.userData.tail.rotation.y = Math.sin(t*6)*.4;
       if(g.userData.fl) g.userData.fl.rotation.x = t*3; }));
-    E.ui.head('KLASIFIKASI', 'Sistem 6 Kingdom', 'Ketuk model atau label untuk melihat ciri-ciri tiap kingdom.');
-    E.ui.sec('Prokariotik vs eukariotik', '<p><b>Prokariotik:</b> tidak punya membran inti (Archaebacteria, Eubacteria).<br><b>Eukariotik:</b> punya membran inti (Protista, Fungi, Plantae, Animalia).</p>');
+    E.ui.head('KLASIFIKASI', 'Sistem 5 Kingdom (Whittaker)', 'Ketuk model atau label untuk melihat ciri-ciri tiap kingdom.');
+    E.ui.sec('Prokariotik vs eukariotik', '<p><b>Prokariotik:</b> tidak punya membran inti (Monera: bakteri & alga biru).<br><b>Eukariotik:</b> punya membran inti (Protista, Fungi, Plantae, Animalia).</p>');
     E.ui.sec('Takson (dari besar ke kecil)', '<div class="formula" style="font-size:1em">Kingdom → Filum/Divisi → Kelas → Ordo → Famili → Genus → Spesies</div><p>Nama ilmiah memakai <b>tata nama ganda</b> (binomial nomenklatur): <i>Oryza sativa</i> (padi). Nama genus diawali huruf kapital, ditulis miring.</p>');
    }},
   {id:'tebak', label:'🎯 Tebak Kingdom', view:{target:[0,1.4,0], radius:6.5, theta:.4, phi:1.2},
    say:'Amati model makhluk hidup di tengah panggung, baca petunjuknya, lalu pilih kingdom yang tepat!',
    build(E){
     E.platform(5);
-    const Q = [['archae','Aku hidup di sumber air panas bersuhu 80 °C dan tidak punya membran inti.'],['bakteri','Aku bersel satu, tanpa membran inti, dan membantu membuat yoghurt.'],['protista','Aku bersel satu, punya membran inti, dan bergerak dengan kaki semu.'],
+    const Q = [['bakteri','Aku bersel satu, tanpa membran inti, dan membantu membuat yoghurt.'],['bakteri','Aku alga biru bersel satu tanpa membran inti, tetapi bisa berfotosintesis.'],['protista','Aku bersel satu, punya membran inti, dan bergerak dengan kaki semu.'],
       ['jamur','Aku tidak punya klorofil, dinding selku dari kitin, dan aku berkembang biak dengan spora.'],['tumbuhan','Aku punya klorofil dan membuat makanan sendiri lewat fotosintesis.'],['hewan','Aku bersel banyak, tidak punya dinding sel, dan dapat bergerak aktif.']];
     let order = Q.map((_, i) => i).sort(() => Math.random() - .5), idx = 0, score = 0, cur = null;
     const rd = {}; E.ui.head('TANTANGAN', 'Tebak Kingdom!', 'Baca petunjuk, amati modelnya, lalu pilih jawaban.');

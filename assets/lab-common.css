@@ -60,3 +60,10 @@ h1,h2,h3,.kicker,#brand b,#title h1,#homeCard h1{font-family:'Baloo 2','Nunito',
 [data-theme=dark][data-lab=newton] #homeCard .teacher b{color:#fff}
 [data-theme=light][data-lab=tata-surya] #title h1 span{color:#D97706}
 [data-theme=light][data-lab=tata-surya] #clock{color:#0F766E}
+#labGuide .lg-col{display:flex;flex-direction:column;align-items:center;gap:.35em;pointer-events:auto}
+#labGuide .lg-tools{display:flex;gap:.25em}
+#labGuide .lg-tools button{width:2.3em;height:2.3em;border-radius:50%;border:2px solid rgba(255,255,255,.5);background:rgba(12,24,52,.85);font-size:1em;cursor:pointer;display:grid;place-items:center;box-shadow:0 .2em .6em rgba(0,0,0,.35);padding:0}
+#labGuide .lg-tools button.on{background:#2DD4BF;border-color:#fff}
+[data-theme=light] #labGuide .lg-tools button{background:rgba(255,255,255,.95);border-color:rgba(15,31,61,.2)}
+[data-theme=light] #labGuide .lg-tools button.on{background:#2DD4BF}
+#labGuide.notext .lg-card{display:none}
