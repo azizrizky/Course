@@ -1,6 +1,7 @@
 /* Lab Petualang — mesin slide pemaparan materi
    Data: window.SLIDE_DATA[id] = {color:[a,b], slides:[{t:'cover'|'tujuan'|'konsep'|'cards'|'rumus'|'anim'|'contoh'|'kuis'|'ingat'|'tabel'|'penerapan'|'mitos'|'rangkuman'|'refleksi', ...}]} */
 (function(){
+const $$on = sel => document.querySelector(sel) || {};
 "use strict";
 const $ = s => document.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const P = new URLSearchParams(location.search);
@@ -16,11 +17,12 @@ if(EMBED) document.documentElement.classList.add('embed');
 /* tema */
 function applyTheme(t){ document.documentElement.dataset.theme = t; $('#bTheme').textContent = t === 'dark' ? '🌙' : '☀️'; }
 applyTheme(P.get('theme') || ls.get('lab_theme', 'dark') || 'dark');
-$('#bTheme').onclick = () => { const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; applyTheme(t); ls.set('lab_theme', t); };
+$$on('#bTheme').onclick = () => { const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; applyTheme(t); ls.set('lab_theme', t); };
 addEventListener('message', e => { if(e.data && e.data.type === 'lab-theme' && e.data.theme) applyTheme(e.data.theme); });
 
 /* muat data */
-const sc = document.createElement('script'); sc.src = `data/${ID}.js`; sc.onload = init; sc.onerror = () => { $('#loading').textContent = 'Slide materi ini belum tersedia.'; }; document.head.appendChild(sc);
+setTimeout(() => { const l = document.querySelector('#loading'); if(l && !S.length && !l.querySelector('button')) init(); }, 9000);
+const sc = document.createElement('script'); sc.src = `data/${ID}.js?v=20261109b`; sc.onload = init; sc.onerror = () => { $('#loading').textContent = 'Slide materi ini belum tersedia.'; }; document.head.appendChild(sc);
 
 let D, S = [], cur = 0, scale = 1, SW = 1600, SH = 900;
 let SECS = [];
@@ -31,7 +33,8 @@ function buildSecs(){ SECS = [{id:'awal', name:'Pembuka', short:'🚀', icon:'�
 function secOf(d){ if(d.sb && SECS.some(x => x.id === d.sb)) return d.sb; if(['cover','tujuan','peta'].includes(d.t)) return 'awal'; if(['kuis','rangkuman','refleksi'].includes(d.t)) return 'penutup'; return (SECS[1] || SECS[0]).id; }
 let MODE = 'auto', PLAY = false, playT = 0, HUB = 1;
 const visited = new Set(ls.get('slide_vis_' + ID, []));
-function init(){
+function init(){ try { init0(); } catch(err){ console.error(err); const l = $('#loading'); if(l) l.innerHTML = `<div style="max-width:520px;text-align:center;padding:20px"><b>Slide gagal dimuat 😥</b><p style="font-size:14px;opacity:.8">${String(err && err.message || err).replace(/</g, '&lt;')}</p><button onclick="location.replace(location.pathname + location.search.replace(/[?&]r=\\d+/, '') + (location.search ? '&' : '?') + 'r=' + Date.now() + location.hash)" style="padding:10px 18px;border-radius:12px;border:none;font-weight:900;cursor:pointer">🔄 Muat ulang</button></div>`; } }
+function init0(){
   D = (window.SLIDE_DATA || {})[ID]; if(!D){ $('#loading span').textContent = 'Slide materi ini belum tersedia.'; return; }
   document.title = `${MAT.nama || D.title || ID} — Slide Materi`; $('#sbTitle').textContent = MAT.nama || ID;
   if(D.color){ document.documentElement.style.setProperty('--a', D.color[0]); document.documentElement.style.setProperty('--b', D.color[1]); }
@@ -163,7 +166,7 @@ function answer(el, s, b, show){ if(el.dataset.done) return; el.dataset.done = '
   const fb = el.querySelector('.qfb'); fb.innerHTML = `<b>${show ? '👀 Jawaban:' : ok ? '🎉 Tepat sekali!' : '😅 Belum tepat.'}</b> ${s.exp || ''}`; fb.classList.add('on'); if(ok && !show) cheer(); }
 function openLab(){ if(EMBED && parent !== window) parent.postMessage({type:'open-lab', id:ID, i:cur}, '*'); else { const u = '../' + (MAT.lab || `lab/lab.html?t=${ID}`); location.href = u + (u.includes('?') ? '&' : '?') + 'from=slide&sp=' + cur; } }
 function openQuiz(){ if(EMBED && parent !== window) parent.postMessage({type:'open-quiz', id:ID}, '*'); else location.href = '../index.html'; }
-$('#bLab').onclick = openLab;
+$$on('#bLab').onclick = openLab;
 
 /* konfeti kecil */
 function cheer(){ const n = 40; for(let i = 0; i < n; i++){ const d = document.createElement('i'); const c = PAL[i % PAL.length];
@@ -233,11 +236,11 @@ function pop(e, title, body, extra, color){ const lb = $('#lb'), c = lb.querySel
 function popCard(c, color){ const more = c.more ? `<div class="lbm">${c.more.map(r => `<div class="lbr"><b>${r[0]}</b><span>${r[1]}</span></div>`).join('')}</div>` : '';
   pop(vis(c, true), c.n, `<p>${c.d}</p>${more}`, c.ex ? `💡 Contoh: ${c.ex}` : '', color); }
 function closePop(){ const lb = $('#lb'); if(lb) lb.classList.remove('on'); }
-$('#bNext').onclick = next; $('#bPrev').onclick = prev;
-$('#bToc').onclick = () => toc(); $('#tocX').onclick = () => toc(false); $('#toc').addEventListener('click', e => { if(e.target.id === 'toc') toc(false); });
-$('#bHub').onclick = () => go(HUB, true);
-$('#bMenu').onclick = () => go(HUB, true);
-$('#bFs').onclick = () => { try{ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }catch(e){} };
+$$on('#bNext').onclick = next; $('#bPrev').onclick = prev;
+$$on('#bToc').onclick = () => toc(); $('#tocX').onclick = () => toc(false); $('#toc').addEventListener('click', e => { if(e.target.id === 'toc') toc(false); });
+$$on('#bHub').onclick = () => go(HUB, true);
+$$on('#bMenu').onclick = () => go(HUB, true);
+$$on('#bFs').onclick = () => { try{ document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen(); }catch(e){} };
 addEventListener('keydown', e => {
   if(e.target.tagName === 'INPUT' || document.querySelector('.uid-ov')) return;
   const k = e.key;
@@ -263,7 +266,7 @@ function readSlide(){ try{ speechSynthesis.cancel(); const el = S[cur].el;
   const txt = $$('h1,h2,.sub,.defn p,.pts li,.kc h3,.kc p,.tp p,.pemantik p,.soal p,.mnem .w,.mnem p,.app h3,.app p,.qo span', el).map(x => x.textContent.trim()).filter(Boolean).join('. ');
   const u = new SpeechSynthesisUtterance(txt.replace(/[→←↔]/g, ', ')); u.lang = 'id-ID'; u.rate = .98;
   const v = speechSynthesis.getVoices().find(v => /id(-|_)ID/i.test(v.lang)); if(v) u.voice = v; speechSynthesis.speak(u); }catch(e){} }
-$('#bRead').onclick = () => { reading = !reading; $('#bRead').classList.toggle('on', reading); if(reading) readSlide(); else try{ speechSynthesis.cancel(); }catch(e){} };
+$$on('#bRead').onclick = () => { reading = !reading; $('#bRead').classList.toggle('on', reading); if(reading) readSlide(); else try{ speechSynthesis.cancel(); }catch(e){} };
 
 /* peta konsep */
 function layoutMind(el){ const m = el.querySelector('[data-mind]'); if(!m) return; const W = m.offsetWidth, H = m.offsetHeight, br = $$('.br', m), n = br.length;
