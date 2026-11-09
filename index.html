@@ -650,6 +650,68 @@ details.help ol{line-height:1.7;font-size:14px}
 
 #landTop{display:none}body:has(#s-landing.on) #landTop{display:flex}
 
+/* LKPD halaman */
+.lk-wrap{display:grid;grid-template-columns:300px 1fr;gap:18px;margin-top:16px;align-items:start}
+.lk-wrap>*{min-width:0}.lk-hd{min-width:0}.lk-hd h3{overflow-wrap:anywhere}
+.lk-side{position:sticky;top:76px;max-height:calc(100vh - 92px);display:flex;flex-direction:column;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:12px}
+.lk-tools .inp{width:100%}
+.lk-seg{display:flex;gap:6px;margin-top:8px}.lk-seg button{flex:1;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:12px;padding:7px 4px;font:900 12.5px 'Nunito',sans-serif;cursor:pointer}
+.lk-seg button.on{background:var(--accent);color:#04211d;border-color:transparent}
+.lk-list{overflow:auto;display:flex;flex-direction:column;gap:7px;padding-right:2px}
+.lk-gh{font-weight:900;font-size:12px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin:8px 4px 2px}
+.lk-item{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid transparent;background:var(--panel2);color:var(--ink);border-radius:14px;padding:7px;cursor:pointer;transition:.15s}
+.lk-item:hover{transform:translateX(3px);border-color:var(--line)}
+.lk-item.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 18%,var(--panel2))}
+.lk-item img{width:62px;height:38px;object-fit:cover;border-radius:9px;flex:none}
+.lk-item span{display:flex;flex-direction:column;min-width:0}.lk-item small{font-weight:800;font-size:11px;color:var(--muted)}.lk-item b{font-size:13.5px;line-height:1.15}
+.lk-item i{font-style:normal;font-size:11.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lk-empty{display:none;text-align:center;font-weight:800}
+.lk-head{display:flex;gap:18px;align-items:center;background:linear-gradient(120deg,color-mix(in srgb,var(--c) 30%,var(--panel)),var(--panel));border:1px solid var(--line);border-radius:22px;padding:16px}
+.lk-head>img{width:200px;border-radius:16px;flex:none}
+.lk-hd small{font-weight:900;font-size:12px;color:var(--muted);letter-spacing:.04em}.lk-hd h3{margin:4px 0 4px;font-size:24px;line-height:1.15}.lk-hd p{margin:0 0 10px;font-weight:700;color:var(--muted)}
+.lk-act{display:flex;flex-wrap:wrap;gap:8px}.lk-act a.btn{text-decoration:none;display:inline-flex;align-items:center}
+.lk-steps{position:sticky;top:64px;z-index:3;display:flex;gap:6px;overflow-x:auto;padding:10px 2px;margin:6px 0;background:var(--bg);scrollbar-width:none}
+.lk-steps button{flex:none;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:999px;padding:7px 13px;font:900 12.5px 'Nunito',sans-serif;cursor:pointer}
+.lk-steps button:hover{border-color:var(--accent)}
+.lk-paper{background:repeating-linear-gradient(0deg,transparent 0 23px,rgba(127,163,207,.08) 23px 24px),repeating-linear-gradient(90deg,transparent 0 23px,rgba(127,163,207,.08) 23px 24px);border-radius:22px;padding:22px 10px}
+@media (max-width:1000px){.lk-wrap{grid-template-columns:1fr}.lk-side{position:static;max-height:none}.lk-list{flex-direction:row;overflow-x:auto;padding-bottom:6px}.lk-gh{display:none}.lk-item{flex:0 0 240px;width:240px}.lk-item span{overflow:hidden}.lk-head{flex-direction:column;align-items:stretch}.lk-head>img{width:170px}.lk-paper{padding:10px 0}}
+/* LKPD-SHEET */
+.lk-sheet{max-width:820px;margin:0 auto;background:#fff;color:#1f2937;font:15px/1.55 'Nunito',Calibri,Arial,sans-serif;padding:40px 46px;border-radius:6px;box-shadow:0 18px 40px rgba(0,0,0,.25);border-top:8px solid #F28C28}
+.lk-sheet p{margin:6px 0}.lk-sheet ol,.lk-sheet ul{margin:6px 0;padding-left:22px}.lk-sheet li{margin:3px 0}
+.lk-cover{display:flex;justify-content:space-between;gap:18px;align-items:center;margin-bottom:18px}
+.lk-cover img{width:260px;flex:none}
+.lk-kick{color:#F28C28;font-weight:900;font-size:11px;letter-spacing:.12em}
+.lk-cover h1{margin:4px 0;color:#13254A;font-size:40px;font-weight:900;letter-spacing:-.5px}
+.lk-cover h2{margin:0 0 8px;color:#1E3F78;font-size:20px;line-height:1.25}
+.lk-meta{color:#5B6B82;font-size:13px}
+.lk-id{background:#FFF4E6;border-top:3px solid #F28C28;border-bottom:3px solid #F28C28;padding:12px 16px;margin:6px 0 18px;display:grid;gap:8px}
+.lk-id>div{display:grid;grid-template-columns:110px 1fr;align-items:start}.lk-id ol{margin:0;padding-left:20px}.lk-id li{margin:6px 0}
+.lk-ln{display:block;border-bottom:1.5px dotted #9AA8BC;height:18px}
+.lk-box{border:1.5px solid #13254A;margin:14px 0;break-inside:avoid}
+.lk-box>h3{margin:0;background:#F28C28;color:#fff;font-size:15px;padding:7px 14px}
+.lk-box>div{padding:8px 14px}
+.lk-bar{display:inline-block;background:#13254A;color:#fff;font-size:15px;padding:8px 16px;margin:22px 0 10px;min-width:58%}
+.lk-bar.k{display:block;background:#1E3F78;min-width:0}
+.lk-frame{border:1.5px solid #13254A;padding:12px 16px}
+.lk-q{color:#1E3F78}.lk-or{color:#F28C28;margin-top:12px}
+.lk-sub{font-weight:900;color:#13254A;margin-top:14px}
+.lk-read{background:#FFF4E6;border:2px solid #F28C28;padding:10px 16px}.lk-read ul li::marker{color:#F28C28}
+.lk-warn{border:2px solid #2563EB;padding:9px 14px;margin:10px 0}
+.lk-tt{font-weight:900;margin-top:14px}
+.lk-tw{overflow-x:auto}
+.lk-t{width:100%;border-collapse:collapse;font-size:13.5px}
+.lk-sheet [id]{scroll-margin-top:130px}
+.lk-t th{text-transform:none;letter-spacing:0;font-size:13px;background:#D9EBFA;color:#13254A;border:1px solid #7FA3CF;padding:6px;font-weight:900}
+.lk-t td{border:1px solid #9DB7D8;padding:6px;height:22px;text-align:center}.lk-t td:first-child{text-align:left}
+.lk-t tr:nth-child(even) td{background:#F3F8FD}
+.lk-t.ref td{height:auto}
+.lk-note{font-style:italic;color:#5B6B82;font-size:13px}
+.lk-dot{border-bottom:1.5px dotted #9AA8BC;height:26px}
+.lk-quote{background:#FFD166;color:#7A4A00;font-weight:900;font-style:italic;text-align:center;padding:14px 18px;margin:22px 0 8px;border-radius:4px}
+.lk-foot{text-align:center;color:#5B6B82;font-size:12px;margin-top:14px}
+@media (max-width:700px){.lk-sheet{padding:22px 16px}.lk-cover{flex-direction:column-reverse;align-items:flex-start}.lk-cover img{width:100%}.lk-bar{min-width:0;display:block}}
+@media print{@page{size:A4;margin:14mm}.lk-sheet{box-shadow:none;border-top:none;padding:0;max-width:none}.lk-bar,.lk-box>h3,.lk-quote,.lk-t th,.lk-read,.lk-id{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+/* /LKPD-SHEET */
 </style>
 </head>
 <body>
@@ -703,16 +765,18 @@ details.help ol{line-height:1.7;font-size:14px}
 <section class="scr" id="s-setup">
   <aside class="side" id="side">
     <div class="logo"><div class="b"><img src="assets/logo.svg" alt=""></div><div><h1>Lab Petualang</h1><small id="sideRole">Ruang Guru</small></div></div>
-    <div class="navh" data-role="guru">Mengajar</div>
     <button class="navi" data-nav="home" data-role="guru"><span class="ni">🏠</span><span>Beranda</span></button>
-    <button class="navi" data-nav="mood" data-role="guru"><span class="ni">😊</span><span>Cek Perasaan</span><span class="nb">3D</span></button>
+    <div class="navh">Materi Belajar</div>
     <button class="navi" data-nav="slides"><span class="ni">📽️</span><span>Slide Materi</span><span class="nb">13</span></button>
     <button class="navi" data-nav="lab"><span class="ni">🔬</span><span>Lab 3D &amp; Kuis</span><span class="nb">7·8</span></button>
+    <button class="navi" data-nav="lkpd"><span class="ni">📝</span><span>LKPD</span><span class="nb">Word</span></button>
+    <div class="navh" data-role="guru">Di Kelas</div>
+    <button class="navi" data-nav="mood" data-role="guru"><span class="ni">😊</span><span>Cek Perasaan</span><span class="nb">3D</span></button>
     <button class="navi" data-nav="games" data-role="guru"><span class="ni">🎮</span><span>Permainan &amp; Kuis</span></button>
-    <div class="navh" data-role="guru">Kelola</div>
+    <div class="navh" data-role="guru">Evaluasi &amp; Kelola</div>
     <button class="navi" data-nav="bank" data-role="guru"><span class="ni">📚</span><span>Bank Soal</span></button>
-    <button class="navi" data-nav="studio" data-role="guru"><span class="ni">🎙️</span><span>Studio Suara</span></button>
     <button class="navi" data-nav="history" data-role="guru"><span class="ni">📈</span><span>Riwayat Kelas</span></button>
+    <button class="navi" data-nav="studio" data-role="guru"><span class="ni">🎙️</span><span>Studio Suara</span></button>
     <button class="navi" data-nav="settings" data-role="guru"><span class="ni">⚙️</span><span>Pengaturan</span></button>
     <button class="navi" id="navJoin" style="display:none"><span class="ni">🎮</span><span>Gabung Permainan</span></button>
     <button class="navi" id="openGuide" data-role="guru"><span class="ni">💡</span><span>Panduan</span></button>
@@ -731,6 +795,7 @@ details.help ol{line-height:1.7;font-size:14px}
       <iframe class="vframe" id="mdFrame" allow="fullscreen; autoplay" allowfullscreen></iframe></div></div>
     <div class="page" id="pg-slides"></div>
     <div class="page" id="pg-lab"></div>
+    <div class="page" id="pg-lkpd"></div>
     <div class="page" id="pg-viewer"><div class="viewer"><div class="vbar">
         <button class="btn sm ghost" id="vBack">← Kembali</button><b class="fred" style="font-size:22px" id="vTitle"></b><span class="slowhint" id="vSlow">🐢 Gambar tersendat? Coba kualitas <b>Standar</b> atau <b>Hemat</b>.</span><div class="sp"></div>
         <span class="muted" style="font-weight:800;font-size:13px">Kualitas:</span><div class="chips" id="vQual"></div>
@@ -3202,6 +3267,7 @@ var qrcode = function() {
 </script>
 <script src="assets/dialog.js?v=20261109d"></script>
 <script src="assets/materi.js?v=20261109d"></script>
+<script src="assets/lkpd.js?v=20261109d"></script>
 <script>
 /* ============================================================
    DATA MATERI — tambahkan materi lain di MATERI di bawah ini
@@ -5254,7 +5320,7 @@ const SIMS = Object.entries(MATERI).map(([mid, m]) => { const x = SIM_EXTRA[mid]
     thumb:x.thumb || ('assets/thumbs/' + mid + '.jpg'), desc:x.desc || m.desc, tags:x.tags || ['3D', ...modes.slice(0,3)], dur:x.dur || '20–30 menit'}; });
 const SIM_SOON = [];
 const simOfMateri = mid => SIMS.find(s => s.materiId === mid);
-const PAGES = {home:['🏠','Beranda'], mood:['😊','Cek Perasaan Kelas'], slides:['📽️','Slide Materi'], lab:['🔬','Lab 3D & Kuis'], viewer:['🔬','Lab 3D & Kuis'], games:['🎮','Permainan & Kuis'], bank:['📚','Bank Soal'], studio:['🎙️','Studio Suara'], history:['📈','Riwayat Kelas'], settings:['⚙️','Pengaturan']};
+const PAGES = {lkpd:['📝','LKPD'], home:['🏠','Beranda'], mood:['😊','Cek Perasaan Kelas'], slides:['📽️','Slide Materi'], lab:['🔬','Lab 3D & Kuis'], viewer:['🔬','Lab 3D & Kuis'], games:['🎮','Permainan & Kuis'], bank:['📚','Bank Soal'], studio:['🎙️','Studio Suara'], history:['📈','Riwayat Kelas'], settings:['⚙️','Pengaturan']};
 let ROLE = 'guru', CURPAGE = 'home', CURSIM = null;
 
 /* ---------- tema ---------- */
@@ -5280,7 +5346,7 @@ function enterDash(role, page){
   show('s-setup'); nav(page || (role === 'siswa' ? 'lab' : 'home'));
 }
 function nav(p){
-  if(ROLE === 'siswa' && !['lab','viewer','slides'].includes(p)) p = 'lab';
+  if(ROLE === 'siswa' && !['lab','viewer','slides','lkpd'].includes(p)) p = 'lab';
   if(CURPAGE === 'viewer' && p !== 'viewer'){ const f = $('#vFrame'); if(f) f.src = 'about:blank'; }
   if(CURPAGE === 'mood' && p !== 'mood'){ const f = $('#mdFrame'); if(f) f.src = 'about:blank'; }
   CURPAGE = p;
@@ -5289,7 +5355,7 @@ function nav(p){
   $('#pageTitle').textContent = p === 'viewer' && CURSIM ? (VMODE === 'slide' ? '📽️ ' + CURSIM.materi : CURSIM.title) : PAGES[p][1];
   $('#crumb').textContent = 'Lab Petualang' + (p === 'viewer' && CURSIM ? ` › Kelas ${CURSIM.kelas} › ${CURSIM.materi}${VMODE === 'slide' ? ' › Slide' : ' › Lab 3D'}` : '');
   $('#side').classList.remove('open');
-  ({home:renderHome, mood:renderMood, slides:renderSlides, lab:renderLab, games:renderSetup, bank:() => renderBank(), studio:renderStudio, history:renderHistory, settings:renderSettings})[p]?.();
+  ({home:renderHome, mood:renderMood, slides:renderSlides, lab:renderLab, games:renderSetup, bank:() => renderBank(), studio:renderStudio, history:renderHistory, settings:renderSettings, lkpd:() => renderLkpd()})[p]?.();
   scrollTo(0,0);
 }
 $$('[data-nav]').forEach(b => b.onclick = () => { SFX.click(); nav(b.dataset.nav); });
@@ -5459,6 +5525,68 @@ addEventListener('message', e => { const d = e.data || {}; if(d.type === 'open-l
   if(d.type === 'open-quiz'){ if(ROLE === 'siswa'){ toast('🎮 Kuis dimainkan bersama guru di kelas. Coba 📝 Kuis di dalam Lab 3D!'); const s = simOfMateri(d.id); if(s) openSim(s.id); } else quizFor(d.id); } });
 const SL_COL = {'hakikat-sains':['#14b8a6','#6366f1'],'wujud-zat':['#0ea5e9','#8b5cf6'],'kalor':['#ef4444','#f59e0b'],'tata-surya':['#6366f1','#f59e0b'],'klasifikasi':['#22c55e','#0ea5e9'],'ekosistem':['#16a34a','#eab308'],'gerak-gaya':['#f97316','#ec4899'],
   'sel':['#ec4899','#8b5cf6'],'sistem-organ':['#ef4444','#0ea5e9'],'usaha':['#f59e0b','#14b8a6'],'materi':['#a855f7','#06b6d4'],'getaran-gelombang':['#0ea5e9','#a855f7'],'struktur-bumi':['#ea580c','#2563eb']};
+/* ---------- LKPD ---------- */
+const lkFile = id => { const m = MATERI[id]; return `lkpd/LKPD-IPA-Kelas${m.kelas}-Bab${m.bab}-${id}.docx`; };
+function lkSheet(id){
+  const D = LKPD_DATA[id], m = MATERI[id], kls = m.kelas === '7' ? 'VII' : 'VIII', dl = n => Array.from({length:n}, () => '<div class="lk-dot"></div>').join('');
+  const tbl = (t, cls = '') => { const rows = Array.isArray(t.rows) ? t.rows : Array.from({length:t.rows}, (_, r) => t.head.map((_, c) => c === 0 && t.isi && t.isi[r] != null ? t.isi[r] : ''));
+    return `<div class="lk-tw"><table class="lk-t ${cls}"><thead><tr>${t.head.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr>${r.map((v, i) => `<td>${i === 0 && v ? `<b>${v}</b>` : v}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`; };
+  const ol = a => `<ol>${a.map(x => `<li>${x}</li>`).join('')}</ol>`;
+  return `<article class="lk-sheet" id="lkSheet">
+    <header class="lk-cover" id="lk-identitas"><div><div class="lk-kick">L E M B A R &nbsp; K E R J A &nbsp; P E S E R T A &nbsp; D I D I K</div><h1>LKPD IPA</h1><h2>“${D.judul}”</h2>
+      <p class="lk-meta">Kelas ${kls} · Fase D · Bab ${m.bab}: ${esc(m.nama)} · Tema: ${D.tema}</p></div><img src="lkpd/img/${id}.png" alt=""></header>
+    <div class="lk-id"><div><b>Kelompok :</b><span class="lk-ln"></span></div><div><b>Kelas :</b><span>${kls} / ....</span></div><div><b>Anggota :</b><ol>${'<li><span class="lk-ln"></span></li>'.repeat(6)}</ol></div></div>
+    <section class="lk-box o"><h3>A. Petunjuk Belajar</h3><div>${ol(LKPD_DATA._petunjuk)}</div></section>
+    <section class="lk-box o"><h3>B. Capaian Pembelajaran</h3><div><p>${D.cp}</p></div></section>
+    <section class="lk-box o"><h3>C. Tujuan Pembelajaran</h3><div>${ol(D.tujuan)}</div></section>
+    <h3 class="lk-bar" id="lk-t1">Tahap 1: Orientasi Murid pada Masalah</h3>
+    <div class="lk-frame"><p><b>Permasalahan:</b></p><p>${D.masalah}</p><p class="lk-q"><i>${D.pemantik}</i></p></div>
+    <h3 class="lk-bar" id="lk-t2">Tahap 2: Mengorganisasikan Murid untuk Belajar</h3>
+    <div class="lk-frame"><p><b>Berkumpullah sesuai kelompok yang telah ditentukan dan diskusikan pertanyaan berikut berdasarkan permasalahan di atas.</b></p><p class="lk-or"><b>AYO DISKUSI</b></p>${D.diskusi.map((q, i) => `<p>${i + 1}. ${q}</p>${dl(3)}`).join('')}</div>
+    <h3 class="lk-bar" id="lk-t3">Tahap 3: Membimbing Penyelidikan Kelompok maupun Individu</h3>
+    ${D.kegiatan.map((k, ki) => `<h3 class="lk-bar k" id="lk-k${ki}">Kegiatan ${'ABCDE'[ki]} — ${k.judul}</h3>
+      <p class="lk-sub">📖 Ayo Membaca!</p><div class="lk-read"><p>${k.baca}</p><ul>${k.poin.map(x => `<li>${x}</li>`).join('')}</ul></div>
+      <p><b>Alat dan bahan:</b> ${k.alat}</p><p><b>Langkah kerja:</b></p>${ol(k.langkah)}
+      ${k.perhatian ? `<div class="lk-warn"><b>⚠️ Perhatian!</b> ${k.perhatian}</div>` : ''}
+      ${k.rujukan ? `<p class="lk-tt">${k.rujukan.judul}</p>${tbl(k.rujukan, 'ref')}` : ''}
+      <p class="lk-tt">${k.tabel.judul}</p>${tbl(k.tabel)}${k.catatan ? `<p class="lk-note">${k.catatan}</p>` : ''}
+      <p class="lk-sub">✍️ Ayo Menjawab!</p>${k.jawab.map((q, i) => `<p>${i + 1}. ${q}</p>${dl(3)}`).join('')}`).join('')}
+    <h3 class="lk-bar" id="lk-t4">Tahap 4: Mengembangkan dan Menyajikan Hasil Karya</h3><div class="lk-frame"><p>${D.sajikan}</p></div>
+    <h3 class="lk-bar" id="lk-t5">Tahap 5: Menganalisis dan Mengevaluasi Pembelajaran</h3>
+    <section class="lk-box o"><h3>Refleksi Diri</h3><div><p>${D.refleksi}</p>${dl(5)}</div></section>
+    <blockquote class="lk-quote">“${D.quote}”</blockquote>
+    <footer class="lk-foot">Lab Petualang · LKPD IPA SMPN 4 Magelang</footer></article>`;
+}
+function renderLkpd(sel){
+  const ids = Object.keys(MATERI).filter(id => window.LKPD_DATA && LKPD_DATA[id]);
+  let cur = sel || store.get('lab_lkpd_cur', ids[0]); if(!ids.includes(cur)) cur = ids[0]; store.set('lab_lkpd_cur', cur);
+  const m = MATERI[cur], D = LKPD_DATA[cur], f = lkFile(cur), q = (store.get('lab_lkpd_q', '') || '').toLowerCase(), kf = store.get('lab_lkpd_k', 'all');
+  const item = id => { const x = MATERI[id], d = LKPD_DATA[id], hit = !q || (x.nama + ' ' + d.judul + ' ' + d.tema).toLowerCase().includes(q);
+    if(!hit || (kf !== 'all' && x.kelas !== kf)) return '';
+    return `<button class="lk-item ${id === cur ? 'on' : ''}" data-lk="${id}" style="--c:${d.warna}"><img src="lkpd/img/${id}.png" alt="" loading="lazy"><span><small>Kelas ${x.kelas} · Bab ${x.bab}</small><b>${esc(x.nama)}</b><i>${d.judul}</i></span></button>`; };
+  const group = k => { const list = ids.filter(id => MATERI[id].kelas === k).map(item).join(''); return list ? `<div class="lk-gh">🎓 Kelas ${k === '7' ? 'VII' : 'VIII'}</div>${list}` : ''; };
+  const steps = [['lk-identitas', '🪪 Identitas & tujuan'], ['lk-t1', '1️⃣ Orientasi masalah'], ['lk-t2', '2️⃣ Diskusi'], ...D.kegiatan.map((k, i) => [`lk-k${i}`, `🔬 Kegiatan ${'ABCDE'[i]}`]), ['lk-t4', '4️⃣ Presentasi'], ['lk-t5', '5️⃣ Refleksi']];
+  $('#pg-lkpd').innerHTML = `<div class="lk-wrap">
+    <aside class="lk-side"><div class="lk-tools"><input class="inp" id="lkQ" placeholder="🔎 Cari bab atau judul LKPD…" value="${esc(store.get('lab_lkpd_q', '') || '')}">
+      <div class="lk-seg">${[['all', 'Semua'], ['7', 'Kelas 7'], ['8', 'Kelas 8']].map(([k, t]) => `<button data-lkk="${k}" class="${kf === k ? 'on' : ''}">${t}</button>`).join('')}</div></div>
+      <div class="lk-list">${group('7')}${group('8')}<p class="muted lk-empty">Tidak ada LKPD yang cocok.</p></div></aside>
+    <section class="lk-main">
+      <div class="lk-head" style="--c:${D.warna}"><img src="lkpd/img/${cur}.png" alt=""><div class="lk-hd"><small>LKPD · Kelas ${m.kelas} · Bab ${m.bab} · Model Problem Based Learning</small><h3>${D.judul}</h3><p>${esc(m.nama)} · Tema: ${D.tema} · ${D.kegiatan.length} kegiatan · ± 2 JP</p>
+        <div class="lk-act"><a class="btn green" href="${f}" download>⬇ Unduh Word (.docx)</a><button class="btn ghost" id="lkPrint">🖨️ Cetak / simpan PDF</button><button class="btn sm pink" data-slide="${cur}">📽️ Slide</button><button class="btn sm" data-sim="${(simOfMateri(cur) || {}).id}">🔬 Lab 3D</button>
+          <button class="btn sm ghost" id="lkPrev" ${ids.indexOf(cur) ? '' : 'disabled'}>◀ Bab sebelumnya</button><button class="btn sm ghost" id="lkNext" ${ids.indexOf(cur) < ids.length - 1 ? '' : 'disabled'}>Bab berikutnya ▶</button></div></div></div>
+      <nav class="lk-steps">${steps.map(s => `<button data-lkgo="${s[0]}">${s[1]}</button>`).join('')}</nav>
+      <div class="lk-paper">${lkSheet(cur)}</div></section></div>`;
+  $$('#pg-lkpd [data-lk]').forEach(b => b.onclick = () => { SFX.click(); renderLkpd(b.dataset.lk); $('#pg-lkpd .lk-main').scrollIntoView({behavior:'smooth', block:'start'}); });
+  $$('#pg-lkpd [data-lkk]').forEach(b => b.onclick = () => { store.set('lab_lkpd_k', b.dataset.lkk); renderLkpd(cur); });
+  const qi = $('#lkQ'); qi.oninput = () => { store.set('lab_lkpd_q', qi.value); const v = qi.value.toLowerCase(); let n = 0;
+    $$('#pg-lkpd .lk-item').forEach(b => { const ok = !v || b.textContent.toLowerCase().includes(v); b.style.display = ok ? '' : 'none'; n += ok; }); $('#pg-lkpd .lk-empty').style.display = n ? 'none' : 'block'; };
+  $$('#pg-lkpd [data-lkgo]').forEach(b => b.onclick = () => { const t = document.getElementById(b.dataset.lkgo); if(t) t.scrollIntoView({behavior:'smooth', block:'start'}); });
+  $('#lkPrev').onclick = () => renderLkpd(ids[ids.indexOf(cur) - 1]); $('#lkNext').onclick = () => renderLkpd(ids[ids.indexOf(cur) + 1]);
+  $('#lkPrint').onclick = () => { const w = open('', '_blank'); if(!w){ uiNotify('Izinkan pop-up untuk mencetak LKPD.', {icon:'🖨️'}); return; }
+    const css = [...document.querySelectorAll('style')].map(s => s.textContent).join('\n').match(/\/\* LKPD-SHEET \*\/[\s\S]*?\/\* \/LKPD-SHEET \*\//);
+    w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>LKPD ${esc(m.nama)}</title><base href="${location.href.replace(/[^/]*$/, '')}"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet"><style>${css ? css[0] : ''} body{margin:0;background:#fff} .lk-sheet{box-shadow:none;margin:0 auto}</style></head><body>${lkSheet(cur)}<script>setTimeout(()=>print(),700)<\/script></body></html>`); w.document.close(); };
+  bindCommon($('#pg-lkpd'));
+}
 function renderSlides(){
   const k = labTab(), list = Object.entries(MATERI).filter(([, m]) => m.kelas === k);
   $('#pg-slides').innerHTML = `<div class="gbar" style="margin-top:18px"><div class="ktabs">${['7','8'].map(x => `<button data-kt="${x}" class="${x===k?'on':''}">🎓 Kelas ${x} <small>${Object.values(MATERI).filter(m => m.kelas===x).length} materi</small></button>`).join('')}</div><div class="sp"></div>
