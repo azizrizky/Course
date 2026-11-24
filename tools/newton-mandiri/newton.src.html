@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hukum Newton bersama Bu Nella — Lab Petualang</title>
+<meta name="description" content="Simulasi interaktif Hukum I, II, dan III Newton beserta kuis, dipandu Bu Nella Alfiani Rofiqoh, guru IPA SMPN 4 Magelang.">
+<link rel="icon" href="{{AVATAR}}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b1630;--bg2:#10224a;--card:#14295a;--card2:#1b3470;--line:rgba(148,178,230,.18);--ink:#eef4ff;--mut:#a9bbdf;--acc:#2dd4bf;--acc2:#f59e0b;--pink:#ec4899;--red:#ef4444;--blue:#38bdf8;--grn:#22c55e;--vio:#a78bfa;--sh:0 14px 34px rgba(0,0,0,.35)}
+[data-theme=light]{--bg:#f2f6ff;--bg2:#e3ecff;--card:#ffffff;--card2:#f1f5ff;--line:rgba(30,60,120,.14);--ink:#13254a;--mut:#5b6b8c;--sh:0 12px 28px rgba(20,40,90,.12)}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{font-family:'Nunito',system-ui,sans-serif;color:var(--ink);background:radial-gradient(1200px 700px at 85% -10%,rgba(45,212,191,.16),transparent 60%),radial-gradient(900px 600px at -10% 110%,rgba(236,72,153,.13),transparent 60%),var(--bg);min-height:100%;-webkit-font-smoothing:antialiased}
+button,select,input{font:inherit;color:inherit}
+h1,h2,h3{font-family:'Baloo 2','Nunito',sans-serif;margin:0;line-height:1.1}
+/* top bar */
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px clamp(10px,2vw,22px);background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.brand .lg{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,var(--acc),#0ea5e9);box-shadow:0 6px 14px rgba(45,212,191,.35)}
+.brand b{font-family:'Baloo 2';font-size:19px;white-space:nowrap}.brand small{display:block;color:var(--mut);font-weight:800;font-size:11.5px;letter-spacing:.04em}
+.tabs{display:flex;gap:6px;margin-left:auto;overflow-x:auto;scrollbar-width:none;padding:2px}.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;font-weight:900;font-size:14px;cursor:pointer;transition:.15s;white-space:nowrap}
+.tabs button:hover{transform:translateY(-1px);border-color:var(--acc)}.tabs button.on{background:var(--acc);color:#05302b;border-color:transparent;box-shadow:0 6px 16px rgba(45,212,191,.35)}
+.ib{width:40px;height:40px;flex:none;border-radius:12px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:18px}
+main{padding:clamp(12px,2vw,24px);padding-bottom:120px;max-width:1500px;margin:0 auto}
+.page{display:none;animation:pin .45s cubic-bezier(.2,1,.3,1)}.page.on{display:block}
+@keyframes pin{from{opacity:0;transform:translateY(14px)}}
+/* home */
+.hero{display:grid;grid-template-columns:minmax(260px,430px) 1fr;gap:clamp(14px,3vw,40px);align-items:center;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:30px;padding:clamp(16px,3vw,34px);box-shadow:var(--sh);overflow:hidden;position:relative}
+.hero:before{content:'';position:absolute;inset:auto -80px -120px auto;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,.25),transparent 70%)}
+.fig{position:relative;width:100%;aspect-ratio:820/743;transform-origin:50% 100%;animation:breathe 4.5s ease-in-out infinite}
+.fig img{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;-webkit-user-drag:none}
+.fig img.body{filter:drop-shadow(0 12px 22px rgba(0,0,0,.35))}
+.fig img.hand{transform-origin:20.8% 63.5%;animation:idleHand 4s ease-in-out infinite}
+.fig.waving img.hand{animation:waveH 1.05s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.012) rotate(-.7deg)}}
+@keyframes idleHand{0%,100%{transform:rotate(0)}50%{transform:rotate(-4deg)}}
+@keyframes waveH{0%,100%{transform:rotate(2deg)}25%{transform:rotate(-13deg)}50%{transform:rotate(3deg)}75%{transform:rotate(9deg)}}
+.hello .kick{display:inline-block;background:var(--acc2);color:#3b2300;font-weight:900;font-size:12.5px;letter-spacing:.08em;padding:5px 12px;border-radius:999px}
+.hello h1{font-size:clamp(30px,4.4vw,54px);margin:10px 0 8px}.hello h1 em{font-style:normal;background:linear-gradient(90deg,var(--acc),var(--blue),var(--vio));-webkit-background-clip:text;background-clip:text;color:transparent}
+.bubble{position:relative;background:var(--card2);border:1px solid var(--line);border-radius:22px;padding:14px 18px;font-weight:700;font-size:16.5px;line-height:1.5;margin:10px 0 16px}
+.bubble:before{content:'';position:absolute;left:-10px;top:24px;border:10px solid transparent;border-right-color:var(--card2);border-left:0}
+.btn{border:none;border-radius:16px;padding:12px 18px;font-weight:900;font-size:15.5px;cursor:pointer;background:var(--acc);color:#05302b;box-shadow:0 5px 0 rgba(0,0,0,.25);transition:.12s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.btn.o{background:var(--acc2);color:#3b2300}.btn.p{background:var(--pink);color:#fff}.btn.b{background:var(--blue);color:#062235}.btn.g{background:var(--card2);color:var(--ink);border:1px solid var(--line)}.btn.r{background:var(--red);color:#fff}
+.btn.sm{padding:8px 13px;font-size:14px;border-radius:12px}.btn[disabled]{opacity:.45;pointer-events:none}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:20px}
+.lc{border:1px solid var(--line);border-radius:24px;padding:18px;background:var(--card);box-shadow:var(--sh);cursor:pointer;transition:.18s;position:relative;overflow:hidden}
+.lc:hover{transform:translateY(-4px);border-color:var(--c)}.lc .e{font-size:40px}.lc h3{font-size:22px;margin:8px 0 4px}.lc p{margin:0;color:var(--mut);font-weight:700;font-size:14px;line-height:1.45}
+.lc .f{display:inline-block;margin-top:10px;padding:4px 10px;border-radius:10px;background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--c);font-weight:900;font-size:13px}
+.lc:after{content:'';position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:var(--c);opacity:.13}
+/* lab layout */
+.lab{display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
+.stage{position:relative;background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--sh);overflow:hidden}
+.stage canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;touch-action:manipulation}
+.stbar{position:absolute;left:12px;right:12px;top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;pointer-events:none}
+.stbar>*{pointer-events:auto}
+.seg{display:flex;background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:14px;padding:4px;gap:3px}
+.seg button{border:none;background:none;border-radius:10px;padding:7px 11px;font-weight:900;font-size:13.5px;cursor:pointer;color:var(--ink)}.seg button.on{background:var(--acc);color:#05302b}
+.pz{margin-left:auto;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(8px);cursor:pointer;font-size:17px}
+.pz.on{background:var(--acc2);color:#3b2300}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:16px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:12px}
+.panel h2{font-size:24px}.panel .sub{color:var(--mut);font-weight:800;font-size:13px;margin-top:-6px}
+.law{border-radius:18px;padding:12px 14px;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 26%,var(--card2)),var(--card2));border:1px solid color-mix(in srgb,var(--c) 45%,transparent);font-weight:700;font-size:14.5px;line-height:1.5}
+.law b{color:var(--c)}.fx{font-family:'Baloo 2';font-size:24px;text-align:center;margin:4px 0;letter-spacing:.02em}
+.ctl{display:grid;grid-template-columns:96px 1fr 76px;gap:8px;align-items:center;font-weight:800;font-size:13.5px}
+.ctl input[type=range]{width:100%;accent-color:var(--acc)}
+.ctl .nv{display:flex;align-items:center;gap:3px}.ctl input[type=number]{width:100%;padding:5px 6px;border-radius:9px;border:1px solid var(--line);background:var(--card2);font-weight:900;font-size:14px;text-align:right}
+.ctl small{color:var(--mut);font-size:11px}
+.reads{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.rd{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:8px 10px}.rd small{display:block;color:var(--mut);font-weight:800;font-size:11.5px}.rd b{font-family:'Baloo 2';font-size:21px}
+.grp{border-top:1px dashed var(--line);padding-top:10px;display:flex;flex-direction:column;gap:9px}
+.grp>.t{font-weight:900;font-size:12.5px;letter-spacing:.07em;color:var(--mut);text-transform:uppercase}
+.tip{font-size:13.5px;color:var(--mut);font-weight:700;line-height:1.45;margin:0}
+.chk{display:flex;align-items:center;gap:8px;font-weight:800;cursor:pointer}.chk input{width:20px;height:20px;accent-color:var(--acc)}
+details.ex{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:8px 12px}details.ex summary{cursor:pointer;font-weight:900}details.ex ul{margin:8px 0 2px;padding-left:20px;font-weight:700;font-size:13.5px;line-height:1.5}
+/* quiz */
+.qwrap{max-width:860px;margin:0 auto}
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:28px;padding:clamp(16px,3vw,30px);box-shadow:var(--sh)}
+.qhead{display:flex;align-items:center;gap:12px;margin-bottom:14px}.qhead .ava{width:58px;height:58px;border-radius:50%;object-fit:cover;border:3px solid var(--acc2);flex:none;transition:.3s}
+.qhead .ava.happy{animation:hop .6s}.qhead .ava.sad{animation:shake .5s}
+@keyframes hop{40%{transform:translateY(-10px) scale(1.08)}}@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.qbar{flex:1;height:12px;border-radius:9px;background:var(--card2);overflow:hidden}.qbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--blue));transition:width .4s}
+.qn{font-weight:900;color:var(--mut);font-size:14px;white-space:nowrap}
+.qq{font-size:clamp(19px,2.2vw,24px);font-weight:900;line-height:1.4;margin:6px 0 16px}
+.qopts{display:grid;gap:10px}
+.qo{display:flex;gap:12px;align-items:center;text-align:left;border:2px solid var(--line);background:var(--card2);border-radius:18px;padding:12px 14px;font-weight:800;font-size:16px;cursor:pointer;transition:.15s}
+.qo:hover{border-color:var(--acc);transform:translateX(3px)}.qo i{flex:none;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-style:normal;font-weight:900;background:var(--card);border:1px solid var(--line)}
+.qo.ok{border-color:var(--grn);background:color-mix(in srgb,var(--grn) 20%,var(--card2))}.qo.ok i{background:var(--grn);color:#fff}
+.qo.no{border-color:var(--red);background:color-mix(in srgb,var(--red) 18%,var(--card2))}.qo.no i{background:var(--red);color:#fff}
+.qo[disabled]{cursor:default;transform:none}
+.qfb{margin-top:14px;border-radius:18px;padding:12px 16px;font-weight:700;line-height:1.5;display:none}.qfb.on{display:block;animation:pin .35s}
+.qfb.ok{background:color-mix(in srgb,var(--grn) 16%,var(--card2));border:1px solid color-mix(in srgb,var(--grn) 50%,transparent)}.qfb.no{background:color-mix(in srgb,var(--red) 14%,var(--card2));border:1px solid color-mix(in srgb,var(--red) 45%,transparent)}
+.qfb b{display:block;font-size:17px;margin-bottom:3px}
+.qact{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.res{text-align:center}.res .stars{font-size:54px;letter-spacing:6px;margin:6px 0}.res .sc{font-family:'Baloo 2';font-size:64px;line-height:1;background:linear-gradient(90deg,var(--acc),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+.rv{text-align:left;margin-top:16px;display:grid;gap:8px}.rv div{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--card2);font-weight:700;font-size:14px;line-height:1.45}.rv div b{display:block}
+.qstart .fig{max-width:300px;margin:0 auto}
+/* Bu Nella dock */
+.dock{position:fixed;left:14px;bottom:14px;z-index:30;display:flex;align-items:flex-end;gap:10px;max-width:min(560px,calc(100vw - 28px));pointer-events:none}
+.dock>*{pointer-events:auto}
+.dava{position:relative;width:78px;height:78px;flex:none;border-radius:50%;border:3px solid var(--acc2);background:#fff;box-shadow:0 10px 22px rgba(0,0,0,.35);cursor:pointer;padding:0;overflow:visible}
+.dava img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.dava i{position:absolute;right:-4px;bottom:-2px;width:28px;height:28px;border-radius:50%;background:var(--acc);display:grid;place-items:center;font-style:normal;font-size:14px;border:2px solid var(--bg)}
+.dava.talk{animation:talk .5s ease-in-out infinite alternate}@keyframes talk{to{transform:scale(1.06) rotate(-2deg)}}
+.dbub{background:var(--card);border:1px solid var(--line);border-radius:20px 20px 20px 6px;padding:12px 14px;box-shadow:var(--sh);font-weight:700;font-size:14.5px;line-height:1.5;display:none;animation:pin .3s}
+.dock.open .dbub{display:block}
+.dbub .h{display:flex;align-items:center;gap:6px;margin-bottom:4px}.dbub .h b{color:var(--acc2);margin-right:auto}
+.dbub .h button{border:1px solid var(--line);background:var(--card2);border-radius:9px;padding:3px 8px;font-weight:900;cursor:pointer;font-size:13px}
+.toast{position:fixed;left:50%;top:76px;transform:translateX(-50%) translateY(-20px);opacity:0;z-index:40;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 16px;font-weight:900;box-shadow:var(--sh);transition:.35s;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+footer{text-align:center;color:var(--mut);font-weight:700;font-size:13px;margin-top:26px}
+@media (max-width:1050px){.lab{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.hero .fig{max-width:320px;margin:0 auto}.bubble:before{display:none}}
+@media (max-width:620px) and (orientation:portrait){.stage:after{content:'📱 Putar HP ke posisi mendatar agar simulasi tampil lebih besar';display:block;text-align:center;font-weight:800;font-size:12px;color:var(--mut);padding:6px}}
+@media (max-width:620px){.dbub{max-height:42vh;overflow:auto}.brand small{display:none}.brand b{font-size:16px}.top{flex-wrap:wrap}.tabs{order:3;width:100%;margin-left:0}.dava{width:60px;height:60px}.dbub{font-size:13.5px}.ctl{grid-template-columns:82px 1fr 70px}.stbar .seg button{padding:6px 8px;font-size:12.5px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="lg">⚛️</div><div><b>Hukum Newton</b><small>LAB PETUALANG · BERSAMA BU NELLA</small></div></div>
+  <nav class="tabs" id="tabs">
+    <button data-p="home" class="on">🏠 Mulai</button><button data-p="h1">🚗 Hukum I</button><button data-p="h2">🛒 Hukum II</button><button data-p="h3">🚀 Hukum III</button><button data-p="quiz">📝 Kuis</button>
+  </nav>
+  <button class="ib" id="theme" title="Ganti tema terang/gelap">🌙</button>
+</header>
+
+<main>
+<!-- ============ MULAI ============ -->
+<section class="page on" id="p-home">
+  <div class="hero">
+    <div class="fig waving" id="heroFig"><img class="body" src="{{BODY}}" alt="Bu Nella"><img class="hand" src="{{HAND}}" alt=""></div>
+    <div class="hello">
+      <span class="kick">IPA KELAS VII · BAB 4 GERAK DAN GAYA</span>
+      <h1>Belajar <em>Hukum Newton</em> bersama Bu Nella</h1>
+      <div class="bubble" id="heroTxt">Hai! Selamat datang semuanya! Saya Bu Nella Alfiani Rofiqoh, guru IPA SMP Negeri 4 Magelang. Hari ini kita belajar Hukum Newton lewat simulasi. Ayo, pilih materinya!</div>
+      <div class="row"><button class="btn o" id="heroPlay">🔊 Dengarkan Bu Nella</button><button class="btn" data-go="h1">🚗 Mulai dari Hukum I</button><button class="btn p" data-go="quiz">📝 Langsung kuis</button></div>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="lc" style="--c:#38bdf8" data-go="h1"><div class="e">🚗</div><h3>Hukum I — Kelembaman</h3><p>Penumpang terdorong saat mobil direm mendadak, koin jatuh ke gelas saat kertas ditarik cepat.</p><span class="f">ΣF = 0 → benda mempertahankan keadaannya</span></div>
+    <div class="lc" style="--c:#2dd4bf" data-go="h2"><div class="e">🛒</div><h3>Hukum II — Percepatan</h3><p>Balapan dua troli: atur gaya, massa, dan permukaan lantai. Siapa yang lebih cepat?</p><span class="f">a = ΣF ÷ m</span></div>
+    <div class="lc" style="--c:#f59e0b" data-go="h3"><div class="e">🚀</div><h3>Hukum III — Aksi-Reaksi</h3><p>Roket meluncur, perenang melaju, dua pemain sepatu roda saling dorong.</p><span class="f">F aksi = − F reaksi</span></div>
+    <div class="lc" style="--c:#ec4899" data-go="quiz"><div class="e">📝</div><h3>Kuis Hukum Newton</h3><p>10 soal acak dengan pembahasan. Kumpulkan bintang dan kalahkan skormu sendiri!</p><span class="f" id="bestTag">Skor terbaik: –</span></div>
+  </div>
+  <footer>Lab Petualang · Media pembelajaran IPA karya Nella Alfiani Rofiqoh, S.Pd — SMP Negeri 4 Magelang</footer>
+</section>
+
+<!-- ============ HUKUM I ============ -->
+<section class="page" id="p-h1">
+  <div class="lab">
+    <div class="stage"><canvas id="c1" width="1280" height="720"></canvas>
+      <div class="stbar"><div class="seg" id="m1"><button data-m="mobil" class="on">🚗 Mobil & penumpang</button><button data-m="koin">🪙 Koin & kertas</button></div><button class="pz" data-pz="1" title="Jeda / jalankan">⏸</button></div></div>
+    <div class="panel" style="--c:#38bdf8">
+      <h2>Hukum I Newton</h2><div class="sub">Hukum kelembaman (inersia)</div>
+      <div class="law">“Setiap benda akan <b>tetap diam</b> atau <b>bergerak lurus beraturan</b> jika resultan gaya yang bekerja padanya <b>nol</b>.”<div class="fx">ΣF = 0</div></div>
+      <div id="k1mobil">
+        <div class="grp"><div class="t">Kendali mobil</div>
+          <div class="row"><button class="btn sm b" id="gas">⏩ Gas</button><button class="btn sm r" id="rem">🛑 Rem mendadak</button><button class="btn sm g" id="r1">↺ Ulang</button></div>
+          <label class="chk"><input type="checkbox" id="belt"> Pakai sabuk pengaman 🔒</label>
+          <div class="ctl"><span>Kecepatan maks</span><input type="range" id="vmax" min="20" max="100" step="5" value="60"><span class="nv"><input type="number" id="vmaxN" min="20" max="100" step="5" value="60"><small>km/j</small></span></div>
+        </div>
+        <div class="reads"><div class="rd"><small>Kecepatan mobil</small><b id="o1v">0 km/j</b></div><div class="rd"><small>Percepatan</small><b id="o1a">0 m/s²</b></div></div>
+        <p class="tip" id="o1msg">Tekan <b>Gas</b>, lalu <b>Rem mendadak</b>. Amati tubuh penumpang!</p>
+      </div>
+      <div id="k1koin" hidden>
+        <div class="grp"><div class="t">Tarik kertas</div>
+          <div class="ctl"><span>Kecepatan tarik</span><input type="range" id="pull" min="1" max="10" step="1" value="8"><span class="nv"><input type="number" id="pullN" min="1" max="10" step="1" value="8"><small>level</small></span></div>
+          <div class="row"><button class="btn sm o" id="tarik">✋ Tarik kertas</button><button class="btn sm g" id="r1k">↺ Ulang</button></div>
+        </div>
+        <div class="reads"><div class="rd"><small>Percepatan kertas</small><b id="o1p">0 m/s²</b></div><div class="rd"><small>Batas gesek koin (μg)</small><b>3 m/s²</b></div></div>
+        <p class="tip" id="o1kmsg">Tarik <b>cepat</b> (level ≥ 4): kertas lepas, koin tetap di tempat lalu jatuh ke gelas. Tarik <b>pelan</b>: koin ikut terbawa kertas.</p>
+      </div>
+      <details class="ex"><summary>💡 Contoh dalam kehidupan</summary><ul><li>Penumpang terdorong ke depan saat bus mengerem mendadak.</li><li>Badan terdorong ke belakang saat mobil tiba-tiba melaju.</li><li>Debu karpet lepas saat karpet dipukul.</li><li>Kepala palu dikencangkan dengan menghentakkan gagangnya ke lantai.</li></ul></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HUKUM II ============ -->
+<section class="page" id="p-h2">
+  <div class="lab">
+    <div class="stage"><canvas id="c2" width="1280" height="720"></canvas>
+      <div class="stbar"><div class="seg" id="surf"><button data-s="es">🧊 Es</button><button data-s="kayu" class="on">🪵 Kayu</button><button data-s="karpet">🟫 Karpet</button></div><button class="pz" data-pz="2" title="Jeda / jalankan">⏸</button></div></div>
+    <div class="panel" style="--c:#2dd4bf">
+      <h2>Hukum II Newton</h2><div class="sub">Percepatan sebanding gaya, berbanding terbalik massa</div>
+      <div class="law">“Percepatan benda <b>sebanding</b> dengan resultan gaya dan <b>berbanding terbalik</b> dengan massanya.”<div class="fx">a = ΣF ÷ m</div></div>
+      <div class="grp"><div class="t" style="color:#f87171">🔴 Troli A</div>
+        <div class="ctl"><span>Gaya F</span><input type="range" id="fa" min="0" max="100" step="1" value="40"><span class="nv"><input type="number" id="faN" min="0" max="100" step="1" value="40"><small>N</small></span></div>
+        <div class="ctl"><span>Massa m</span><input type="range" id="ma" min="1" max="40" step="1" value="10"><span class="nv"><input type="number" id="maN" min="1" max="40" step="1" value="10"><small>kg</small></span></div></div>
+      <div class="grp"><div class="t" style="color:#60a5fa">🔵 Troli B</div>
+        <div class="ctl"><span>Gaya F</span><input type="range" id="fb" min="0" max="100" step="1" value="40"><span class="nv"><input type="number" id="fbN" min="0" max="100" step="1" value="40"><small>N</small></span></div>
+        <div class="ctl"><span>Massa m</span><input type="range" id="mb" min="1" max="40" step="1" value="20"><span class="nv"><input type="number" id="mbN" min="1" max="40" step="1" value="20"><small>kg</small></span></div></div>
+      <div class="row"><button class="btn sm" id="go2">🏁 Mulai balapan</button><button class="btn sm g" id="r2">↺ Ulang</button></div>
+      <div class="reads"><div class="rd"><small>a troli A</small><b id="o2a">–</b></div><div class="rd"><small>a troli B</small><b id="o2b">–</b></div></div>
+      <p class="tip" id="o2msg">ΣF = F − gaya gesek (μ × m × g). Ganti permukaan lantai untuk melihat pengaruh gesekan.</p>
+      <details class="ex"><summary>💡 Contoh dalam kehidupan</summary><ul><li>Troli belanja kosong lebih mudah dipercepat daripada troli penuh.</li><li>Menendang bola lebih keras membuat bola melaju lebih cepat.</li><li>Truk bermuatan berat butuh mesin lebih kuat untuk berakselerasi.</li></ul></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HUKUM III ============ -->
+<section class="page" id="p-h3">
+  <div class="lab">
+    <div class="stage"><canvas id="c3" width="1280" height="720"></canvas>
+      <div class="stbar"><div class="seg" id="m3"><button data-m="roket" class="on">🚀 Roket</button><button data-m="renang">🏊 Berenang</button><button data-m="skate">🛼 Saling dorong</button></div><button class="pz" data-pz="3" title="Jeda / jalankan">⏸</button></div></div>
+    <div class="panel" style="--c:#f59e0b">
+      <h2>Hukum III Newton</h2><div class="sub">Hukum aksi–reaksi</div>
+      <div class="law">“Jika benda A memberi gaya pada benda B (<b>aksi</b>), benda B memberi gaya pada A (<b>reaksi</b>) yang <b>sama besar</b> dan <b>berlawanan arah</b>.”<div class="fx">F<sub>aksi</sub> = − F<sub>reaksi</sub></div></div>
+      <div id="k3roket"><div class="grp"><div class="t">Roket</div>
+        <div class="ctl"><span>Gaya dorong</span><input type="range" id="thr" min="0" max="30000" step="500" value="18000"><span class="nv"><input type="number" id="thrN" min="0" max="30000" step="500" value="18000"><small>N</small></span></div>
+        <div class="ctl"><span>Massa roket</span><input type="range" id="mr" min="500" max="2500" step="50" value="1200"><span class="nv"><input type="number" id="mrN" min="500" max="2500" step="50" value="1200"><small>kg</small></span></div>
+        <div class="row"><button class="btn sm o" id="launch">🔥 Luncurkan</button><button class="btn sm g" id="r3">↺ Ulang</button></div></div>
+        <div class="reads"><div class="rd"><small>Berat roket (W)</small><b id="o3w">–</b></div><div class="rd"><small>Percepatan</small><b id="o3a">–</b></div><div class="rd"><small>Ketinggian</small><b id="o3h">0 m</b></div><div class="rd"><small>Kecepatan</small><b id="o3v">0 m/s</b></div></div></div>
+      <div id="k3renang" hidden><div class="grp"><div class="t">Perenang</div>
+        <div class="ctl"><span>Kekuatan kayuh</span><input type="range" id="sw" min="50" max="400" step="10" value="200"><span class="nv"><input type="number" id="swN" min="50" max="400" step="10" value="200"><small>N</small></span></div>
+        <div class="row"><button class="btn sm b" id="stroke">💪 Kayuh!</button><label class="chk"><input type="checkbox" id="autoSw" checked> Kayuh otomatis</label></div></div>
+        <div class="reads"><div class="rd"><small>Aksi: tangan → air</small><b id="o3s1">–</b></div><div class="rd"><small>Reaksi: air → tubuh</small><b id="o3s2">–</b></div></div></div>
+      <div id="k3skate" hidden><div class="grp"><div class="t">Dua pemain sepatu roda</div>
+        <div class="ctl"><span>Massa Andi</span><input type="range" id="m1s" min="20" max="90" step="1" value="40"><span class="nv"><input type="number" id="m1sN" min="20" max="90" step="1" value="40"><small>kg</small></span></div>
+        <div class="ctl"><span>Massa Budi</span><input type="range" id="m2s" min="20" max="90" step="1" value="80"><span class="nv"><input type="number" id="m2sN" min="20" max="90" step="1" value="80"><small>kg</small></span></div>
+        <div class="ctl"><span>Gaya dorong</span><input type="range" id="fs" min="50" max="600" step="10" value="300"><span class="nv"><input type="number" id="fsN" min="50" max="600" step="10" value="300"><small>N</small></span></div>
+        <div class="row"><button class="btn sm o" id="push">🤲 Saling dorong</button><button class="btn sm g" id="r3s">↺ Ulang</button></div></div>
+        <div class="reads"><div class="rd"><small>a Andi</small><b id="o3k1">–</b></div><div class="rd"><small>a Budi</small><b id="o3k2">–</b></div></div></div>
+      <p class="tip" id="o3msg"></p>
+      <details class="ex"><summary>💡 Contoh dalam kehidupan</summary><ul><li>Kaki terasa sakit saat menendang bola keras.</li><li>Senapan terdorong ke belakang saat peluru ditembakkan.</li><li>Perahu bergerak mundur saat kita melompat ke darat.</li><li>Cumi-cumi menyemburkan air untuk bergerak maju.</li></ul></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KUIS ============ -->
+<section class="page" id="p-quiz"><div class="qwrap"><div class="qcard" id="quizBox"></div></div></section>
+</main>
+
+<div class="dock" id="dock"><button class="dava" id="dava" title="Bu Nella — ketuk untuk mendengarkan"><img src="{{AVATAR}}" alt="Bu Nella"><i id="dIc">🔊</i></button>
+  <div class="dbub"><div class="h"><b>Bu Nella</b><button id="dPlay">▶ Dengarkan</button><button id="dMute" title="Suara otomatis nyala/mati">🔇</button><button id="dHide" title="Sembunyikan teks">✕</button></div><div id="dTxt"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+const VOICE = {{VOICE}};
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const ls = {get(k, d){ try{ const v = localStorage.getItem('nw_' + k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } }, set(k, v){ try{ localStorage.setItem('nw_' + k, JSON.stringify(v)); }catch(e){} }};
+const toast = (m, ms = 2200) => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), ms); };
+const fmt = (v, d = 1) => (Math.abs(v) < 1e-9 ? 0 : v).toFixed(d).replace('.', ',');
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+/* ---------- tema ---------- */
+const setTheme = t => { document.documentElement.dataset.theme = t; $('#theme').textContent = t === 'light' ? '☀️' : '🌙'; ls.set('theme', t); };
+setTheme(ls.get('theme', 'dark')); $('#theme').onclick = () => setTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+const dark = () => document.documentElement.dataset.theme !== 'light';
+
+/* ---------- Bu Nella: suara & dialog ---------- */
+const LINES = {
+  home:['greet', 'Hai! Selamat datang semuanya! Saya Bu Nella Alfiani Rofiqoh, guru IPA SMP Negeri 4 Magelang. Hari ini kita belajar Hukum Newton lewat simulasi. Ayo, pilih materinya!'],
+  h1:['h1', 'Perhatikan penumpang di dalam mobil, ya! Tekan Gas, lalu Rem Mendadak. Tubuh penumpang selalu ingin mempertahankan keadaannya. Itulah kelembaman. Jangan lupa coba pakai sabuk pengaman!'],
+  h1k:[null, 'Tarik kertas dengan cepat! Koin cenderung tetap diam karena kelembamannya, sehingga jatuh ke dalam gelas. Kalau ditarik pelan, gaya gesek sempat membawa koin ikut bergerak.'],
+  h2:['h2', 'Atur gaya dan massa troli A dan B, lalu mulai balapan. Ingat rumusnya: percepatan sama dengan gaya total dibagi massa. Coba juga ganti permukaan lantainya, karena gesekan mengurangi gaya total!'],
+  h3s:['h3s', 'Saat berenang, tangan mendorong air ke belakang. Itu aksi. Air mendorong tubuh perenang ke depan. Itu reaksi. Besarnya sama, arahnya berlawanan!'],
+  h3r:['h3r', 'Roket menyemburkan gas ke bawah, lalu gas mendorong roket ke atas. Coba kecilkan daya dorongnya. Kalau gaya dorong lebih kecil dari berat roket, roket tidak bisa terbang!'],
+  h3k:[null, 'Andi dan Budi saling mendorong dengan gaya yang sama besar tetapi berlawanan arah. Yang massanya lebih kecil mendapat percepatan lebih besar, jadi meluncur lebih jauh!'],
+  quiz:['quiz', 'Ayo uji pemahamanmu! Baca soalnya baik-baik, lalu pilih jawaban yang paling tepat. Semangat!']
+};
+let AUTO = ls.get('auto', false), CUR = 'home', AUD = null;
+const stopVoice = () => { if(AUD){ AUD.pause(); AUD = null; } try{ speechSynthesis.cancel(); }catch(e){} $('#dava').classList.remove('talk'); $('#heroFig').classList.remove('waving'); };
+function speak(key){ stopVoice(); const L = LINES[key]; if(!L) return; const done = () => { $('#dava').classList.remove('talk'); };
+  $('#dava').classList.add('talk'); if(key === 'home') $('#heroFig').classList.add('waving');
+  if(L[0] && VOICE[L[0]]){ AUD = new Audio(VOICE[L[0]]); AUD.onended = done; AUD.play().catch(() => { done(); toast('Ketuk tombol ▶ untuk mendengarkan'); }); return; }
+  try{ const u = new SpeechSynthesisUtterance(L[1]); u.lang = 'id-ID'; u.rate = 1; const v = speechSynthesis.getVoices().find(x => /id[-_]ID/i.test(x.lang) && /female|wanita|damayanti|gadis/i.test(x.name)) || speechSynthesis.getVoices().find(x => /id[-_]ID/i.test(x.lang)); if(v) u.voice = v; u.onend = done; speechSynthesis.speak(u); }catch(e){ done(); } }
+function say(key, open = true){ CUR = key; $('#dTxt').textContent = LINES[key][1]; if(open && !ls.get('hideTxt', false) && innerWidth > 700) $('#dock').classList.add('open'); if(AUTO) speak(key); }
+const updMute = () => { $('#dMute').textContent = AUTO ? '🔊' : '🔇'; $('#dMute').title = AUTO ? 'Suara otomatis: NYALA' : 'Suara otomatis: MATI'; $('#dIc').textContent = AUTO ? '🔊' : '💬'; };
+$('#dMute').onclick = () => { AUTO = !AUTO; ls.set('auto', AUTO); updMute(); if(AUTO) speak(CUR); else stopVoice(); };
+$('#dPlay').onclick = () => speak(CUR);
+$('#dHide').onclick = () => { $('#dock').classList.remove('open'); ls.set('hideTxt', true); stopVoice(); };
+$('#dava').onclick = () => { const o = $('#dock').classList.toggle('open'); ls.set('hideTxt', !o); if(o) speak(CUR); else stopVoice(); };
+$('#heroPlay').onclick = () => { CUR = 'home'; speak('home'); };
+updMute();
+
+/* ---------- navigasi ---------- */
+let PAGE = 'home';
+function go(p){ PAGE = p; $$('.page').forEach(x => x.classList.toggle('on', x.id === 'p-' + p)); $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.p === p));
+  stopVoice(); scrollTo({top:0, behavior:'smooth'}); ls.set('page', p);
+  if(p === 'home') say('home', false); if(p === 'h1') say(M1 === 'koin' ? 'h1k' : 'h1'); if(p === 'h2') say('h2'); if(p === 'h3') say(M3 === 'roket' ? 'h3r' : M3 === 'renang' ? 'h3s' : 'h3k'); if(p === 'quiz'){ say('quiz'); if(!QZ.started) quizIntro(); }
+  const b = $(`#tabs button[data-p="${p}"]`); if(b) b.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'}); }
+$$('#tabs button').forEach(b => b.onclick = () => go(b.dataset.p));
+document.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if(g) go(g.dataset.go); });
+
+/* ---------- slider + angka ---------- */
+function bind(id, on){ const r = $('#' + id), n = $('#' + id + 'N'); const set = v => { v = clamp(+v, +r.min, +r.max); if(!isFinite(v)) return; r.value = v; if(document.activeElement !== n) n.value = v; on(v); };
+  r.oninput = () => set(r.value); n.oninput = () => { if(n.value !== '') set(n.value); }; n.onchange = () => { set(n.value); n.value = r.value; }; on(+r.value); return set; }
+
+/* ---------- jeda ---------- */
+const PAUSE = {1:false, 2:false, 3:false};
+$$('[data-pz]').forEach(b => b.onclick = () => { const k = b.dataset.pz; PAUSE[k] = !PAUSE[k]; b.textContent = PAUSE[k] ? '▶' : '⏸'; b.classList.toggle('on', PAUSE[k]); });
+document.addEventListener('keydown', e => { if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName)) return; const k = {h1:1, h2:2, h3:3}[PAGE]; if(k && (e.key === 'j' || e.key === 'J' || e.key === ' ')){ e.preventDefault(); $(`[data-pz="${k}"]`).click(); } });
+
+/* ---------- gambar bantu ---------- */
+const W = 1280, H = 720;
+function rr(g, x, y, w, h, r, f, s, lw = 3){ g.beginPath(); g.roundRect ? g.roundRect(x, y, w, h, r) : g.rect(x, y, w, h); if(f){ g.fillStyle = f; g.fill(); } if(s){ g.strokeStyle = s; g.lineWidth = lw; g.stroke(); } }
+function arrow(g, x1, y1, x2, y2, c, w = 8, lab, labPos){ const a = Math.atan2(y2 - y1, x2 - x1), L = Math.hypot(x2 - x1, y2 - y1); if(L < 4) return; const hl = Math.min(26, L*.5);
+  g.save(); g.strokeStyle = g.fillStyle = c; g.lineWidth = w; g.lineCap = 'round'; g.beginPath(); g.moveTo(x1, y1); g.lineTo(x2 - Math.cos(a)*hl*.8, y2 - Math.sin(a)*hl*.8); g.stroke();
+  g.beginPath(); g.moveTo(x2, y2); g.lineTo(x2 - Math.cos(a - .45)*hl, y2 - Math.sin(a - .45)*hl); g.lineTo(x2 - Math.cos(a + .45)*hl, y2 - Math.sin(a + .45)*hl); g.closePath(); g.fill();
+  if(lab){ const [lx, ly] = labPos || [(x1 + x2)/2, (y1 + y2)/2 - 22]; pill(g, lab, lx, ly, c); } g.restore(); }
+function pill(g, t, x, y, bg, fg = '#fff', fs = 22){ g.save(); g.font = `900 ${fs}px Nunito, sans-serif`; const w = g.measureText(t).width + fs*1.1; rr(g, x - w/2, y - fs*.85, w, fs*1.7, fs*.85, bg); g.fillStyle = fg; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(t, x, y + 1); g.restore(); }
+function txt(g, t, x, y, fs = 22, c, al = 'center', wt = 900){ g.save(); g.font = `${wt} ${fs}px Nunito, sans-serif`; g.fillStyle = c || (dark() ? '#eef4ff' : '#13254a'); g.textAlign = al; g.textBaseline = 'middle'; g.fillText(t, x, y); g.restore(); }
+function sky(g, top, bot){ const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, top); gr.addColorStop(1, bot); g.fillStyle = gr; g.fillRect(0, 0, W, H); }
+function person(g, x, y, s, col, lean = 0, opt = {}){ // y = pinggul
+  g.save(); g.translate(x, y); g.scale(s, s); g.lineCap = 'round'; g.lineJoin = 'round';
+  g.save(); g.rotate(lean); g.fillStyle = col; rr(g, -18, -78, 36, 80, 16, col); // badan
+  g.fillStyle = '#f5c9a5'; g.beginPath(); g.arc(0, -100, 22, 0, Math.PI*2); g.fill(); g.fillStyle = '#2b1d14'; g.beginPath(); g.arc(0, -106, 22, Math.PI, 0); g.fill();
+  g.fillStyle = '#2b1d14'; g.beginPath(); g.arc(8, -100, 2.6, 0, 7); g.fill(); g.beginPath(); g.arc(-6, -100, 2.6, 0, 7); g.fill();
+  g.strokeStyle = '#2b1d14'; g.lineWidth = 2.4; g.beginPath(); opt.scared ? g.arc(1, -88, 5, Math.PI, 0) : g.arc(1, -92, 6, .2, Math.PI - .2); g.stroke();
+  g.strokeStyle = col; g.lineWidth = 12; g.beginPath(); g.moveTo(10, -66); g.lineTo(opt.armX ?? 34, opt.armY ?? -40); g.stroke(); g.restore();
+  g.restore(); }
+
+/* ================= HUKUM I ================= */
+let M1 = 'mobil';
+const S1 = {v:0, a:0, gas:false, brake:false, x:0, rel:0, relV:0, belt:false, vmax:60/3.6, crash:0, road:0, shake:0};
+const K1 = {state:'idle', px:0, pv:0, cx:0, cv:0, cy:0, cvy:0, t:0, a:0, fell:false};
+$$('#m1 button').forEach(b => b.onclick = () => { M1 = b.dataset.m; $$('#m1 button').forEach(x => x.classList.toggle('on', x === b)); $('#k1mobil').hidden = M1 !== 'mobil'; $('#k1koin').hidden = M1 !== 'koin'; say(M1 === 'koin' ? 'h1k' : 'h1'); });
+$('#gas').onclick = () => { S1.gas = true; S1.brake = false; S1.crash = 0; $('#o1msg').innerHTML = 'Mobil <b>mulai melaju</b> — tubuh penumpang condong ke <b>belakang</b> karena ingin tetap diam.'; };
+$('#rem').onclick = () => { if(S1.v < .5){ toast('Tekan Gas dulu agar mobil bergerak 🚗'); return; } S1.brake = true; S1.gas = false; $('#o1msg').innerHTML = S1.belt ? 'Rem mendadak! Tubuh ingin tetap bergerak ke depan, tetapi <b>sabuk pengaman</b> menahannya. Aman! 🔒' : 'Rem mendadak! Tubuh penumpang <b>terdorong ke depan</b> karena ingin tetap bergerak. Bahaya tanpa sabuk pengaman! ⚠️'; };
+$('#r1').onclick = () => Object.assign(S1, {v:0, a:0, gas:false, brake:false, rel:0, relV:0, crash:0});
+$('#belt').onchange = e => { S1.belt = e.target.checked; };
+bind('vmax', v => S1.vmax = v/3.6);
+bind('pull', v => K1.lvl = v);
+$('#tarik').onclick = () => { if(K1.state !== 'idle') { resetK(); } K1.state = 'pull'; K1.a = K1.lvl*K1.lvl*1.2; K1.t = 0; $('#o1p').textContent = fmt(K1.a) + ' m/s²'; };
+const resetK = () => Object.assign(K1, {state:'idle', px:0, pv:0, cx:0, cv:0, cy:0, cvy:0, t:0, fell:false}); resetK();
+$('#r1k').onclick = () => { resetK(); $('#o1kmsg').innerHTML = 'Tarik <b>cepat</b> (level ≥ 4): kertas lepas, koin tetap di tempat lalu jatuh ke gelas. Tarik <b>pelan</b>: koin ikut terbawa kertas.'; };
+function step1(dt){
+  if(M1 === 'mobil'){ const prevV = S1.v;
+    if(S1.gas) S1.v = Math.min(S1.vmax, S1.v + 3.2*dt); else if(S1.brake){ S1.v = Math.max(0, S1.v - 14*dt); if(S1.v === 0) S1.brake = false; } else S1.v = Math.max(0, S1.v - .25*dt);
+    S1.a = dt > 0 ? (S1.v - prevV)/dt : S1.a; S1.road += S1.v*dt*40;
+    // penumpang: pegas-peredam, gaya semu -a
+    const k = S1.belt ? 60 : 18, c = S1.belt ? 14 : 4.5, lim = S1.belt ? .12 : .75;
+    S1.relV += (-S1.a*.06 - k*S1.rel - c*S1.relV)*dt; S1.rel += S1.relV*dt;
+    if(S1.rel > lim){ S1.rel = lim; S1.relV = 0; if(!S1.belt && S1.a < -6 && prevV > 5) { S1.crash = 1.6; S1.shake = .4; } } if(S1.rel < -.3){ S1.rel = -.3; S1.relV = 0; }
+    S1.crash = Math.max(0, S1.crash - dt); S1.shake = Math.max(0, S1.shake - dt);
+    $('#o1v').textContent = Math.round(S1.v*3.6) + ' km/j'; $('#o1a').textContent = fmt(S1.a) + ' m/s²';
+  } else { const mu = 3; // μg
+    if(K1.state === 'pull'){ K1.t += dt; K1.pv += K1.a*dt; K1.px += K1.pv*dt;
+      const rel = K1.pv - K1.cv; if(K1.a <= mu && Math.abs(rel) < .05) { K1.cv = K1.pv; } else K1.cv += Math.min(mu, Math.abs(rel)/Math.max(dt, 1e-4))*Math.sign(rel)*dt;
+      K1.cx += K1.cv*dt; if(K1.px > .32) { K1.state = 'free'; } }
+    if(K1.state === 'free'){ K1.px += K1.pv*dt; // kertas sudah lepas dari bawah koin
+      if(Math.abs(K1.cx) < .05){ K1.state = 'drop'; K1.cv *= .3; }
+      else { K1.cx += K1.cv*dt; K1.cvy += 9.8*dt; K1.cy += K1.cvy*dt; if(K1.cy >= .17){ K1.cy = .17; K1.cv = 0; K1.state = 'done'; $('#o1kmsg').innerHTML = '😮 Kertas ditarik <b>terlalu pelan</b>: gaya gesek sempat membawa koin ikut bergerak sehingga koin jatuh di luar gelas. Coba tarik lebih cepat!'; } } }
+    if(K1.state === 'drop'){ K1.cx += K1.cv*dt; K1.cvy += 9.8*dt; K1.cy += K1.cvy*dt; if(K1.cy > .17){ K1.cy = .17; K1.state = 'done'; K1.fell = true; $('#o1kmsg').innerHTML = '🎉 <b>Plung!</b> Koin masuk gelas. Kertas bergerak cepat, tetapi koin cenderung <b>tetap diam</b> (kelembaman), lalu jatuh karena gravitasi.'; } } }
+}
+function draw1(g, t){
+  if(M1 === 'mobil'){ const sh = S1.shake > 0 ? Math.sin(t*90)*S1.shake*14 : 0; g.save(); g.translate(sh, 0);
+    sky(g, dark() ? '#0e2350' : '#9fd6ff', dark() ? '#1d3b73' : '#e6f4ff');
+    for(let i = 0; i < 5; i++){ const x = ((i*330 - S1.road*.15) % 1650 + 1650) % 1650 - 180; g.fillStyle = dark() ? '#244a86' : '#c3e3ff'; g.beginPath(); g.ellipse(x, 470, 140, 70, 0, Math.PI, 0); g.fill(); }
+    for(let i = 0; i < 9; i++){ const x = ((i*170 - S1.road*.5) % 1530 + 1530) % 1530 - 100; g.fillStyle = '#6b4423'; g.fillRect(x - 6, 400, 12, 70); g.fillStyle = dark() ? '#166534' : '#22c55e'; g.beginPath(); g.arc(x, 390, 38, 0, 7); g.fill(); }
+    g.fillStyle = '#374151'; g.fillRect(0, 470, W, 200); g.fillStyle = '#4b5563'; g.fillRect(0, 470, W, 10);
+    g.fillStyle = '#fde047'; for(let i = 0; i < 12; i++){ const x = ((i*140 - S1.road) % 1680 + 1680) % 1680 - 140; g.fillRect(x, 585, 80, 10); }
+    // mobil
+    const cx = 560, cy = 470, tilt = clamp(-S1.a*.006, -.05, .06); g.save(); g.translate(cx, cy - 40); g.rotate(tilt);
+    rr(g, -250, -110, 500, 120, 34, '#e11d48'); rr(g, -150, -210, 300, 110, 40, '#e11d48');
+    rr(g, -130, -196, 120, 86, 20, 'rgba(186,230,253,.55)'); rr(g, 10, -196, 120, 86, 20, 'rgba(186,230,253,.55)');
+    g.fillStyle = '#fde68a'; g.beginPath(); g.ellipse(242, -60, 12, 18, 0, 0, 7); g.fill();
+    // penumpang (kursi + orang)
+    rr(g, -110, -150, 26, 120, 10, '#334155'); const lean = S1.rel*1.2, px = -70 + S1.rel*60;
+    person(g, px, -40, .95, '#2563eb', lean, {scared:Math.abs(S1.rel) > .3, armX:34 + S1.rel*40, armY:-40});
+    if(S1.belt){ g.strokeStyle = '#111827'; g.lineWidth = 7; g.beginPath(); g.moveTo(-95, -125); g.lineTo(px + 18 + lean*40, -40); g.stroke(); }
+    rr(g, 30, -110, 70, 18, 8, '#1f2937'); g.restore();
+    [[-150, 0], [150, 0]].forEach(([x]) => { g.save(); g.translate(cx + x, cy - 2); g.rotate(S1.road/38); g.fillStyle = '#111827'; g.beginPath(); g.arc(0, 0, 46, 0, 7); g.fill(); g.fillStyle = '#9ca3af'; g.beginPath(); g.arc(0, 0, 20, 0, 7); g.fill(); g.fillStyle = '#4b5563'; g.fillRect(-4, -20, 8, 40); g.restore(); });
+    // panah gaya / kecenderungan
+    if(Math.abs(S1.a) > .5){ const dir = S1.a > 0 ? -1 : 1; arrow(g, cx - 70, 200, cx - 70 + dir*Math.min(180, Math.abs(S1.a)*16), 200, dir > 0 ? '#ef4444' : '#f59e0b', 9, dir > 0 ? 'tubuh cenderung terus maju' : 'tubuh cenderung tetap diam', [cx - 70 + dir*90, 160]); }
+    if(S1.crash > 0 && !S1.belt) pill(g, '⚠️ Penumpang membentur dasbor! Pakai sabuk pengaman!', W/2, 90, '#dc2626', '#fff', 26);
+    txt(g, Math.round(S1.v*3.6) + ' km/jam', 1150, 640, 30, '#fff'); g.restore();
+  } else { // koin & kertas
+    sky(g, dark() ? '#1b2c57' : '#fff7ed', dark() ? '#11214a' : '#fde7c7');
+    g.fillStyle = dark() ? '#5b3a1e' : '#b7791f'; g.fillRect(0, 560, W, 160); g.fillStyle = dark() ? '#7c4f28' : '#d69e2e'; g.fillRect(0, 548, W, 16);
+    const S = 1300, gx = 640, gy = 548, gw = 150, gh = 210; // gelas
+    g.fillStyle = 'rgba(186,230,253,.25)'; g.strokeStyle = 'rgba(186,230,253,.9)'; g.lineWidth = 5; g.beginPath(); g.moveTo(gx - gw/2, gy - gh); g.lineTo(gx - gw/2 + 14, gy); g.lineTo(gx + gw/2 - 14, gy); g.lineTo(gx + gw/2, gy - gh); g.fill(); g.stroke();
+    g.fillStyle = 'rgba(56,189,248,.35)'; g.fillRect(gx - gw/2 + 10, gy - 90, gw - 20, 88);
+    // kertas
+    const pxp = gx + K1.px*S; rr(g, pxp - 200, gy - gh - 8, 400, 8, 3, '#f8fafc', '#cbd5e1', 2);
+    g.fillStyle = dark() ? '#94a3b8' : '#64748b'; g.font = '800 16px Nunito'; g.textAlign = 'center'; g.fillText('kertas', pxp + 150, gy - gh - 18);
+    // tangan menarik
+    { const hx = pxp + 215; g.fillStyle = '#f5c9a5'; rr(g, hx, gy - gh - 22, 60, 34, 14, '#f5c9a5'); }
+    // koin
+    const cxp = gx + K1.cx*S, cyp = gy - gh - 8 - 14 + K1.cy*S; g.fillStyle = '#facc15'; g.strokeStyle = '#a16207'; g.lineWidth = 4; g.beginPath(); g.ellipse(cxp, cyp, 34, 12, 0, 0, 7); g.fill(); g.stroke();
+    g.fillStyle = '#a16207'; g.beginPath(); g.ellipse(cxp, cyp - 3, 20, 6, 0, 0, 7); g.fill();
+    if(K1.state === 'pull'){ arrow(g, pxp + 190, gy - gh - 50, pxp + 190 + Math.min(220, K1.a*7), gy - gh - 50, '#ef4444', 9, 'tarikan', [pxp + 260, gy - gh - 84]); }
+    txt(g, K1.state === 'idle' ? 'Siap? Atur kecepatan tarik lalu tekan “Tarik kertas”' : K1.fell ? '🎉 Koin masuk gelas!' : K1.state === 'done' ? 'Koin ikut terbawa kertas' : '', W/2, 80, 28);
+    txt(g, 'Gaya gesek maksimum koin hanya mampu memberi percepatan ±3 m/s²', W/2, 690, 20, '#fff');
+  }
+}
+
+/* ================= HUKUM II ================= */
+const MU = {es:.02, kayu:.15, karpet:.35}; let SURF = 'kayu';
+const S2 = {run:false, t:0, A:{F:40, m:10, x:0, v:0, a:0, fin:0}, B:{F:40, m:20, x:0, v:0, a:0, fin:0}, hist:[]};
+$$('#surf button').forEach(b => b.onclick = () => { SURF = b.dataset.s; $$('#surf button').forEach(x => x.classList.toggle('on', x === b)); upd2(); });
+const acc = T => { const fg = MU[SURF]*T.m*9.8; return T.F > fg ? (T.F - fg)/T.m : 0; };
+bind('fa', v => { S2.A.F = v; upd2(); }); bind('ma', v => { S2.A.m = v; upd2(); }); bind('fb', v => { S2.B.F = v; upd2(); }); bind('mb', v => { S2.B.m = v; upd2(); });
+function upd2(){ ['A', 'B'].forEach(k => { const T = S2[k], fg = MU[SURF]*T.m*9.8; $('#o2' + k.toLowerCase()).textContent = fmt(acc(T), 2) + ' m/s²'; T.fg = fg; });
+  const A = S2.A, B = S2.B; $('#o2msg').innerHTML = `ΣF A = ${A.F} − ${fmt(A.fg)} = <b>${fmt(Math.max(0, A.F - A.fg))} N</b> · ΣF B = ${B.F} − ${fmt(B.fg)} = <b>${fmt(Math.max(0, B.F - B.fg))} N</b><br>Lantai ${SURF} (μ = ${String(MU[SURF]).replace('.', ',')}).` + (acc(A) === 0 || acc(B) === 0 ? ' <b>⚠️ Gaya belum mampu melawan gesekan, troli tidak bergerak.</b>' : ''); }
+$('#go2').onclick = () => { reset2(); S2.run = true; };
+const reset2 = () => { S2.run = false; S2.t = 0; S2.hist = []; ['A', 'B'].forEach(k => Object.assign(S2[k], {x:0, v:0, fin:0})); };
+$('#r2').onclick = reset2;
+function step2(dt){ if(!S2.run) return; S2.t += dt; let allDone = true;
+  ['A', 'B'].forEach(k => { const T = S2[k]; T.a = acc(T); if(!T.fin){ T.v += T.a*dt; T.x += T.v*dt; if(T.x >= 10){ T.x = 10; T.fin = S2.t; } } if(!T.fin && T.a > 0) allDone = false; });
+  if(S2.hist.length < 2000 && (!S2.hist.length || S2.t - S2.hist[S2.hist.length - 1][0] > .05)) S2.hist.push([S2.t, S2.A.v, S2.B.v]);
+  if(allDone || S2.t > 30){ S2.run = false; const a = S2.A.fin, b = S2.B.fin; toast(a && b ? (Math.abs(a - b) < .01 ? '🤝 Seri!' : (a < b ? '🔴 Troli A' : '🔵 Troli B') + ' menang!') : a ? '🔴 Troli A menang!' : b ? '🔵 Troli B menang!' : 'Tidak ada troli yang bergerak'); } }
+function draw2(g){
+  sky(g, dark() ? '#0f2552' : '#eaf6ff', dark() ? '#173569' : '#ffffff');
+  const x0 = 140, x1 = 1100, L = x1 - x0, floor = {es:'#bae6fd', kayu:'#c08451', karpet:'#7c2d12'}[SURF];
+  [[200, 'A', '#ef4444'], [420, 'B', '#3b82f6']].forEach(([y, k, col]) => { const T = S2[k];
+    g.fillStyle = floor; g.fillRect(60, y + 62, W - 120, 20); if(SURF === 'kayu'){ g.strokeStyle = 'rgba(0,0,0,.18)'; g.lineWidth = 2; for(let i = 80; i < W - 60; i += 60){ g.beginPath(); g.moveTo(i, y + 62); g.lineTo(i, y + 82); g.stroke(); } }
+    if(SURF === 'karpet'){ g.fillStyle = 'rgba(255,255,255,.12)'; for(let i = 70; i < W - 60; i += 14) g.fillRect(i, y + 66, 6, 4); }
+    for(let m = 0; m <= 10; m += 2){ const x = x0 + m/10*L; g.fillStyle = dark() ? '#94a3b8' : '#64748b'; g.fillRect(x - 1, y + 82, 2, 12); txt(g, m + ' m', x, y + 106, 15, null, 'center', 800); }
+    g.fillStyle = '#111827'; for(let i = 0; i < 8; i++){ g.fillStyle = i % 2 ? '#fff' : '#111827'; g.fillRect(x1 + 2, y - 70 + i*16, 14, 16); }
+    const cx = x0 + T.x/10*L, sz = 40 + T.m*1.2;
+    rr(g, cx - 60, y + 2 - sz*.3, 120, 40 + sz*.3, 10, col, '#fff', 3); for(let i = 0; i < Math.min(8, Math.round(T.m/5)); i++) rr(g, cx - 54 + (i%4)*27, y - sz*.3 - 22 - Math.floor(i/4)*22, 24, 22, 4, '#a16207', '#78350f', 2);
+    [[-38], [38]].forEach(([dx]) => { g.fillStyle = '#111827'; g.beginPath(); g.arc(cx + dx, y + 50, 12, 0, 7); g.fill(); });
+    txt(g, k, cx, y + 22, 26, '#fff'); txt(g, `${T.m} kg`, cx + 84, y - sz*.3 - 20, 17, null);
+    if(T.F > 0) arrow(g, cx + 64, y + 20, cx + 64 + T.F*1.6, y + 20, '#22c55e', 9, `F = ${T.F} N`, [cx + 64 + T.F*.8, y - 12]);
+    if(T.fg > 0) arrow(g, cx - 64, y + 40, cx - 64 - Math.min(T.F, T.fg)*1.6, y + 40, '#f59e0b', 7, `f gesek`, [cx - 64 - Math.min(T.F, T.fg)*.8, y + 70]);
+    txt(g, `v = ${fmt(T.v)} m/s · a = ${fmt(acc(T), 2)} m/s²` + (T.fin ? ` · ⏱ ${fmt(T.fin, 2)} s` : ''), 70, y - 82, 19, col, 'left');
+  });
+  // grafik v–t
+  const gx = 60, gy = 530, gw = 520, gh = 160; rr(g, gx, gy, gw, gh, 14, dark() ? 'rgba(255,255,255,.06)' : 'rgba(19,37,74,.05)');
+  txt(g, 'Grafik kecepatan – waktu', gx + 14, gy + 20, 16, null, 'left'); const vm = Math.max(4, ...S2.hist.map(h => Math.max(h[1], h[2]))), tm = Math.max(4, S2.t);
+  [[1, '#ef4444'], [2, '#3b82f6']].forEach(([i, c]) => { g.strokeStyle = c; g.lineWidth = 4; g.beginPath(); S2.hist.forEach((h, j) => { const x = gx + 20 + h[0]/tm*(gw - 40), y = gy + gh - 16 - h[i]/vm*(gh - 46); j ? g.lineTo(x, y) : g.moveTo(x, y); }); g.stroke(); });
+  txt(g, 't (s)', gx + gw - 30, gy + gh - 10, 13, null); txt(g, 'v', gx + 12, gy + 42, 13, null);
+  txt(g, 'a = ΣF ÷ m', 920, 600, 44, '#2dd4bf'); txt(g, 'gaya ↑ → a ↑   ·   massa ↑ → a ↓', 920, 655, 20, null);
+}
+
+/* ================= HUKUM III ================= */
+let M3 = 'roket';
+const R = {T:18000, m:1200, run:false, h:0, v:0, a:0, parts:[]}, SW = {F:200, x:0, v:0, ph:0, auto:true, kick:0}, SK = {m1:40, m2:80, F:300, x1:0, x2:0, v1:0, v2:0, t:-1};
+$$('#m3 button').forEach(b => b.onclick = () => { M3 = b.dataset.m; $$('#m3 button').forEach(x => x.classList.toggle('on', x === b)); ['roket', 'renang', 'skate'].forEach(k => $('#k3' + k).hidden = k !== M3); say(M3 === 'roket' ? 'h3r' : M3 === 'renang' ? 'h3s' : 'h3k'); msg3(); });
+bind('thr', v => { R.T = v; msg3(); }); bind('mr', v => { R.m = v; msg3(); }); bind('sw', v => SW.F = v); bind('m1s', v => { SK.m1 = v; msg3(); }); bind('m2s', v => { SK.m2 = v; msg3(); }); bind('fs', v => { SK.F = v; msg3(); });
+$('#launch').onclick = () => { Object.assign(R, {run:true, h:0, v:0}); if(R.T <= R.m*9.8) toast('Gaya dorong ≤ berat roket — roket tidak bisa terangkat!'); };
+$('#r3').onclick = () => Object.assign(R, {run:false, h:0, v:0, parts:[]});
+$('#stroke').onclick = () => { SW.kick = .6; }; $('#autoSw').onchange = e => SW.auto = e.target.checked;
+$('#push').onclick = () => Object.assign(SK, {x1:0, x2:0, v1:0, v2:0, t:0}); $('#r3s').onclick = () => Object.assign(SK, {x1:0, x2:0, v1:0, v2:0, t:-1});
+function msg3(){ const W0 = R.m*9.8; $('#o3w').textContent = fmt(W0/1000, 1) + ' kN'; $('#o3a').textContent = fmt(Math.max(0, (R.T - W0)/R.m), 2) + ' m/s²';
+  $('#o3k1').textContent = fmt(SK.F/SK.m1, 2) + ' m/s²'; $('#o3k2').textContent = fmt(SK.F/SK.m2, 2) + ' m/s²';
+  $('#o3msg').innerHTML = M3 === 'roket' ? (R.T > W0 ? `Gaya dorong ${fmt(R.T/1000)} kN &gt; berat ${fmt(W0/1000)} kN → roket <b>naik</b>. Aksi: roket mendorong gas ke bawah; reaksi: gas mendorong roket ke atas.` : `Gaya dorong ${fmt(R.T/1000)} kN ≤ berat ${fmt(W0/1000)} kN → roket <b>tidak bisa terbang</b>. Besarkan gaya dorong atau kurangi massa!`)
+    : M3 === 'renang' ? 'Tangan mendorong air ke <b>belakang</b> (aksi), air mendorong tubuh ke <b>depan</b> (reaksi). Kedua gaya sama besar, arah berlawanan, bekerja pada benda berbeda.'
+    : `Gaya Andi pada Budi = gaya Budi pada Andi = <b>${SK.F} N</b>. Andi (${SK.m1} kg) a = ${fmt(SK.F/SK.m1, 2)} m/s², Budi (${SK.m2} kg) a = ${fmt(SK.F/SK.m2, 2)} m/s². Massa kecil → meluncur lebih jauh.`; }
+function step3(dt){
+  if(M3 === 'roket'){ const W0 = R.m*9.8; R.a = R.run && R.T > W0 ? (R.T - W0)/R.m : (R.h > 0 && R.run ? -9.8 : 0); if(R.run){ R.v += R.a*dt; R.h = Math.max(0, R.h + R.v*dt); if(R.h === 0 && R.v < 0) R.v = 0; }
+    if(R.run && R.T > 0) for(let i = 0; i < Math.round(R.T/1500); i++) R.parts.push({x:(Math.random() - .5)*30, y:0, vx:(Math.random() - .5)*120, vy:200 + Math.random()*260*R.T/20000, life:.8 + Math.random()*.5});
+    R.parts.forEach(p => { p.x += p.vx*dt; p.y += p.vy*dt; p.life -= dt; }); R.parts = R.parts.filter(p => p.life > 0).slice(-500);
+    $('#o3h').textContent = fmt(R.h, 0) + ' m'; $('#o3v').textContent = fmt(R.v, 1) + ' m/s'; }
+  if(M3 === 'renang'){ SW.ph += dt*(SW.auto ? 1.3 : 0) ; if(SW.kick > 0) { SW.kick -= dt; SW.ph += dt*2.5; }
+    const push = (SW.auto || SW.kick > 0) ? Math.max(0, Math.sin(SW.ph*Math.PI*2)) : 0, F = push*SW.F; SW.cur = F;
+    SW.v += (F/60 - SW.v*SW.v*.08*Math.sign(SW.v) - SW.v*.4)*dt; SW.x += SW.v*dt;
+    $('#o3s1').textContent = Math.round(F) + ' N ←'; $('#o3s2').textContent = Math.round(F) + ' N →'; }
+  if(M3 === 'skate' && SK.t >= 0){ SK.t += dt; if(SK.t < .35){ SK.v1 -= SK.F/SK.m1*dt; SK.v2 += SK.F/SK.m2*dt; } const fr = .35; [['v1'], ['v2']].forEach(([k]) => { const s = Math.sign(SK[k]); SK[k] -= s*fr*dt; if(Math.sign(SK[k]) !== s) SK[k] = 0; }); SK.x1 += SK.v1*dt; SK.x2 += SK.v2*dt; } }
+function draw3(g, t){
+  if(M3 === 'roket'){ const hpx = R.h*6, camY = Math.max(0, hpx - 260); sky(g, R.h > 120 ? '#020617' : dark() ? '#0c1d44' : '#7dd3fc', dark() ? '#1e3a8a' : '#e0f2fe');
+    if(R.h > 40) for(let i = 0; i < 70; i++){ g.fillStyle = `rgba(255,255,255,${Math.min(1, R.h/300)*.8})`; g.fillRect((i*197) % W, (i*131 + camY*.3) % H, 2.5, 2.5); }
+    const gy = 640 + camY; g.fillStyle = '#4d7c0f'; g.fillRect(0, gy, W, H); g.fillStyle = '#6b7280'; g.fillRect(520, gy - 20, 240, 20);
+    const rx = 640, ry = gy - 20 - hpx; g.save(); g.translate(rx, ry);
+    R.parts.forEach(p => { const a = Math.max(0, p.life); g.fillStyle = `rgba(${255},${Math.round(140 + 100*a)},${Math.round(40*a)},${a})`; g.beginPath(); g.arc(p.x, p.y, 10 + (1 - a)*22, 0, 7); g.fill(); });
+    g.fillStyle = '#e5e7eb'; rr(g, -38, -230, 76, 210, 30, '#f8fafc', '#94a3b8', 3); g.fillStyle = '#ef4444'; g.beginPath(); g.moveTo(-38, -200); g.quadraticCurveTo(0, -310, 38, -200); g.fill();
+    g.beginPath(); g.moveTo(-38, -70); g.lineTo(-78, -10); g.lineTo(-38, -30); g.fill(); g.beginPath(); g.moveTo(38, -70); g.lineTo(78, -10); g.lineTo(38, -30); g.fill();
+    g.fillStyle = '#38bdf8'; g.beginPath(); g.arc(0, -160, 18, 0, 7); g.fill(); g.fillStyle = '#475569'; rr(g, -26, -22, 52, 22, 6, '#475569'); g.restore();
+    const W0 = R.m*9.8, sc = 9/1000;
+    if(R.T > 0){ arrow(g, rx + 120, ry - 120, rx + 120, ry - 120 - R.T*sc, '#22c55e', 10, `reaksi: gas → roket ${fmt(R.T/1000)} kN ↑`, [rx + 120 + 150, ry - 120 - R.T*sc/2]); arrow(g, rx - 120, ry, rx - 120, ry + R.T*sc, '#ef4444', 10, `aksi: roket → gas ${fmt(R.T/1000)} kN ↓`, [rx - 120 - 150, ry + R.T*sc/2]); }
+    arrow(g, rx, ry - 110, rx, ry - 110 + W0*sc, '#f59e0b', 7, `berat ${fmt(W0/1000)} kN`, [rx + 90, ry - 110 + W0*sc*.6]);
+    txt(g, `ketinggian ${fmt(R.h, 0)} m`, 1120, 60, 24, '#fff');
+  }
+  if(M3 === 'renang'){ sky(g, dark() ? '#0b2a4a' : '#bae6fd', dark() ? '#073b5c' : '#38bdf8');
+    g.fillStyle = dark() ? 'rgba(14,165,233,.45)' : 'rgba(2,132,199,.45)'; g.fillRect(0, 300, W, H);
+    g.strokeStyle = 'rgba(255,255,255,.6)'; g.lineWidth = 4; g.beginPath(); for(let x = 0; x <= W; x += 10) g.lineTo(x, 300 + Math.sin(x*.03 + t*3)*6); g.stroke();
+    const off = ((SW.x*60) % 200 + 200) % 200; for(let i = 0; i < 9; i++){ g.fillStyle = i % 2 ? '#f43f5e' : '#fff'; g.beginPath(); g.arc(i*200 - off, 300, 9, 0, 7); g.fill(); }
+    const sx = 560, sy = 330, arm = SW.ph*Math.PI*2; g.save(); g.translate(sx, sy);
+    rr(g, -120, -22, 210, 44, 22, '#f97316'); g.fillStyle = '#f5c9a5'; g.beginPath(); g.arc(112, -6, 28, 0, 7); g.fill(); g.fillStyle = '#1d4ed8'; g.beginPath(); g.arc(116, -14, 28, Math.PI*1.1, Math.PI*2.05); g.fill();
+    g.strokeStyle = '#f5c9a5'; g.lineWidth = 16; g.lineCap = 'round'; const ax = Math.cos(arm)*110, ay = Math.sin(arm)*60; g.beginPath(); g.moveTo(60, -6); g.lineTo(60 + ax, -6 + ay); g.stroke();
+    g.beginPath(); g.moveTo(-120, 0); g.lineTo(-180, Math.sin(t*10)*22); g.stroke(); g.restore();
+    const F = SW.cur || 0; if(F > 5){ arrow(g, sx + 60, sy + 120, sx + 60 - F*.9, sy + 120, '#ef4444', 10, `aksi: tangan → air ${Math.round(F)} N`, [sx + 60 - F*.45, sy + 160]); arrow(g, sx - 40, sy - 70, sx - 40 + F*.9, sy - 70, '#22c55e', 10, `reaksi: air → tubuh ${Math.round(F)} N`, [sx - 40 + F*.45, sy - 108]);
+      for(let i = 0; i < 6; i++){ g.fillStyle = 'rgba(255,255,255,.7)'; g.beginPath(); g.arc(sx - 60 - i*30 - (t*200 % 30), sy + 60 + Math.sin(i + t*8)*12, 6 - i*.6, 0, 7); g.fill(); } }
+    txt(g, `kecepatan perenang ${fmt(SW.v, 2)} m/s`, W/2, 660, 24, '#fff'); }
+  if(M3 === 'skate'){ sky(g, dark() ? '#1e1b4b' : '#ede9fe', dark() ? '#312e81' : '#ffffff');
+    g.fillStyle = dark() ? '#64748b' : '#cbd5e1'; g.fillRect(0, 560, W, 160); g.fillStyle = 'rgba(255,255,255,.15)'; for(let i = 0; i < W; i += 80) g.fillRect(i, 560, 40, 4);
+    const S = 90, x1 = 600 + SK.x1*S, x2 = 680 + SK.x2*S, s1 = .75 + SK.m1/160, s2 = .75 + SK.m2/160, pushing = SK.t >= 0 && SK.t < .35;
+    [[x1, s1, '#ec4899', 'Andi', SK.m1, 1], [x2, s2, '#3b82f6', 'Budi', SK.m2, -1]].forEach(([x, s, c, n, m, d]) => { person(g, x, 470, s, c, 0, {armX:d*36, armY:-50}); g.save(); g.translate(x, 470); g.scale(s, s);
+      g.strokeStyle = c; g.lineWidth = 12; g.lineCap = 'round'; g.beginPath(); g.moveTo(-8, 0); g.lineTo(-14, 60); g.moveTo(8, 0); g.lineTo(14, 60); g.stroke(); g.fillStyle = '#111827'; rr(g, -34, 60, 68, 14, 6, '#111827'); g.fillStyle = '#facc15'; [-22, 22].forEach(k => { g.beginPath(); g.arc(k, 80, 8, 0, 7); g.fill(); }); g.restore();
+      txt(g, `${n} · ${m} kg`, x, 470 - 150*s, 20, c); });
+    if(pushing){ arrow(g, x1 + 30, 380, x1 - 140, 380, '#ef4444', 10, `${SK.F} N`, [x1 - 60, 345]); arrow(g, x2 - 30, 380, x2 + 140, 380, '#22c55e', 10, `${SK.F} N`, [x2 + 60, 345]); }
+    txt(g, SK.t < 0 ? 'Tekan “Saling dorong”!' : `v Andi = ${fmt(Math.abs(SK.v1), 2)} m/s ←   ·   v Budi = ${fmt(Math.abs(SK.v2), 2)} m/s →`, W/2, 80, 26); }
+}
+
+/* ---------- loop ---------- */
+const CTX = {1:$('#c1').getContext('2d'), 2:$('#c2').getContext('2d'), 3:$('#c3').getContext('2d')};
+let last = performance.now(), TT = {1:0, 2:0, 3:0};
+function frame(now){ const rdt = Math.min(.05, (now - last)/1000); last = now; const k = {h1:1, h2:2, h3:3}[PAGE];
+  if(k){ const dt = PAUSE[k] ? 0 : rdt; TT[k] += dt; const n = 4; for(let i = 0; i < n; i++) [null, step1, step2, step3][k](dt/n); const g = CTX[k]; g.clearRect(0, 0, W, H); [null, draw1, draw2, draw3][k](g, TT[k]); }
+  requestAnimationFrame(frame); }
+upd2(); msg3(); requestAnimationFrame(frame);
+
+/* ================= KUIS ================= */
+const BANK = [
+ ['Saat bus mengerem mendadak, penumpang terdorong ke depan. Peristiwa ini sesuai dengan …', ['Hukum I Newton (kelembaman)', 'Hukum II Newton', 'Hukum III Newton', 'Hukum gravitasi'], 'Tubuh penumpang cenderung mempertahankan keadaan geraknya (inersia) sehingga terdorong ke depan saat bus berhenti tiba-tiba.'],
+ ['Gaya sebesar 20 N bekerja pada benda bermassa 4 kg. Percepatan benda adalah …', ['5 m/s²', '80 m/s²', '0,2 m/s²', '24 m/s²'], 'Hukum II Newton: a = F ÷ m = 20 N ÷ 4 kg = 5 m/s².'],
+ ['Ketika menendang bola dengan keras, kaki terasa sakit. Penjelasan yang tepat adalah …', ['Bola memberikan gaya reaksi ke kaki yang sama besar dan berlawanan arah', 'Gaya kaki lebih besar daripada gaya bola', 'Bola lebih berat daripada kaki', 'Kaki kehilangan gaya setelah menendang'], 'Hukum III Newton: gaya aksi kaki pada bola dibalas gaya reaksi bola pada kaki yang sama besar dan berlawanan arah.'],
+ ['Bola yang digelindingkan di lantai lama-kelamaan berhenti. Penyebabnya adalah …', ['Gaya gesek antara bola dan lantai yang melawan arah gerak', 'Gaya dorong dalam bola sudah habis', 'Massa bola berkurang', 'Gravitasi mendorong bola ke belakang'], 'Tanpa gaya gesek, bola akan terus bergerak (Hukum I Newton). Gaya gesek memperlambat bola hingga berhenti.'],
+ ['Dua troli didorong dengan gaya yang sama. Massa troli A 2 kg dan troli B 4 kg. Pernyataan yang benar adalah …', ['Percepatan A dua kali percepatan B', 'Percepatan A dan B sama', 'Percepatan B dua kali percepatan A', 'Percepatan A setengah percepatan B'], 'a = F ÷ m. Dengan gaya sama, massa lebih kecil menghasilkan percepatan lebih besar: A (2 kg) memiliki percepatan 2× B (4 kg).'],
+ ['Kertas di bawah koin ditarik dengan sangat cepat sehingga koin jatuh tepat ke dalam gelas. Peristiwa ini menunjukkan …', ['Kelembaman koin (Hukum I Newton)', 'Gaya aksi-reaksi', 'Percepatan koin sangat besar', 'Koin kehilangan massanya'], 'Koin cenderung mempertahankan keadaan diamnya. Karena kertas ditarik cepat, gaya gesek tidak sempat menggerakkan koin.'],
+ ['Roket dapat meluncur ke angkasa karena …', ['Gas disemburkan ke bawah dan gas mendorong roket ke atas', 'Roket lebih ringan dari udara', 'Roket ditarik gravitasi Bulan', 'Udara di atas roket menarik roket'], 'Hukum III Newton: roket mendorong gas ke bawah (aksi), gas mendorong roket ke atas (reaksi).'],
+ ['Benda bermassa 5 kg berada di Bumi (g = 10 m/s²). Berat benda tersebut adalah …', ['50 N', '5 N', '0,5 N', '15 N'], 'W = m × g = 5 kg × 10 m/s² = 50 N.'],
+ ['Sebuah buku diam di atas meja. Gaya yang bekerja pada buku adalah …', ['Gaya berat dan gaya normal yang sama besar dan berlawanan arah', 'Tidak ada gaya sama sekali karena buku diam', 'Hanya gaya berat', 'Hanya gaya normal dari meja'], 'Gaya berat (ke bawah) diimbangi gaya normal (ke atas). Resultan gayanya nol sehingga buku tetap diam (Hukum I Newton).'],
+ ['Sebuah troli 10 kg didorong dengan gaya 50 N di lantai yang gaya geseknya 10 N. Percepatan troli adalah …', ['4 m/s²', '5 m/s²', '6 m/s²', '1 m/s²'], 'ΣF = 50 N − 10 N = 40 N. a = ΣF ÷ m = 40 ÷ 10 = 4 m/s².'],
+ ['Saat berenang, perenang mendorong air ke belakang dengan tangannya. Akibatnya …', ['Air mendorong tubuh perenang ke depan', 'Air menarik perenang ke belakang', 'Perenang berhenti', 'Air diam saja'], 'Aksi: tangan mendorong air ke belakang. Reaksi: air mendorong tubuh ke depan dengan gaya sama besar.'],
+ ['Jika gaya yang bekerja pada sebuah benda dijadikan dua kali semula sedangkan massanya tetap, percepatannya menjadi …', ['Dua kali semula', 'Setengah semula', 'Tetap', 'Empat kali semula'], 'a = F ÷ m. Percepatan sebanding dengan gaya, sehingga gaya 2× menghasilkan percepatan 2×.'],
+ ['Sabuk pengaman pada mobil berfungsi untuk …', ['Menahan tubuh agar tidak terdorong ke depan saat mobil mengerem mendadak', 'Mempercepat laju mobil', 'Mengurangi massa penumpang', 'Menambah gaya gesek ban'], 'Saat mobil berhenti mendadak, tubuh cenderung terus bergerak maju (kelembaman). Sabuk pengaman memberi gaya untuk menahannya.'],
+ ['Pasangan gaya aksi-reaksi selalu …', ['Sama besar, berlawanan arah, dan bekerja pada dua benda berbeda', 'Sama besar, searah, pada satu benda', 'Berbeda besar, berlawanan arah', 'Saling meniadakan pada satu benda'], 'Gaya aksi dan reaksi sama besar, berlawanan arah, dan bekerja pada benda yang berbeda, sehingga tidak saling meniadakan.'],
+ ['Andi (40 kg) dan Budi (80 kg) berdiri di atas sepatu roda lalu saling mendorong. Pernyataan yang benar adalah …', ['Percepatan Andi lebih besar daripada percepatan Budi', 'Gaya dorong Budi lebih besar', 'Keduanya mendapat percepatan sama', 'Hanya Andi yang bergerak'], 'Gaya aksi-reaksi sama besar. Karena a = F ÷ m, Andi yang massanya lebih kecil mendapat percepatan lebih besar.'],
+ ['Satuan gaya dalam Sistem Internasional (SI) adalah …', ['Newton (N)', 'Kilogram (kg)', 'Joule (J)', 'Meter per sekon (m/s)'], 'Gaya diukur dalam newton. 1 N = 1 kg·m/s².'],
+ ['Benda bermassa 2 kg dipercepat 3 m/s². Besar resultan gaya pada benda adalah …', ['6 N', '1,5 N', '5 N', '0,67 N'], 'F = m × a = 2 kg × 3 m/s² = 6 N.'],
+ ['Mengapa lebih mudah mendorong troli belanja kosong daripada troli penuh?', ['Massa troli kosong lebih kecil sehingga percepatannya lebih besar untuk gaya yang sama', 'Troli kosong tidak memiliki gaya gesek', 'Troli penuh memiliki gaya aksi-reaksi', 'Troli kosong tidak memiliki massa'], 'Hukum II Newton: dengan gaya sama, benda bermassa lebih kecil mendapat percepatan lebih besar.']
+];
+const QZ = {started:false, list:[], i:0, score:0, ans:[]};
+const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+function quizIntro(){ const best = ls.get('best', null);
+  $('#quizBox').innerHTML = `<div class="qstart" style="text-align:center"><div class="fig waving" style="max-width:280px;margin:0 auto"><img class="body" src="${$('#heroFig .body').src}" alt=""><img class="hand" src="${$('#heroFig .hand').src}" alt=""></div>
+    <h2 style="font-size:34px;margin:8px 0">Kuis Hukum Newton</h2><p style="font-weight:700;color:var(--mut);font-size:16px;margin:0 0 14px">10 soal acak · pilih satu jawaban · langsung ada pembahasan dari Bu Nella.</p>
+    ${best !== null ? `<p style="font-weight:900">🏆 Skor terbaikmu: ${best}</p>` : ''}<button class="btn o" id="qGo" style="font-size:18px">🚀 Mulai kuis</button></div>`;
+  $('#qGo').onclick = startQuiz; }
+function startQuiz(){ QZ.started = true; QZ.list = shuffle(BANK).slice(0, 10).map(q => { const o = shuffle(q[1].map((t, i) => ({t, ok:i === 0}))); return {q:q[0], o, e:q[2]}; }); QZ.i = 0; QZ.score = 0; QZ.ans = []; showQ(); }
+function showQ(){ const Q = QZ.list[QZ.i], n = QZ.list.length;
+  $('#quizBox').innerHTML = `<div class="qhead"><img class="ava" id="qAva" src="${$('#dava img').src}" alt=""><div class="qbar"><i style="width:${QZ.i/n*100}%"></i></div><span class="qn">Soal ${QZ.i + 1}/${n} · ⭐ ${QZ.score}</span></div>
+    <div class="qq">${Q.q}</div><div class="qopts">${Q.o.map((o, k) => `<button class="qo" data-k="${k}"><i>${'ABCD'[k]}</i><span>${o.t}</span></button>`).join('')}</div>
+    <div class="qfb" id="qfb"></div><div class="qact"><button class="btn g sm" id="qStop">✕ Berhenti</button><button class="btn" id="qNext" hidden>${QZ.i < n - 1 ? 'Soal berikutnya ▶' : '🏁 Lihat hasil'}</button></div>`;
+  $$('.qo').forEach(b => b.onclick = () => answer(+b.dataset.k)); $('#qNext').onclick = () => { QZ.i++; QZ.i < n ? showQ() : result(); }; $('#qStop').onclick = () => { QZ.started = false; quizIntro(); }; }
+const PRAISE = ['Hebat! 🎉', 'Tepat sekali! 👏', 'Luar biasa! 🌟', 'Pintar! 💯', 'Mantap! 🔥'], NUDGE = ['Belum tepat, tidak apa-apa! 💪', 'Hampir! Yuk pelajari lagi 📘', 'Ayo coba pahami pembahasannya 🙂'];
+function answer(k){ const Q = QZ.list[QZ.i], ok = Q.o[k].ok; if(ok) QZ.score++; QZ.ans.push({q:Q.q, ok, right:Q.o.find(o => o.ok).t, e:Q.e});
+  $$('.qo').forEach((b, j) => { b.disabled = true; if(Q.o[j].ok) b.classList.add('ok'); else if(j === k) b.classList.add('no'); });
+  const fb = $('#qfb'); fb.className = 'qfb on ' + (ok ? 'ok' : 'no'); fb.innerHTML = `<b>${ok ? PRAISE[Math.floor(Math.random()*PRAISE.length)] : NUDGE[Math.floor(Math.random()*NUDGE.length)]}</b>${Q.e}`;
+  const av = $('#qAva'); av.classList.add(ok ? 'happy' : 'sad'); $('#qNext').hidden = false; $('.qn').textContent = `Soal ${QZ.i + 1}/${QZ.list.length} · ⭐ ${QZ.score}`; $('.qbar i').style.width = (QZ.i + 1)/QZ.list.length*100 + '%'; beep(ok); }
+function result(){ const n = QZ.list.length, s = QZ.score, nilai = Math.round(s/n*100), st = s >= 9 ? 3 : s >= 7 ? 2 : s >= 5 ? 1 : 0, best = ls.get('best', null); if(best === null || nilai > best) ls.set('best', nilai); updBest();
+  const msg = st === 3 ? 'Luar biasa! Kamu sudah sangat paham Hukum Newton. Bu Nella bangga! 🥰' : st === 2 ? 'Bagus sekali! Sedikit lagi sempurna. Pelajari soal yang salah, ya!' : st === 1 ? 'Lumayan! Yuk ulangi simulasinya agar makin paham.' : 'Jangan menyerah! Coba mainkan lagi simulasinya, lalu ulangi kuisnya. Kamu pasti bisa! 💪';
+  QZ.started = false; $('#quizBox').innerHTML = `<div class="res"><div class="fig waving" style="max-width:220px;margin:0 auto"><img class="body" src="${$('#heroFig .body').src}" alt=""><img class="hand" src="${$('#heroFig .hand').src}" alt=""></div>
+    <div class="stars">${'⭐'.repeat(st)}${'☆'.repeat(3 - st)}</div><div class="sc">${nilai}</div><p style="font-weight:900;font-size:18px;margin:6px 0">${s} dari ${n} jawaban benar</p><p style="font-weight:700;color:var(--mut);margin:0 auto;max-width:560px">${msg}</p>
+    <div class="row" style="justify-content:center;margin-top:16px"><button class="btn o" id="qAgain">🔁 Ulangi kuis</button><button class="btn g" data-go="h1">🔬 Kembali ke simulasi</button></div>
+    <div class="rv">${QZ.ans.map((a, i) => `<div style="border-color:${a.ok ? 'var(--grn)' : 'var(--red)'}"><b>${a.ok ? '✅' : '❌'} ${i + 1}. ${a.q}</b>Jawaban benar: <b style="display:inline">${a.right}</b><br><span style="color:var(--mut)">${a.e}</span></div>`).join('')}</div></div>`;
+  $('#qAgain').onclick = startQuiz; if(st >= 2) confetti(); }
+function updBest(){ const b = ls.get('best', null); $('#bestTag').textContent = 'Skor terbaik: ' + (b === null ? '–' : b); } updBest();
+let AC = null; function beep(ok){ try{ AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(); o.type = 'sine'; const t = AC.currentTime;
+  (ok ? [660, 880] : [300, 220]).forEach((f, i) => o.frequency.setValueAtTime(f, t + i*.12)); g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + .3); o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + .32); }catch(e){} }
+function confetti(){ const c = document.createElement('canvas'); c.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50'; document.body.appendChild(c); c.width = innerWidth; c.height = innerHeight; const g = c.getContext('2d');
+  const P = Array.from({length:160}, () => ({x:Math.random()*c.width, y:-20 - Math.random()*c.height*.5, vx:(Math.random() - .5)*3, vy:2 + Math.random()*4, r:Math.random()*6, c:['#2dd4bf', '#f59e0b', '#ec4899', '#38bdf8', '#a78bfa'][Math.floor(Math.random()*5)], a:Math.random()*6}));
+  let n = 0; (function f(){ g.clearRect(0, 0, c.width, c.height); P.forEach(p => { p.x += p.vx; p.y += p.vy; p.a += .1; g.save(); g.translate(p.x, p.y); g.rotate(p.a); g.fillStyle = p.c; g.fillRect(-5, -3, 10, 6); g.restore(); }); if(++n < 220) requestAnimationFrame(f); else c.remove(); })(); }
+
+/* mulai */
+say('home', false); const startPage = ls.get('page', 'home'); if(startPage !== 'home' && $('#p-' + startPage)) go(startPage);
+</script>
+</body>
+</html>
