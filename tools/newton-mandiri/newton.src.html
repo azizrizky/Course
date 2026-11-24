@@ -97,6 +97,22 @@ details.ex{background:var(--card2);border:1px solid var(--line);border-radius:14
 .res{text-align:center}.res .stars{font-size:54px;letter-spacing:6px;margin:6px 0}.res .sc{font-family:'Baloo 2';font-size:64px;line-height:1;background:linear-gradient(90deg,var(--acc),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
 .rv{text-align:left;margin-top:16px;display:grid;gap:8px}.rv div{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--card2);font-weight:700;font-size:14px;line-height:1.45}.rv div b{display:block}
 .qstart .fig{max-width:300px;margin:0 auto}
+.gintro{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:center}.gintro .kick{display:inline-block;background:var(--pink);color:#fff;font-weight:900;font-size:12px;letter-spacing:.08em;padding:5px 12px;border-radius:999px}
+.gp{font-weight:700;font-size:16px;line-height:1.55;margin:0 0 10px}.gk{margin:0 0 12px;padding-left:20px;font-weight:700;color:var(--mut);line-height:1.7}.gk kbd{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-weight:900;color:var(--ink)}
+.glv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.glv button{border:2px solid var(--line);background:var(--card2);border-radius:16px;padding:10px;cursor:pointer;text-align:center}.glv button b{display:block;font-size:16px}.glv button small{color:var(--mut);font-weight:800}
+.glv button.on{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 18%,var(--card2))}.gbest{font-weight:900;align-self:center}
+.qwrap:has(.ghud){max-width:1200px}#p-quiz .qcard:has(.ghud){padding:14px 16px}
+.ghud{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-weight:900;font-size:18px;margin-bottom:8px}.ghud #gScore{color:var(--acc2)}.ghud #gCombo{color:#fb923c;animation:hop .6s}.ghud .gq{margin-left:auto;color:var(--mut);font-size:15px}
+.gq-t{font-size:clamp(17px,2vw,22px);font-weight:900;line-height:1.4;margin:4px 0 10px}.gq-t small{display:block;font-size:12.5px;color:var(--mut);letter-spacing:.05em}
+.gstage{max-width:max(340px,calc((100vh - 300px)*16/9));margin:0 auto;position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--sh)}.gstage canvas{display:block;width:100%;aspect-ratio:16/9;touch-action:manipulation;cursor:crosshair}
+.gfb{position:absolute;left:50%;top:50%;transform:translate(-50%,-40%) scale(.9);opacity:0;pointer-events:none;width:min(560px,92%);background:var(--card);border:2px solid var(--line);border-radius:22px;padding:16px 18px;box-shadow:0 20px 50px rgba(0,0,0,.5);font-weight:700;line-height:1.5;transition:.3s;max-height:90%;overflow:auto}
+.gfb.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}.gfb.ok{border-color:var(--grn)}.gfb.no{border-color:var(--red)}.gfb>b{font-size:22px;display:block}.gfb p{margin:6px 0}.gfb .btn{margin-top:8px}
+.gnella{position:absolute;left:12px;bottom:12px;width:70px;height:70px;border-radius:50%;border:3px solid var(--acc2);object-fit:cover;background:#fff}.gnella.pop.happy{animation:hop .7s}.gnella.pop.sad{animation:shake .5s}
+.gsay{position:absolute;left:92px;bottom:30px;background:#fff;color:#13254a;font-weight:900;padding:8px 12px;border-radius:14px 14px 14px 4px;opacity:0;transform:translateY(8px);transition:.25s;max-width:60%}.gsay.on{opacity:1;transform:none}
+.gopts{max-width:max(340px,calc((100vh - 300px)*16/9));margin-left:auto;margin-right:auto;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.gopt{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 12%,var(--card2));border-radius:16px;padding:9px 12px;font-weight:800;font-size:15px;cursor:pointer;transition:.15s}
+.gopt:hover{transform:translateY(-2px)}.gopt i{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:900;background:var(--c);color:#fff}
+.gopt.ok{border-color:var(--grn);background:color-mix(in srgb,var(--grn) 25%,var(--card2))}.gopt.no{border-color:var(--red);background:color-mix(in srgb,var(--red) 22%,var(--card2))}.gopt[disabled]{cursor:default;transform:none}
+@media (max-width:760px){.gintro{grid-template-columns:1fr}.gintro .fig{max-width:180px!important}.glv{grid-template-columns:1fr}.gopts{grid-template-columns:1fr}.gopt{font-size:14px;padding:7px 10px}.ghud{font-size:15px;gap:8px}.gnella{width:48px;height:48px}.gsay{left:66px;bottom:16px;font-size:12px}.gfb{font-size:13.5px;padding:12px}.gfb>b{font-size:18px}}
 /* Bu Nella dock */
 .dock{position:fixed;left:14px;bottom:14px;z-index:30;display:flex;align-items:flex-end;gap:10px;max-width:min(560px,calc(100vw - 28px));pointer-events:none}
 .dock>*{pointer-events:auto}
@@ -120,7 +136,7 @@ footer{text-align:center;color:var(--mut);font-weight:700;font-size:13px;margin-
 <header class="top">
   <div class="brand"><div class="lg">⚛️</div><div><b>Hukum Newton</b><small>LAB PETUALANG · BERSAMA BU NELLA</small></div></div>
   <nav class="tabs" id="tabs">
-    <button data-p="home" class="on">🏠 Mulai</button><button data-p="h1">🚗 Hukum I</button><button data-p="h2">🛒 Hukum II</button><button data-p="h3">🚀 Hukum III</button><button data-p="quiz">📝 Kuis</button>
+    <button data-p="home" class="on">🏠 Mulai</button><button data-p="h1">🚗 Hukum I</button><button data-p="h2">🛒 Hukum II</button><button data-p="h3">🚀 Hukum III</button><button data-p="quiz">🎮 Game Kuis</button>
   </nav>
   <button class="ib" id="theme" title="Ganti tema terang/gelap">🌙</button>
 </header>
@@ -134,14 +150,14 @@ footer{text-align:center;color:var(--mut);font-weight:700;font-size:13px;margin-
       <span class="kick">IPA KELAS VII · BAB 4 GERAK DAN GAYA</span>
       <h1>Belajar <em>Hukum Newton</em> bersama Bu Nella</h1>
       <div class="bubble" id="heroTxt">Hai! Selamat datang semuanya! Saya Bu Nella Alfiani Rofiqoh, guru IPA SMP Negeri 4 Magelang. Hari ini kita belajar Hukum Newton lewat simulasi. Ayo, pilih materinya!</div>
-      <div class="row"><button class="btn o" id="heroPlay">🔊 Dengarkan Bu Nella</button><button class="btn" data-go="h1">🚗 Mulai dari Hukum I</button><button class="btn p" data-go="quiz">📝 Langsung kuis</button></div>
+      <div class="row"><button class="btn o" id="heroPlay">🔊 Dengarkan Bu Nella</button><button class="btn" data-go="h1">🚗 Mulai dari Hukum I</button><button class="btn p" data-go="quiz">🎮 Main game kuis</button></div>
     </div>
   </div>
   <div class="cards">
     <div class="lc" style="--c:#38bdf8" data-go="h1"><div class="e">🚗</div><h3>Hukum I — Kelembaman</h3><p>Penumpang terdorong saat mobil direm mendadak, koin jatuh ke gelas saat kertas ditarik cepat.</p><span class="f">ΣF = 0 → benda mempertahankan keadaannya</span></div>
     <div class="lc" style="--c:#2dd4bf" data-go="h2"><div class="e">🛒</div><h3>Hukum II — Percepatan</h3><p>Balapan dua troli: atur gaya, massa, dan permukaan lantai. Siapa yang lebih cepat?</p><span class="f">a = ΣF ÷ m</span></div>
     <div class="lc" style="--c:#f59e0b" data-go="h3"><div class="e">🚀</div><h3>Hukum III — Aksi-Reaksi</h3><p>Roket meluncur, perenang melaju, dua pemain sepatu roda saling dorong.</p><span class="f">F aksi = − F reaksi</span></div>
-    <div class="lc" style="--c:#ec4899" data-go="quiz"><div class="e">📝</div><h3>Kuis Hukum Newton</h3><p>10 soal acak dengan pembahasan. Kumpulkan bintang dan kalahkan skormu sendiri!</p><span class="f" id="bestTag">Skor terbaik: –</span></div>
+    <div class="lc" style="--c:#ec4899" data-go="quiz"><div class="e">🎮</div><h3>Game: Misi Roket Newton</h3><p>Tembak asteroid berjawaban benar dan bawa roket dari Bumi ke Bulan! 10 soal, 3 nyawa, combo.</p><span class="f" id="bestTag">Rekor game: –</span></div>
   </div>
   <footer>Lab Petualang · Media pembelajaran IPA karya Nella Alfiani Rofiqoh, S.Pd — SMP Negeri 4 Magelang</footer>
 </section>
@@ -514,32 +530,109 @@ const BANK = [
  ['Benda bermassa 2 kg dipercepat 3 m/s². Besar resultan gaya pada benda adalah …', ['6 N', '1,5 N', '5 N', '0,67 N'], 'F = m × a = 2 kg × 3 m/s² = 6 N.'],
  ['Mengapa lebih mudah mendorong troli belanja kosong daripada troli penuh?', ['Massa troli kosong lebih kecil sehingga percepatannya lebih besar untuk gaya yang sama', 'Troli kosong tidak memiliki gaya gesek', 'Troli penuh memiliki gaya aksi-reaksi', 'Troli kosong tidak memiliki massa'], 'Hukum II Newton: dengan gaya sama, benda bermassa lebih kecil mendapat percepatan lebih besar.']
 ];
-const QZ = {started:false, list:[], i:0, score:0, ans:[]};
+/* ---------- GAME: Misi Roket Newton ---------- */
+const QZ = {started:false};
+const LC = ['#f97316', '#22c55e', '#38bdf8', '#e879f9']; // warna jalur A-D
+const LV = {santai:{v:0, stop:260, nm:'🐢 Santai', d:'Tanpa batas waktu'}, normal:{v:16, nm:'🚀 Normal', d:'± 25 detik per soal'}, cepat:{v:30, nm:'⚡ Kilat', d:'± 13 detik per soal'}};
 const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-function quizIntro(){ const best = ls.get('best', null);
-  $('#quizBox').innerHTML = `<div class="qstart" style="text-align:center"><div class="fig waving" style="max-width:280px;margin:0 auto"><img class="body" src="${$('#heroFig .body').src}" alt=""><img class="hand" src="${$('#heroFig .hand').src}" alt=""></div>
-    <h2 style="font-size:34px;margin:8px 0">Kuis Hukum Newton</h2><p style="font-weight:700;color:var(--mut);font-size:16px;margin:0 0 14px">10 soal acak · pilih satu jawaban · langsung ada pembahasan dari Bu Nella.</p>
-    ${best !== null ? `<p style="font-weight:900">🏆 Skor terbaikmu: ${best}</p>` : ''}<button class="btn o" id="qGo" style="font-size:18px">🚀 Mulai kuis</button></div>`;
+let G = null;
+function quizIntro(){ const best = ls.get('best', null), lv = ls.get('lvl', 'normal');
+  $('#quizBox').innerHTML = `<div class="gintro"><div class="fig waving" style="max-width:250px;margin:0 auto"><img class="body" src="${$('#heroFig .body').src}" alt=""><img class="hand" src="${$('#heroFig .hand').src}" alt=""></div>
+    <div><span class="kick">GAME KUIS</span><h2 style="font-size:clamp(30px,4vw,44px);margin:8px 0">🚀 Misi Roket Newton</h2>
+    <p class="gp">Bawa roket dari <b>Bumi ke Bulan</b>! Setiap soal muncul 4 asteroid berhuruf <b>A–D</b>. Tembak asteroid dengan <b>jawaban benar</b> untuk naik satu tahap. Jawaban salah atau asteroid yang sampai bawah akan merusak perisai ❤️. Jawab benar berturut-turut untuk <b>combo</b> ×2, ×3!</p>
+    <ul class="gk"><li>👆 Ketuk asteroid atau tombol jawaban</li><li>⌨️ Tekan <kbd>A</kbd>–<kbd>D</kbd> / <kbd>1</kbd>–<kbd>4</kbd>, atau <kbd>←</kbd><kbd>→</kbd> lalu <kbd>Spasi</kbd></li><li>💡 Setiap tembakan = aksi–reaksi: roket ikut terdorong mundur!</li></ul>
+    <div class="glv">${Object.entries(LV).map(([k, v]) => `<button data-lv="${k}" class="${k === lv ? 'on' : ''}"><b>${v.nm}</b><small>${v.d}</small></button>`).join('')}</div>
+    <div class="row" style="margin-top:14px"><button class="btn o" id="qGo" style="font-size:18px">🚀 Mulai misi</button>${best !== null ? `<span class="gbest">🏆 Rekor: ${best} poin</span>` : ''}</div></div></div>`;
+  $$('[data-lv]').forEach(b => b.onclick = () => { ls.set('lvl', b.dataset.lv); $$('[data-lv]').forEach(x => x.classList.toggle('on', x === b)); });
   $('#qGo').onclick = startQuiz; }
-function startQuiz(){ QZ.started = true; QZ.list = shuffle(BANK).slice(0, 10).map(q => { const o = shuffle(q[1].map((t, i) => ({t, ok:i === 0}))); return {q:q[0], o, e:q[2]}; }); QZ.i = 0; QZ.score = 0; QZ.ans = []; showQ(); }
-function showQ(){ const Q = QZ.list[QZ.i], n = QZ.list.length;
-  $('#quizBox').innerHTML = `<div class="qhead"><img class="ava" id="qAva" src="${$('#dava img').src}" alt=""><div class="qbar"><i style="width:${QZ.i/n*100}%"></i></div><span class="qn">Soal ${QZ.i + 1}/${n} · ⭐ ${QZ.score}</span></div>
-    <div class="qq">${Q.q}</div><div class="qopts">${Q.o.map((o, k) => `<button class="qo" data-k="${k}"><i>${'ABCD'[k]}</i><span>${o.t}</span></button>`).join('')}</div>
-    <div class="qfb" id="qfb"></div><div class="qact"><button class="btn g sm" id="qStop">✕ Berhenti</button><button class="btn" id="qNext" hidden>${QZ.i < n - 1 ? 'Soal berikutnya ▶' : '🏁 Lihat hasil'}</button></div>`;
-  $$('.qo').forEach(b => b.onclick = () => answer(+b.dataset.k)); $('#qNext').onclick = () => { QZ.i++; QZ.i < n ? showQ() : result(); }; $('#qStop').onclick = () => { QZ.started = false; quizIntro(); }; }
-const PRAISE = ['Hebat! 🎉', 'Tepat sekali! 👏', 'Luar biasa! 🌟', 'Pintar! 💯', 'Mantap! 🔥'], NUDGE = ['Belum tepat, tidak apa-apa! 💪', 'Hampir! Yuk pelajari lagi 📘', 'Ayo coba pahami pembahasannya 🙂'];
-function answer(k){ const Q = QZ.list[QZ.i], ok = Q.o[k].ok; if(ok) QZ.score++; QZ.ans.push({q:Q.q, ok, right:Q.o.find(o => o.ok).t, e:Q.e});
-  $$('.qo').forEach((b, j) => { b.disabled = true; if(Q.o[j].ok) b.classList.add('ok'); else if(j === k) b.classList.add('no'); });
-  const fb = $('#qfb'); fb.className = 'qfb on ' + (ok ? 'ok' : 'no'); fb.innerHTML = `<b>${ok ? PRAISE[Math.floor(Math.random()*PRAISE.length)] : NUDGE[Math.floor(Math.random()*NUDGE.length)]}</b>${Q.e}`;
-  const av = $('#qAva'); av.classList.add(ok ? 'happy' : 'sad'); $('#qNext').hidden = false; $('.qn').textContent = `Soal ${QZ.i + 1}/${QZ.list.length} · ⭐ ${QZ.score}`; $('.qbar i').style.width = (QZ.i + 1)/QZ.list.length*100 + '%'; beep(ok); }
-function result(){ const n = QZ.list.length, s = QZ.score, nilai = Math.round(s/n*100), st = s >= 9 ? 3 : s >= 7 ? 2 : s >= 5 ? 1 : 0, best = ls.get('best', null); if(best === null || nilai > best) ls.set('best', nilai); updBest();
-  const msg = st === 3 ? 'Luar biasa! Kamu sudah sangat paham Hukum Newton. Bu Nella bangga! 🥰' : st === 2 ? 'Bagus sekali! Sedikit lagi sempurna. Pelajari soal yang salah, ya!' : st === 1 ? 'Lumayan! Yuk ulangi simulasinya agar makin paham.' : 'Jangan menyerah! Coba mainkan lagi simulasinya, lalu ulangi kuisnya. Kamu pasti bisa! 💪';
-  QZ.started = false; $('#quizBox').innerHTML = `<div class="res"><div class="fig waving" style="max-width:220px;margin:0 auto"><img class="body" src="${$('#heroFig .body').src}" alt=""><img class="hand" src="${$('#heroFig .hand').src}" alt=""></div>
-    <div class="stars">${'⭐'.repeat(st)}${'☆'.repeat(3 - st)}</div><div class="sc">${nilai}</div><p style="font-weight:900;font-size:18px;margin:6px 0">${s} dari ${n} jawaban benar</p><p style="font-weight:700;color:var(--mut);margin:0 auto;max-width:560px">${msg}</p>
-    <div class="row" style="justify-content:center;margin-top:16px"><button class="btn o" id="qAgain">🔁 Ulangi kuis</button><button class="btn g" data-go="h1">🔬 Kembali ke simulasi</button></div>
-    <div class="rv">${QZ.ans.map((a, i) => `<div style="border-color:${a.ok ? 'var(--grn)' : 'var(--red)'}"><b>${a.ok ? '✅' : '❌'} ${i + 1}. ${a.q}</b>Jawaban benar: <b style="display:inline">${a.right}</b><br><span style="color:var(--mut)">${a.e}</span></div>`).join('')}</div></div>`;
-  $('#qAgain').onclick = startQuiz; if(st >= 2) confetti(); }
-function updBest(){ const b = ls.get('best', null); $('#bestTag').textContent = 'Skor terbaik: ' + (b === null ? '–' : b); } updBest();
+function startQuiz(){ QZ.started = true; const lv = ls.get('lvl', 'normal');
+  G = {lv, qs:shuffle(BANK).slice(0, 10).map(q => { const o = shuffle(q[1].map((t, i) => ({t, ok:i === 0}))); return {q:q[0], o, e:q[2]}; }), i:-1, score:0, lives:3, combo:0, best:0, stage:0, lane:1, rx:0, recoil:0,
+    shots:[], ast:[], parts:[], phase:'play', t:0, shake:0, warp:0, ans:[], stars:Array.from({length:120}, () => ({x:Math.random()*1280, y:Math.random()*720, z:.3 + Math.random()*1.2})), msg:null};
+  $('#quizBox').innerHTML = `<div class="ghud"><span id="gLives"></span><span id="gScore">0</span><span id="gCombo"></span><span class="gq" id="gNum"></span><button class="btn g sm" id="gQuit">✕ Keluar</button></div>
+    <div class="gq-t" id="gQ"></div>
+    <div class="gstage"><canvas id="gc" width="1280" height="720"></canvas><div class="gfb" id="gFb"></div><img class="gnella" id="gNella" src="${$('#dava img').src}" alt=""><div class="gsay" id="gSay"></div></div>
+    <div class="gopts" id="gOpts"></div>`;
+  $('#gQuit').onclick = async () => { G.phase = 'end'; QZ.started = false; quizIntro(); };
+  const cv = $('#gc'); cv.addEventListener('pointerdown', e => { const r = cv.getBoundingClientRect(), x = (e.clientX - r.left)/r.width*1280, y = (e.clientY - r.top)/r.height*720;
+    if(G.phase !== 'play') return; let best = -1, bd = 1e9; G.ast.forEach((a, k) => { const d = Math.hypot(a.x - x, a.y - y); if(d < 110 && d < bd){ bd = d; best = k; } }); if(best < 0) best = clamp(Math.floor(x/320), 0, 3); fire(best); });
+  G.rx = laneX(1); nextQ(); $('#dock').classList.remove('open'); stopVoice(); gLast = 0; requestAnimationFrame(gLoop); setTimeout(() => $('#quizBox').scrollIntoView({behavior:'smooth', block:'start'}), 50); }
+const laneX = k => 160 + k*320;
+function nextQ(){ G.i++; if(G.i >= G.qs.length || G.lives <= 0) return endGame(); const Q = G.qs[G.i]; G.phase = 'play'; G.t = 0;
+  G.ast = Q.o.map((o, k) => ({k, x:laneX(k), y:-90 - Math.random()*60, r:62 + Math.random()*10, rot:Math.random()*6, vr:(Math.random() - .5)*1.2, ok:o.ok, hit:0, seed:Math.random()*99}));
+  $('#gQ').innerHTML = `<small>Soal ${G.i + 1} dari ${G.qs.length}</small>${Q.q}`; $('#gFb').className = 'gfb';
+  $('#gOpts').innerHTML = Q.o.map((o, k) => `<button class="gopt" data-k="${k}" style="--c:${LC[k]}"><i>${'ABCD'[k]}</i><span>${o.t}</span></button>`).join('');
+  $$('#gOpts .gopt').forEach(b => b.onclick = () => G.phase === 'play' && fire(+b.dataset.k)); hud(); }
+function hud(){ $('#gLives').textContent = '❤️'.repeat(Math.max(0, G.lives)) + '🖤'.repeat(Math.max(0, 3 - G.lives)); $('#gScore').textContent = '⭐ ' + G.score; $('#gCombo').textContent = G.combo >= 2 ? `🔥 Combo ×${Math.min(3, G.combo)}` : ''; $('#gNum').textContent = `🌍→🌕 ${G.stage}/10`; }
+function nella(txt, mood){ const n = $('#gNella'), s = $('#gSay'); n.className = 'gnella ' + mood; void n.offsetWidth; n.classList.add('pop'); s.textContent = txt; s.classList.add('on'); clearTimeout(s._t); s._t = setTimeout(() => s.classList.remove('on'), 2600); }
+function fire(k){ if(G.phase !== 'play') return; G.lane = k; G.phase = 'aim'; G.target = k; G.aimT = 0; }
+function shoot(){ const a = G.ast[G.target]; G.shots.push({x:G.rx, y:600, tx:a.x, ty:a.y, k:G.target}); G.recoil = 1; beepShot(); G.phase = 'shot'; }
+function resolve(k){ const Q = G.qs[G.i], a = G.ast[k], ok = a.ok, rightK = G.ast.findIndex(x => x.ok);
+  boom(a.x, a.y, ok ? LC[k] : '#ef4444', ok ? 60 : 30); a.hit = ok ? 1 : 2;
+  if(ok){ G.combo++; const mult = Math.min(3, Math.max(1, G.combo)), timeBonus = LV[G.lv].v ? Math.max(0, Math.round((520 - Math.max(...G.ast.map(x => x.y)))/4)) : 20; G.score += (100 + timeBonus)*mult; G.stage++; G.warp = 1.4; nella(PRAISE[Math.floor(Math.random()*PRAISE.length)] + (mult > 1 ? ` Combo ×${mult}!` : ''), 'happy'); }
+  else { G.combo = 0; G.lives--; G.shake = .5; nella(NUDGE[Math.floor(Math.random()*NUDGE.length)], 'sad'); }
+  G.ans.push({q:Q.q, ok, right:Q.o[rightK].t, e:Q.e}); beep(ok);
+  $$('#gOpts .gopt').forEach((b, j) => { b.disabled = true; if(Q.o[j].ok) b.classList.add('ok'); else if(j === k) b.classList.add('no'); });
+  feedback(ok, Q, rightK); hud(); }
+function timeout(){ const Q = G.qs[G.i], rightK = G.ast.findIndex(x => x.ok); G.combo = 0; G.lives--; G.shake = .6; G.ast.forEach(a => { if(!a.ok) boom(a.x, a.y, '#94a3b8', 14); });
+  G.ans.push({q:Q.q, ok:false, right:Q.o[rightK].t, e:Q.e}); beep(false); nella('Waktunya habis! Asteroid menabrak perisai 😵', 'sad');
+  $$('#gOpts .gopt').forEach((b, j) => { b.disabled = true; if(Q.o[j].ok) b.classList.add('ok'); }); feedback(false, Q, rightK, true); hud(); }
+function feedback(ok, Q, rk, to){ G.phase = 'fb'; const last = G.i >= G.qs.length - 1 || G.lives <= 0;
+  $('#gFb').innerHTML = `<b>${ok ? '✅ Benar!' : to ? '⏰ Waktu habis!' : '❌ Belum tepat'}</b>${ok ? '' : `<p>Jawaban benar: <b style="color:${LC[rk]}">${'ABCD'[rk]}. ${Q.o[rk].t}</b></p>`}<p>${Q.e}</p><button class="btn ${ok ? '' : 'o'}" id="gNext">${last ? '🏁 Lihat hasil misi' : 'Lanjut ▶'} <small style="opacity:.7">(Enter)</small></button>`;
+  $('#gFb').className = 'gfb on ' + (ok ? 'ok' : 'no'); $('#gNext').onclick = () => nextQ(); setTimeout(() => { const b = $('#gNext'); if(b) b.focus({preventScroll:true}); }, 50); }
+function boom(x, y, c, n){ for(let i = 0; i < n; i++){ const a = Math.random()*Math.PI*2, s = 80 + Math.random()*380; G.parts.push({x, y, vx:Math.cos(a)*s, vy:Math.sin(a)*s, life:.6 + Math.random()*.6, c, r:3 + Math.random()*6}); } }
+function beepShot(){ try{ AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(), t = AC.currentTime; o.type = 'square'; o.frequency.setValueAtTime(900, t); o.frequency.exponentialRampToValueAtTime(200, t + .15); g.gain.setValueAtTime(.05, t); g.gain.exponentialRampToValueAtTime(.001, t + .16); o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + .17); }catch(e){} }
+document.addEventListener('keydown', e => { if(PAGE !== 'quiz' || !G || !QZ.started || /INPUT|TEXTAREA/.test(e.target.tagName)) return; const k = e.key.toLowerCase();
+  if(G.phase === 'fb' && (k === 'enter' || k === ' ')){ e.preventDefault(); nextQ(); return; } if(G.phase !== 'play') return;
+  const m = {a:0, b:1, c:2, d:3, '1':0, '2':1, '3':2, '4':3}[k]; if(m !== undefined){ fire(m); return; }
+  if(k === 'arrowleft'){ e.preventDefault(); G.lane = Math.max(0, G.lane - 1); } if(k === 'arrowright'){ e.preventDefault(); G.lane = Math.min(3, G.lane + 1); } if(k === ' ' || k === 'enter'){ e.preventDefault(); fire(G.lane); } });
+let gLast = 0;
+function gLoop(now){ if(!G || !QZ.started){ return; } const dt = Math.min(.05, (now - (gLast || now))/1000); gLast = now; if(PAGE === 'quiz'){ gStep(dt); gDraw($('#gc').getContext('2d')); } requestAnimationFrame(gLoop); }
+function gStep(dt){ G.t += dt; G.shake = Math.max(0, G.shake - dt); G.recoil = Math.max(0, G.recoil - dt*4); G.warp = Math.max(0, G.warp - dt);
+  const tx = laneX(G.lane); G.rx += (tx - G.rx)*Math.min(1, dt*9);
+  if(G.phase === 'aim'){ G.aimT += dt; if(Math.abs(G.rx - tx) < 8 || G.aimT > .35) shoot(); }
+  const L = LV[G.lv];
+  G.ast.forEach(a => { a.rot += a.vr*dt; if(a.hit) return; if(G.phase === 'play' || G.phase === 'aim' || G.phase === 'shot'){ if(a.y < 170) a.y += 260*dt; else if(L.v) a.y += L.v*dt; else a.y = Math.min(a.y + 30*dt, L.stop); } });
+  if(G.phase === 'play' && L.v && G.ast.some(a => a.y > 520)) timeout();
+  G.shots.forEach(s => { const d = Math.hypot(s.tx - s.x, s.ty - s.y), sp = 1900*dt; if(d <= sp){ s.done = true; resolve(s.k); } else { s.x += (s.tx - s.x)/d*sp; s.y += (s.ty - s.y)/d*sp; } }); G.shots = G.shots.filter(s => !s.done);
+  G.parts.forEach(p => { p.x += p.vx*dt; p.y += p.vy*dt; p.vx *= .96; p.vy *= .96; p.life -= dt; }); G.parts = G.parts.filter(p => p.life > 0);
+  const sp = 40 + G.warp*900; G.stars.forEach(s => { s.y += sp*s.z*dt; if(s.y > 720){ s.y = 0; s.x = Math.random()*1280; } }); }
+function gDraw(g){ g.save(); if(G.shake) g.translate(Math.sin(G.t*80)*G.shake*16, 0);
+  const k = G.stage/10, gr = g.createLinearGradient(0, 0, 0, 720); gr.addColorStop(0, '#020617'); gr.addColorStop(1, `rgb(${Math.round(30 - 22*k)},${Math.round(58 - 44*k)},${Math.round(138 - 100*k)})`); g.fillStyle = gr; g.fillRect(-20, 0, 1320, 720);
+  G.stars.forEach(s => { g.fillStyle = `rgba(255,255,255,${.35 + s.z*.4})`; g.fillRect(s.x, s.y, s.z*2.2, s.z*2.2 + G.warp*s.z*16); });
+  // Bulan mendekat, Bumi menjauh
+  { const mr = 36 + k*170, my = 30 - mr*.25 + k*20; g.globalAlpha = .9; g.fillStyle = '#e2e8f0'; g.beginPath(); g.arc(640, my, mr, 0, 7); g.fill(); g.fillStyle = 'rgba(148,163,184,.6)'; [[-.3, -.2, .18], [.25, .1, .12], [-.05, .35, .1]].forEach(([dx, dy, rr2]) => { g.beginPath(); g.arc(640 + dx*mr, my + dy*mr, rr2*mr, 0, 7); g.fill(); }); g.globalAlpha = 1; }
+  const er = 340 - k*300; if(er > 10){ g.fillStyle = '#1d4ed8'; g.beginPath(); g.arc(640, 720 + er*.55 + k*200, er, 0, 7); g.fill(); g.fillStyle = '#16a34a'; g.beginPath(); g.ellipse(560, 720 + er*.55 + k*200 - er*.6, er*.3, er*.18, .3, 0, 7); g.fill(); }
+  // lajur
+  for(let i = 0; i < 4; i++){ g.strokeStyle = 'rgba(255,255,255,.05)'; g.lineWidth = 2; g.setLineDash([10, 14]); g.beginPath(); g.moveTo(laneX(i), 0); g.lineTo(laneX(i), 560); g.stroke(); g.setLineDash([]); }
+  if(LV[G.lv].v){ g.strokeStyle = 'rgba(239,68,68,.45)'; g.lineWidth = 3; g.setLineDash([14, 10]); g.beginPath(); g.moveTo(0, 520); g.lineTo(1280, 520); g.stroke(); g.setLineDash([]); txt(g, 'batas perisai', 70, 506, 15, 'rgba(252,165,165,.9)'); }
+  // asteroid
+  G.ast.forEach(a => { if(a.hit) return; g.save(); g.translate(a.x, a.y); g.rotate(a.rot); g.fillStyle = '#78716c'; g.beginPath(); for(let i = 0; i < 12; i++){ const an = i/12*Math.PI*2, rr2 = a.r*(.82 + .18*Math.sin(a.seed + i*2.3)); i ? g.lineTo(Math.cos(an)*rr2, Math.sin(an)*rr2) : g.moveTo(Math.cos(an)*rr2, Math.sin(an)*rr2); } g.closePath(); g.fill();
+    g.fillStyle = '#57534e'; [[.3, -.2, .2], [-.35, .25, .16], [.1, .4, .12]].forEach(([x, y, r]) => { g.beginPath(); g.arc(x*a.r, y*a.r, r*a.r, 0, 7); g.fill(); }); g.restore();
+    g.fillStyle = LC[a.k]; g.beginPath(); g.arc(a.x, a.y, 30, 0, 7); g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 4; g.stroke(); txt(g, 'ABCD'[a.k], a.x, a.y + 1, 34, '#fff');
+    if(G.lane === a.k && (G.phase === 'play' || G.phase === 'aim')){ g.strokeStyle = LC[a.k]; g.lineWidth = 3; g.setLineDash([8, 8]); g.beginPath(); g.arc(a.x, a.y, a.r + 14 + Math.sin(G.t*6)*4, 0, 7); g.stroke(); g.setLineDash([]); } });
+  G.shots.forEach(s => { g.strokeStyle = '#fde047'; g.lineWidth = 8; g.lineCap = 'round'; g.beginPath(); g.moveTo(s.x, s.y); g.lineTo(s.x - (s.tx - s.x)*.04, s.y + 40); g.stroke(); g.fillStyle = '#fff'; g.beginPath(); g.arc(s.x, s.y, 7, 0, 7); g.fill(); });
+  G.parts.forEach(p => { g.globalAlpha = Math.min(1, p.life*1.5); g.fillStyle = p.c; g.beginPath(); g.arc(p.x, p.y, p.r, 0, 7); g.fill(); }); g.globalAlpha = 1;
+  // roket pemain (mundur saat menembak = aksi-reaksi)
+  const ry = 640 + G.recoil*26 - G.warp*30, rx = G.rx; g.save(); g.translate(rx, ry);
+  const fl = 30 + Math.random()*16 + G.warp*40; g.fillStyle = '#f97316'; g.beginPath(); g.moveTo(-16, 40); g.quadraticCurveTo(0, 40 + fl*1.6, 16, 40); g.fill(); g.fillStyle = '#fde047'; g.beginPath(); g.moveTo(-9, 40); g.quadraticCurveTo(0, 40 + fl, 9, 40); g.fill();
+  rr(g, -24, -50, 48, 92, 20, '#f8fafc', '#94a3b8', 3); g.fillStyle = '#ef4444'; g.beginPath(); g.moveTo(-24, -34); g.quadraticCurveTo(0, -100, 24, -34); g.fill();
+  g.beginPath(); g.moveTo(-24, 14); g.lineTo(-48, 46); g.lineTo(-24, 34); g.fill(); g.beginPath(); g.moveTo(24, 14); g.lineTo(48, 46); g.lineTo(24, 34); g.fill(); g.fillStyle = '#38bdf8'; g.beginPath(); g.arc(0, -16, 11, 0, 7); g.fill(); g.restore();
+  if(G.recoil > .5 && G.i === 0) pill(g, 'aksi–reaksi: roket terdorong mundur!', rx, 560, '#f59e0b', '#3b2300', 18);
+  // bar ketinggian
+  rr(g, 1236, 150, 20, 420, 10, 'rgba(255,255,255,.12)'); rr(g, 1236, 150 + 420*(1 - k), 20, 420*k, 10, '#2dd4bf'); txt(g, '🌕', 1246, 128, 26); txt(g, '🌍', 1246, 596, 26);
+  if(LV[G.lv].v && G.phase === 'play'){ const y = Math.max(...G.ast.map(a => a.y)), left = Math.max(0, (520 - y)/LV[G.lv].v); txt(g, `⏱ ${Math.ceil(left)} s`, 80, 40, 26, left < 5 ? '#f87171' : '#fff'); }
+  g.restore(); }
+function endGame(){ G.phase = 'end'; QZ.started = false; const n = G.qs.length, benar = G.ans.filter(a => a.ok).length, win = G.lives > 0 && G.i >= n, best = ls.get('best', null); if(best === null || G.score > best) ls.set('best', G.score); updBest();
+  const st = benar >= 9 ? 3 : benar >= 7 ? 2 : benar >= 5 ? 1 : 0, rec = best === null || G.score > best;
+  const msg = win ? (st === 3 ? 'Misi sukses besar! Roketmu mendarat mulus di Bulan. Bu Nella bangga sekali! 🥰' : 'Misi berhasil! Roket sampai di Bulan. Pelajari lagi soal yang salah, ya!') : 'Perisai roket habis sebelum sampai Bulan. Jangan menyerah — coba lagi simulasinya, lalu ulangi misinya! 💪';
+  $('#quizBox').innerHTML = `<div class="res"><div class="fig waving" style="max-width:200px;margin:0 auto"><img class="body" src="${$('#heroFig .body').src}" alt=""><img class="hand" src="${$('#heroFig .hand').src}" alt=""></div>
+    <h2 style="font-size:30px;margin:6px 0">${win ? '🌕 Misi sukses!' : '💥 Misi gagal'}</h2><div class="stars">${'⭐'.repeat(st)}${'☆'.repeat(3 - st)}</div><div class="sc">${G.score}</div><p style="font-weight:900;font-size:17px;margin:4px 0">poin · ${benar} dari ${G.ans.length} jawaban benar${rec ? ' · 🏆 Rekor baru!' : ''}</p>
+    <p style="font-weight:700;color:var(--mut);margin:6px auto;max-width:560px">${msg}</p>
+    <div class="row" style="justify-content:center;margin-top:14px"><button class="btn o" id="qAgain">🔁 Main lagi</button><button class="btn g" id="qMenu">🎚️ Ganti level</button><button class="btn g" data-go="h1">🔬 Kembali ke simulasi</button></div>
+    <div class="rv">${G.ans.map((a, i) => `<div style="border-color:${a.ok ? 'var(--grn)' : 'var(--red)'}"><b>${a.ok ? '✅' : '❌'} ${i + 1}. ${a.q}</b>Jawaban benar: <b style="display:inline">${a.right}</b><br><span style="color:var(--mut)">${a.e}</span></div>`).join('')}</div></div>`;
+  $('#qAgain').onclick = startQuiz; $('#qMenu').onclick = quizIntro; if(win && st >= 2) confetti(); }
+const PRAISE = ['Hebat! 🎉', 'Tepat sekali! 👏', 'Luar biasa! 🌟', 'Pintar! 💯', 'Mantap! 🔥'], NUDGE = ['Belum tepat, tidak apa-apa! 💪', 'Hampir! Yuk baca pembahasannya 📘', 'Ayo, pasti bisa di soal berikutnya 🙂'];
+function updBest(){ const b = ls.get('best', null); $('#bestTag').textContent = 'Rekor game: ' + (b === null ? '–' : b + ' poin'); } updBest();
 let AC = null; function beep(ok){ try{ AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(); o.type = 'sine'; const t = AC.currentTime;
   (ok ? [660, 880] : [300, 220]).forEach((f, i) => o.frequency.setValueAtTime(f, t + i*.12)); g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + .3); o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + .32); }catch(e){} }
 function confetti(){ const c = document.createElement('canvas'); c.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50'; document.body.appendChild(c); c.width = innerWidth; c.height = innerHeight; const g = c.getContext('2d');
