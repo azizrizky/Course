@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Persilangan Mendel — Simulasi & Game IPA Kelas IX</title>
+<meta name="description" content="Simulasi interaktif pewarisan sifat: istilah genetika, persilangan monohibrid, intermediet, dihibrid, dan game kuis. IPA Kelas IX Kurikulum Merdeka Bab 6.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🧬%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d1a33;--card:#152a55;--card2:#1c3569;--line:rgba(148,178,230,.18);--ink:#eef4ff;--mut:#a9bbdf;--acc:#a855f7;--acc2:#f59e0b;--teal:#14b8a6;--pink:#ec4899;--red:#ef4444;--grn:#22c55e;--sh:0 14px 34px rgba(0,0,0,.35)}
+[data-theme=light]{--bg:#f6f3ff;--card:#ffffff;--card2:#f3f0ff;--line:rgba(60,40,120,.14);--ink:#1e1b4b;--mut:#5f5b86;--sh:0 12px 28px rgba(40,20,90,.12)}
+*{box-sizing:border-box}html,body{margin:0}
+body{font-family:'Nunito',system-ui,sans-serif;color:var(--ink);background:radial-gradient(1100px 650px at 90% -10%,rgba(168,85,247,.2),transparent 60%),radial-gradient(900px 600px at -10% 110%,rgba(20,184,166,.15),transparent 60%),var(--bg);min-height:100vh;-webkit-font-smoothing:antialiased}
+button,select,input{font:inherit;color:inherit}h1,h2,h3{font-family:'Baloo 2','Nunito',sans-serif;margin:0;line-height:1.1}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px clamp(10px,2vw,22px);background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}.brand .lg{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,var(--acc),var(--pink));box-shadow:0 6px 14px rgba(168,85,247,.35)}
+.brand b{font-family:'Baloo 2';font-size:19px;white-space:nowrap}.brand small{display:block;color:var(--mut);font-weight:800;font-size:11.5px;letter-spacing:.04em}
+.tabs{display:flex;gap:6px;margin-left:auto;overflow-x:auto;scrollbar-width:none;padding:2px}.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:8px 14px;font-weight:900;font-size:14px;cursor:pointer;transition:.15s;white-space:nowrap}
+.tabs button:hover{transform:translateY(-1px);border-color:var(--acc)}.tabs button.on{background:var(--acc);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(168,85,247,.4)}
+.ib{width:40px;height:40px;flex:none;border-radius:12px;border:1px solid var(--line);background:var(--card);cursor:pointer;font-size:18px}
+main{padding:clamp(12px,2vw,24px);padding-bottom:120px;max-width:1400px;margin:0 auto}
+.page{display:none;animation:pin .45s cubic-bezier(.2,1,.3,1)}.page.on{display:block}@keyframes pin{from{opacity:0;transform:translateY(14px)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--sh);padding:clamp(14px,2vw,22px)}
+.btn{border:none;border-radius:14px;padding:11px 17px;font-weight:900;font-size:15px;cursor:pointer;background:var(--acc);color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.25);transition:.12s;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{transform:translateY(-2px)}.btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.25)}
+.btn.o{background:var(--acc2);color:#3b2300}.btn.t{background:var(--teal);color:#042f2e}.btn.p{background:var(--pink)}.btn.g{background:var(--card2);color:var(--ink);border:1px solid var(--line)}.btn.sm{padding:7px 12px;font-size:13.5px;border-radius:11px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--mut);font-weight:700}
+/* guru */
+.guru{width:100%;height:auto;display:block;overflow:visible}
+.guru .g-arm{transform-box:view-box;transform-origin:300px 392px;animation:armIdle 4s ease-in-out infinite}
+.guru.wave .g-arm{animation:wave 1s ease-in-out infinite}
+.guru .g-eyes{transform-box:view-box;transform-origin:210px 214px;animation:blink 4.5s infinite}
+.guru .g-talk{display:none}.guru.talk .g-smile{display:none}.guru.talk .g-talk{display:block;transform-box:fill-box;transform-origin:center;animation:mouth .22s ease-in-out infinite alternate}
+.figw{animation:breathe 4.5s ease-in-out infinite;transform-origin:50% 100%}
+@keyframes armIdle{0%,100%{transform:rotate(0)}50%{transform:rotate(-4deg)}}@keyframes wave{0%,100%{transform:rotate(4deg)}25%{transform:rotate(-12deg)}50%{transform:rotate(5deg)}75%{transform:rotate(-8deg)}}
+@keyframes blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.1)}}@keyframes mouth{from{transform:scaleY(.35)}to{transform:scaleY(1)}}@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.012) rotate(-.5deg)}}
+/* beranda */
+.hero{display:grid;grid-template-columns:minmax(240px,380px) 1fr;gap:clamp(14px,3vw,40px);align-items:center;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:30px;padding:clamp(16px,3vw,34px);box-shadow:var(--sh);overflow:hidden}
+.kick{display:inline-block;background:var(--acc2);color:#3b2300;font-weight:900;font-size:12.5px;letter-spacing:.08em;padding:5px 12px;border-radius:999px}
+.hero h1{font-size:clamp(30px,4.4vw,52px);margin:10px 0 8px}.hero h1 em{font-style:normal;background:linear-gradient(90deg,var(--acc),var(--pink),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.bubble{position:relative;background:var(--card2);border:1px solid var(--line);border-radius:22px;padding:14px 18px;font-weight:700;font-size:16.5px;line-height:1.55;margin:10px 0 16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:20px}
+.lc{border:1px solid var(--line);border-radius:24px;padding:18px;background:var(--card);box-shadow:var(--sh);cursor:pointer;transition:.18s;position:relative;overflow:hidden}
+.lc:hover{transform:translateY(-4px);border-color:var(--c)}.lc .e{font-size:38px}.lc h3{font-size:21px;margin:8px 0 4px}.lc p{margin:0;color:var(--mut);font-weight:700;font-size:14px;line-height:1.45}
+.lc .f{display:inline-block;margin-top:10px;padding:4px 10px;border-radius:10px;background:color-mix(in srgb,var(--c) 22%,transparent);color:var(--c);font-weight:900;font-size:13px}
+.lc:after{content:'';position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:var(--c);opacity:.13}
+/* istilah */
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:12px}
+.term{border:1px solid var(--line);background:var(--card2);border-radius:18px;padding:14px;cursor:pointer;transition:.15s;text-align:left}.term:hover{transform:translateY(-3px);border-color:var(--acc)}
+.term b{display:block;font-size:17px}.term small{color:var(--mut);font-weight:800}.term .e{font-size:26px}
+.zoom{display:grid;grid-template-columns:1fr 330px;gap:16px;align-items:center}
+.zsvg{background:var(--card2);border-radius:20px;border:1px solid var(--line);aspect-ratio:16/10;display:grid;place-items:center;overflow:hidden}.zsvg svg{width:100%;height:100%}
+.steps{display:flex;gap:6px;flex-wrap:wrap}.steps button{border:1px solid var(--line);background:var(--card2);border-radius:12px;padding:7px 11px;font-weight:900;cursor:pointer}.steps button.on{background:var(--teal);color:#042f2e;border-color:transparent}
+/* simulasi */
+.lab{display:grid;grid-template-columns:330px 1fr;gap:16px;align-items:start}
+.side{display:flex;flex-direction:column;gap:12px;position:sticky;top:76px}
+.ctlt{font-weight:900;font-size:12.5px;letter-spacing:.07em;color:var(--mut);text-transform:uppercase;margin:2px 0 6px}
+.seg{display:flex;flex-wrap:wrap;gap:5px}.seg button{border:1px solid var(--line);background:var(--card2);border-radius:11px;padding:7px 10px;font-weight:900;font-size:13.5px;cursor:pointer}.seg button.on{background:var(--acc);color:#fff;border-color:transparent}
+.parents{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+.par{background:var(--card2);border:1px solid var(--line);border-radius:22px;padding:12px;text-align:center}
+.par .vis{height:120px;display:grid;place-items:center}.par .vis svg{height:100%}
+.par .gt{font-family:'Baloo 2';font-size:30px;letter-spacing:.04em}.par .ph{font-weight:800;color:var(--mut)}
+.x{font-size:38px;font-weight:900;color:var(--pink)}
+.gam{display:flex;gap:8px;justify-content:center;margin-top:8px;flex-wrap:wrap}.gam span{min-width:40px;height:40px;padding:0 8px;border-radius:20px;display:grid;place-items:center;font-weight:900;font-family:'Baloo 2';font-size:19px;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#422006;box-shadow:0 3px 8px rgba(0,0,0,.25)}
+.punnett{display:grid;gap:6px;margin:14px auto 0;width:max-content;max-width:100%}
+.punnett .h{display:grid;place-items:center;font-weight:900;font-family:'Baloo 2';font-size:20px;border-radius:14px;background:linear-gradient(135deg,#fde68a,#fbbf24);color:#422006;min-height:44px;padding:4px}
+.punnett .c{background:var(--card2);border:2px solid var(--line);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px;min-width:94px;min-height:104px;opacity:0;transform:scale(.6);transition:.35s cubic-bezier(.2,1.4,.4,1)}
+.punnett .c.in{opacity:1;transform:none}.punnett .c b{font-family:'Baloo 2';font-size:20px}.punnett .c svg{height:56px}.punnett .c small{font-weight:800;color:var(--mut);font-size:11.5px}
+.punnett .c.hl{border-color:var(--acc2);box-shadow:0 0 0 3px rgba(245,158,11,.35)}.punnett .c.dim{opacity:.28}
+.punnett.d4 .c{min-width:74px;min-height:86px;padding:4px}.punnett.d4 .c svg{height:40px}.punnett.d4 .c b{font-size:15px}.punnett.d4 .h{font-size:16px}
+.ratios{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.rbox{background:var(--card2);border:1px solid var(--line);border-radius:18px;padding:12px}.rbox h3{font-size:17px;margin-bottom:6px}
+.rbar{display:grid;grid-template-columns:130px 1fr 58px;gap:8px;align-items:center;font-weight:800;font-size:14px;margin:5px 0;cursor:pointer}
+.rbar i{display:block;height:16px;border-radius:9px;background:var(--c);width:0;transition:width .6s}
+.rbar .tr{background:rgba(127,127,127,.18);border-radius:9px}
+.rat{font-family:'Baloo 2';font-size:24px;text-align:center;margin-top:4px;color:var(--acc2)}
+.tip{font-size:14px;color:var(--mut);font-weight:700;line-height:1.5;margin:0}
+details.ex{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:8px 12px}details.ex summary{cursor:pointer;font-weight:900}details.ex div{font-weight:700;font-size:14px;line-height:1.55;margin-top:6px}
+.garden{display:flex;flex-wrap:wrap;gap:2px;margin-top:8px;max-height:220px;overflow:auto;padding:6px;border-radius:14px;background:color-mix(in srgb,#22c55e 10%,var(--card2))}.garden span{width:18px;height:22px;display:grid;place-items:center}.garden svg{width:18px;height:22px}
+.ctl{display:grid;grid-template-columns:auto 1fr 74px;gap:8px;align-items:center;font-weight:800;font-size:13.5px}.ctl input[type=range]{width:100%;accent-color:var(--acc)}.ctl input[type=number]{width:100%;padding:5px 6px;border-radius:9px;border:1px solid var(--line);background:var(--card2);font-weight:900;text-align:right}
+.pop{position:fixed;inset:0;z-index:60;background:rgba(5,10,25,.55);backdrop-filter:blur(4px);display:none;place-items:center;padding:16px}.pop.on{display:grid;animation:pin .25s}
+.popc{background:var(--card);border:1px solid var(--line);border-radius:26px;max-width:560px;width:100%;padding:20px;box-shadow:var(--sh);max-height:88vh;overflow:auto}.popc h3{font-size:26px;margin-bottom:6px}.popc p,.popc li{font-weight:700;line-height:1.55}.popc .ill{display:grid;place-items:center;background:var(--card2);border-radius:18px;padding:10px;margin:8px 0}.popc .ill svg{max-height:150px;width:100%}
+/* dock guru */
+.dock{position:fixed;left:14px;bottom:14px;z-index:30;display:flex;align-items:flex-end;gap:10px;max-width:min(560px,calc(100vw - 28px));pointer-events:none}.dock>*{pointer-events:auto}
+.dava{width:84px;height:84px;flex:none;border-radius:50%;border:3px solid var(--acc2);background:linear-gradient(135deg,#ede9fe,#c4b5fd);box-shadow:0 10px 22px rgba(0,0,0,.35);cursor:pointer;padding:0;overflow:hidden;position:relative}
+.dava svg{width:150%;margin:-6% 0 0 -25%}
+.dbub{background:var(--card);border:1px solid var(--line);border-radius:20px 20px 20px 6px;padding:12px 14px;box-shadow:var(--sh);font-weight:700;font-size:14.5px;line-height:1.5;display:none;animation:pin .3s}
+.dock.open .dbub{display:block}.dbub .h{display:flex;align-items:center;gap:6px;margin-bottom:4px}.dbub .h b{color:var(--acc2);margin-right:auto}
+.dbub .h button{border:1px solid var(--line);background:var(--card2);border-radius:9px;padding:3px 8px;font-weight:900;cursor:pointer;font-size:13px}
+.toast{position:fixed;left:50%;top:76px;transform:translateX(-50%) translateY(-20px);opacity:0;z-index:70;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px 16px;font-weight:900;box-shadow:var(--sh);transition:.35s;pointer-events:none}.toast.on{opacity:1;transform:translateX(-50%)}
+/* game */
+.qwrap{max-width:1200px;margin:0 auto}
+.gintro{display:grid;grid-template-columns:240px 1fr;gap:24px;align-items:center}
+.gp{font-weight:700;font-size:16px;line-height:1.55;margin:0 0 10px}.gk{margin:0 0 12px;padding-left:20px;font-weight:700;color:var(--mut);line-height:1.7}.gk kbd{background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-weight:900;color:var(--ink)}
+.glv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.glv button{border:2px solid var(--line);background:var(--card2);border-radius:16px;padding:10px;cursor:pointer;text-align:center}.glv button b{display:block;font-size:16px}.glv button small{color:var(--mut);font-weight:800}.glv button.on{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 18%,var(--card2))}
+.ghud{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-weight:900;font-size:18px;margin-bottom:6px}.ghud #gScore{color:var(--acc2)}.ghud #gCombo{color:#fb923c}.ghud .gq{margin-left:auto;color:var(--mut);font-size:15px}
+.gq-t{font-size:clamp(17px,2vw,22px);font-weight:900;line-height:1.4;margin:4px 0 10px}.gq-t small{display:block;font-size:12.5px;color:var(--mut);letter-spacing:.05em}
+.gstage{max-width:max(340px,calc((100vh - 300px)*16/9));margin:0 auto;position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--line);box-shadow:var(--sh)}.gstage canvas{display:block;width:100%;aspect-ratio:16/9;touch-action:manipulation;cursor:pointer}
+.gfb{position:absolute;left:50%;top:50%;transform:translate(-50%,-40%) scale(.9);opacity:0;pointer-events:none;width:min(560px,92%);background:var(--card);border:2px solid var(--line);border-radius:22px;padding:16px 18px;box-shadow:0 20px 50px rgba(0,0,0,.5);font-weight:700;line-height:1.5;transition:.3s;max-height:90%;overflow:auto}
+.gfb.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%)}.gfb.ok{border-color:var(--grn)}.gfb.no{border-color:var(--red)}.gfb>b{font-size:22px;display:block}.gfb p{margin:6px 0}
+.gguru{position:absolute;left:8px;bottom:0;width:96px}.gsay{position:absolute;left:104px;bottom:40px;background:#fff;color:#1e1b4b;font-weight:900;padding:8px 12px;border-radius:14px 14px 14px 4px;opacity:0;transform:translateY(8px);transition:.25s;max-width:60%}.gsay.on{opacity:1;transform:none}
+.gguru.happy{animation:hop .7s}.gguru.sad{animation:shake .5s}@keyframes hop{40%{transform:translateY(-12px)}}@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.gopts{max-width:max(340px,calc((100vh - 300px)*16/9));margin:10px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.gopt{display:flex;gap:10px;align-items:center;text-align:left;border:2px solid color-mix(in srgb,var(--c) 55%,transparent);background:color-mix(in srgb,var(--c) 12%,var(--card2));border-radius:16px;padding:9px 12px;font-weight:800;font-size:15px;cursor:pointer;transition:.15s}
+.gopt:hover{transform:translateY(-2px)}.gopt i{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-weight:900;background:var(--c);color:#fff}
+.gopt.ok{border-color:var(--grn);background:color-mix(in srgb,var(--grn) 25%,var(--card2))}.gopt.no{border-color:var(--red);background:color-mix(in srgb,var(--red) 22%,var(--card2))}.gopt[disabled]{cursor:default;transform:none}
+.res{text-align:center}.res .stars{font-size:50px;letter-spacing:6px;margin:6px 0}.res .sc{font-family:'Baloo 2';font-size:60px;line-height:1;background:linear-gradient(90deg,var(--acc),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.rv{text-align:left;margin-top:16px;display:grid;gap:8px}.rv div{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--card2);font-weight:700;font-size:14px;line-height:1.45}.rv div b{display:block}
+footer{text-align:center;color:var(--mut);font-weight:700;font-size:13px;margin-top:26px}
+@media (max-width:1050px){.lab{grid-template-columns:1fr}.side{position:static}.hero{grid-template-columns:1fr}.hero .figw{max-width:280px;margin:0 auto}.zoom{grid-template-columns:1fr}}
+@media (max-width:640px){.brand small{display:none}.top{flex-wrap:wrap}.tabs{order:3;width:100%;margin-left:0}.ratios{grid-template-columns:1fr}.parents{grid-template-columns:1fr auto 1fr;gap:6px}.par .vis{height:90px}.par .gt{font-size:24px}
+  .punnett .c{min-width:62px;min-height:80px}.punnett .c svg{height:40px}.punnett.d4 .c{min-width:0;min-height:62px;padding:2px}.punnett.d4 .c svg{height:26px}.punnett.d4 .c b{font-size:11px}.punnett.d4 .c small{display:none}.punnett.d4{gap:3px}.punnett.d4 .h{font-size:12px;min-height:30px}
+  .gintro{grid-template-columns:1fr}.glv{grid-template-columns:1fr}.gopts{grid-template-columns:1fr}.dava{width:62px;height:62px}.gguru{width:62px}.gsay{left:66px;bottom:16px;font-size:12px}.rbar{grid-template-columns:100px 1fr 50px;font-size:12.5px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="lg">🧬</div><div><b>Persilangan Mendel</b><small>IPA KELAS IX · BAB 6 PEWARISAN SIFAT</small></div></div>
+  <nav class="tabs" id="tabs"><button data-p="home" class="on">🏠 Mulai</button><button data-p="gen">🧬 Gen & Istilah</button><button data-p="mono">🌸 Monohibrid</button><button data-p="di">🟡 Dihibrid</button><button data-p="game">🎮 Game Kuis</button></nav>
+  <button class="ib" id="theme" title="Tema terang/gelap">🌙</button>
+</header>
+<main>
+<!-- ================= MULAI ================= -->
+<section class="page on" id="p-home">
+  <div class="hero">
+    <div class="figw" id="heroFig"></div>
+    <div>
+      <span class="kick">IPA KELAS IX · PEWARISAN SIFAT DAN BIOTEKNOLOGI</span>
+      <h1>Ayo jadi <em>ahli genetika</em> cilik!</h1>
+      <div class="bubble" id="heroTxt"></div>
+      <div class="row"><button class="btn o" id="heroPlay">🔊 Dengarkan Bu Guru</button><button class="btn t" data-go="gen">🧬 Mulai belajar</button><button class="btn p" data-go="game">🎮 Main game kuis</button></div>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="lc" style="--c:#14b8a6" data-go="gen"><div class="e">🧬</div><h3>Gen & Istilah</h3><p>Dari sel ke kromosom, DNA, dan gen. Kenali alel, genotipe, fenotipe, dominan, dan resesif.</p><span class="f">Kromosom → DNA → gen</span></div>
+    <div class="lc" style="--c:#a855f7" data-go="mono"><div class="e">🌸</div><h3>Persilangan Monohibrid</h3><p>Silangkan ercis ungu × putih, tinggi × pendek, atau bunga merah × putih (intermediet).</p><span class="f">F2 = 3 : 1 (Hukum Mendel I)</span></div>
+    <div class="lc" style="--c:#f59e0b" data-go="di"><div class="e">🟡</div><h3>Persilangan Dihibrid</h3><p>Dua sifat sekaligus: biji bulat/keriput dan kuning/hijau dalam papan Punnett 4 × 4.</p><span class="f">F2 = 9 : 3 : 3 : 1 (Hukum Mendel II)</span></div>
+    <div class="lc" style="--c:#ec4899" data-go="game"><div class="e">🎮</div><h3>Game: Kebun Mendel</h3><p>Terbangkan lebah ke bunga berjawaban benar dan buat kebunmu mekar! 10 soal, 3 nyawa, combo.</p><span class="f" id="bestTag">Rekor: –</span></div>
+  </div>
+  <footer>Media pembelajaran IPA Kelas IX · Kurikulum Merdeka · Bab 6 Pewarisan Sifat dan Bioteknologi</footer>
+</section>
+
+<!-- ================= GEN & ISTILAH ================= -->
+<section class="page" id="p-gen">
+  <div class="card zoom">
+    <div class="zsvg" id="zsvg"></div>
+    <div><h2 style="font-size:28px">Dari sel sampai gen</h2><p class="muted" style="margin:6px 0 10px">Ketuk tahap di bawah untuk “memperbesar” materi genetik.</p>
+      <div class="steps" id="zsteps"></div><p class="tip" id="ztxt" style="margin-top:12px;font-size:15.5px;color:var(--ink)"></p></div>
+  </div>
+  <h2 style="font-size:26px;margin:22px 0 10px">📖 Kamus istilah genetika <small class="muted" style="font-size:14px;font-family:Nunito">— ketuk kartu untuk penjelasan & contoh</small></h2>
+  <div class="gl" id="gloss"></div>
+  <div class="card" style="margin-top:18px"><h2 style="font-size:24px">🧑‍🔬 Gregor Mendel & dua hukumnya</h2>
+    <div class="ratios"><div class="rbox"><h3>Hukum Mendel I — Segregasi</h3><p class="tip">Saat pembentukan gamet, pasangan alel <b>memisah secara bebas</b> sehingga setiap gamet hanya membawa <b>satu alel</b>. Contoh: Uu → gamet U dan u.</p></div>
+      <div class="rbox"><h3>Hukum Mendel II — Asortasi bebas</h3><p class="tip">Alel dari gen yang berbeda <b>berpasangan secara bebas</b> saat pembentukan gamet. Contoh: BbKk → gamet BK, Bk, bK, bk.</p></div></div>
+    <p class="tip" style="margin-top:10px">Gregor Johann Mendel (1822–1884), biarawan Austria, melakukan percobaan pada tanaman kacang ercis (<i>Pisum sativum</i>) karena mudah ditanam, cepat berbuah, punya sifat beda yang jelas, dan dapat menyerbuk sendiri.</p></div>
+</section>
+
+<!-- ================= MONOHIBRID ================= -->
+<section class="page" id="p-mono">
+  <div class="lab">
+    <div class="side">
+      <div class="card"><div class="ctlt">Sifat yang disilangkan</div><div class="seg" id="mTrait"></div>
+        <div class="ctlt" style="margin-top:12px">Contoh siap pakai</div><div class="seg" id="mPreset"></div>
+        <p class="tip" id="mInfo" style="margin-top:10px"></p></div>
+      <div class="card"><div class="ctlt">🎲 Uji peluang: tanam banyak keturunan</div>
+        <div class="ctl"><span>Jumlah</span><input type="range" id="nKid" min="4" max="400" step="4" value="100"><input type="number" id="nKidN" min="4" max="400" step="4" value="100"></div>
+        <div class="row" style="margin-top:8px"><button class="btn sm t" id="plant">🌱 Tanam acak</button></div>
+        <div id="gardenOut"></div></div>
+      <details class="ex"><summary>💡 Langkah menyelesaikan soal persilangan</summary><div>1. Tulis genotipe induk (P).<br>2. Tentukan gamet (Hukum Mendel I: alel memisah).<br>3. Gabungkan gamet di papan Punnett.<br>4. Hitung rasio genotipe dan fenotipe.</div></details>
+    </div>
+    <div class="card">
+      <div class="parents"><div class="par" id="pA"></div><div class="x">×</div><div class="par" id="pB"></div></div>
+      <div class="row" style="justify-content:center;margin-top:12px"><button class="btn o" id="mCross">🔀 Silangkan!</button><button class="btn g sm" id="mF1" title="Jadikan keturunan heterozigot sebagai induk">➡️ F1 × F1</button></div>
+      <div id="mOut"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DIHIBRID ================= -->
+<section class="page" id="p-di">
+  <div class="lab">
+    <div class="side">
+      <div class="card"><div class="ctlt">Contoh siap pakai</div><div class="seg" id="dPreset"></div>
+        <p class="tip" style="margin-top:10px"><b>B</b> = bulat, <b>b</b> = keriput · <b>K</b> = kuning, <b>k</b> = hijau. Bulat dominan terhadap keriput; kuning dominan terhadap hijau.</p></div>
+      <div class="card"><div class="ctlt">Fenotipe keturunan</div><div id="dLeg" class="tip">Tekan “Silangkan!”</div><p class="tip" style="margin-top:8px">👆 Ketuk baris fenotipe untuk menyorot kotaknya di papan Punnett.</p></div>
+      <details class="ex"><summary>💡 Mengapa 9 : 3 : 3 : 1?</summary><div>BbKk × BbKk → setiap induk membentuk 4 macam gamet (BK, Bk, bK, bk) sehingga ada 4 × 4 = 16 kombinasi. Bulat-kuning 9, bulat-hijau 3, keriput-kuning 3, keriput-hijau 1. Ini bukti Hukum Mendel II (asortasi bebas).</div></details>
+    </div>
+    <div class="card">
+      <div class="parents"><div class="par" id="dA"></div><div class="x">×</div><div class="par" id="dB"></div></div>
+      <div class="row" style="justify-content:center;margin-top:12px"><button class="btn o" id="dCross">🔀 Silangkan!</button></div>
+      <div id="dOut"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section class="page" id="p-game"><div class="qwrap"><div class="card" id="gameBox"></div></div></section>
+</main>
+
+<div class="dock" id="dock"><button class="dava" id="dava" title="Bu Guru — ketuk untuk mendengarkan"></button>
+  <div class="dbub"><div class="h"><b>Bu Guru</b><button id="dPlay">▶ Dengarkan</button><button id="dMute">🔇</button><button id="dHide" title="Sembunyikan">✕</button></div><div id="dTxt"></div></div></div>
+<div class="pop" id="pop"><div class="popc" id="popc"></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+const GURU_T = `{{GURU}}`; let GN = 0;
+const guru = (cls = '') => { const n = ++GN; return GURU_T.replace(/g(Skin|Hair|Coat|Top)/g, m => m + n).replace('class="guru"', `class="guru ${cls}"`); };
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const ls = {get(k, d){ try{ const v = localStorage.getItem('mdl_' + k); return v === null ? d : JSON.parse(v); }catch(e){ return d; } }, set(k, v){ try{ localStorage.setItem('mdl_' + k, JSON.stringify(v)); }catch(e){} }};
+const toast = (m, ms = 2200) => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('on'), ms); };
+const gcd = (a, b) => b ? gcd(b, a % b) : a, clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+document.getElementById('heroFig').innerHTML = guru(); document.getElementById('dava').innerHTML = guru();
+const setTheme = t => { document.documentElement.dataset.theme = t; $('#theme').textContent = t === 'light' ? '☀️' : '🌙'; ls.set('theme', t); };
+setTheme(ls.get('theme', 'dark')); $('#theme').onclick = () => setTheme(document.documentElement.dataset.theme === 'light' ? 'dark' : 'light');
+
+/* ---------- Bu Guru: narasi ---------- */
+const LINES = {
+  home:'Halo, anak-anak! Saya Bu Guru IPA. Hari ini kita belajar pewarisan sifat. Mengapa kamu mirip ayah atau ibumu? Jawabannya ada pada gen! Ayo pilih materi, lalu uji kemampuanmu di game Kebun Mendel.',
+  gen:'Di dalam inti sel ada kromosom. Kromosom tersusun dari DNA, dan bagian DNA yang menentukan satu sifat disebut gen. Ketuk kartu istilah untuk memahami alel, genotipe, dan fenotipe.',
+  mono:'Pilih genotipe kedua induk, lalu tekan Silangkan. Perhatikan gamet yang terbentuk dan papan Punnett. Coba silangkan F1 dengan F1, hasilnya pasti tiga banding satu!',
+  di:'Sekarang dua sifat sekaligus: bentuk dan warna biji. Setiap induk heterozigot membentuk empat macam gamet, sehingga papan Punnett berisi enam belas kotak. Rasionya sembilan, tiga, tiga, satu.',
+  game:'Ayo main Kebun Mendel! Baca soalnya, lalu terbangkan lebah ke bunga yang berisi jawaban benar. Semangat!'
+};
+let AUTO = ls.get('auto', false), CUR = 'home';
+const guruEls = () => $$('svg.guru');
+const talk = on => guruEls().forEach(s => s.classList.toggle('talk', on));
+function stopVoice(){ try{ speechSynthesis.cancel(); }catch(e){} talk(false); }
+function speak(key){ stopVoice(); const text = LINES[key]; if(!text) return; try{ const u = new SpeechSynthesisUtterance(text); u.lang = 'id-ID'; u.rate = 1; u.pitch = 1.15;
+    const vs = speechSynthesis.getVoices(), v = vs.find(x => /id[-_]ID/i.test(x.lang) && /female|wanita|damayanti|gadis|ayu/i.test(x.name)) || vs.find(x => /id[-_]ID/i.test(x.lang)); if(v) u.voice = v;
+    u.onstart = () => talk(true); u.onend = u.onerror = () => talk(false); speechSynthesis.speak(u); talk(true); }catch(e){ toast('Perangkat ini belum mendukung suara.'); } }
+function say(key, open = true){ CUR = key; $('#dTxt').textContent = LINES[key]; if(open && !ls.get('hideTxt', false) && innerWidth > 700) $('#dock').classList.add('open'); if(AUTO) speak(key); }
+const updMute = () => { $('#dMute').textContent = AUTO ? '🔊' : '🔇'; $('#dMute').title = AUTO ? 'Suara otomatis: NYALA' : 'Suara otomatis: MATI'; };
+$('#dMute').onclick = () => { AUTO = !AUTO; ls.set('auto', AUTO); updMute(); AUTO ? speak(CUR) : stopVoice(); };
+$('#dPlay').onclick = () => speak(CUR); $('#dHide').onclick = () => { $('#dock').classList.remove('open'); ls.set('hideTxt', true); stopVoice(); };
+$('#dava').onclick = () => { const o = $('#dock').classList.toggle('open'); ls.set('hideTxt', !o); o ? speak(CUR) : stopVoice(); };
+$('#heroPlay').onclick = () => { CUR = 'home'; speak('home'); $('#heroFig svg').classList.add('wave'); setTimeout(() => $('#heroFig svg').classList.remove('wave'), 4000); };
+$('#heroTxt').textContent = LINES.home; $('#heroFig svg').classList.add('wave'); setTimeout(() => $('#heroFig svg').classList.remove('wave'), 3500); updMute();
+try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => {}; }catch(e){}
+
+/* ---------- navigasi ---------- */
+let PAGE = 'home';
+function go(p){ PAGE = p; $$('.page').forEach(x => x.classList.toggle('on', x.id === 'p-' + p)); $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.p === p)); stopVoice(); scrollTo({top:0, behavior:'smooth'}); ls.set('page', p);
+  say(p, p !== 'home'); if(p === 'game' && !(G && G.live)) gameIntro(); const b = $(`#tabs button[data-p="${p}"]`); if(b) b.scrollIntoView({inline:'center', block:'nearest', behavior:'smooth'}); }
+$$('#tabs button').forEach(b => b.onclick = () => go(b.dataset.p));
+document.addEventListener('click', e => { const g = e.target.closest('[data-go]'); if(g) go(g.dataset.go); });
+const popup = html => { $('#popc').innerHTML = html + '<div class="row" style="justify-content:flex-end;margin-top:12px"><button class="btn sm" id="popX">Mengerti 👍</button></div>'; $('#pop').classList.add('on'); $('#popX').onclick = () => $('#pop').classList.remove('on'); };
+$('#pop').onclick = e => { if(e.target.id === 'pop') $('#pop').classList.remove('on'); }; document.addEventListener('keydown', e => { if(e.key === 'Escape') $('#pop').classList.remove('on'); });
+
+/* ---------- gambar SVG: bunga ercis & biji ---------- */
+const COL = {ungu:'#8b5cf6', putih:'#f8fafc', merah:'#dc2626', merahmuda:'#f9a8d4'};
+function flower(color, tall = true){ const h = tall ? 120 : 64, top = 150 - h;
+  return `<svg viewBox="0 0 100 160"><path d="M50 150 L50 ${top + 14}" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/><path d="M50 ${150 - h*.45} C36 ${150 - h*.5} 28 ${150 - h*.62} 30 ${150 - h*.7} C42 ${150 - h*.66} 48 ${150 - h*.58} 50 ${150 - h*.45} Z" fill="#22c55e"/><path d="M50 ${150 - h*.3} C64 ${150 - h*.35} 72 ${150 - h*.48} 70 ${150 - h*.55} C58 ${150 - h*.5} 52 ${150 - h*.42} 50 ${150 - h*.3} Z" fill="#22c55e"/>
+    <g transform="translate(50 ${top})">${[0, 72, 144, 216, 288].map(a => `<ellipse cx="0" cy="-12" rx="9" ry="13" fill="${color}" stroke="${color === COL.putih ? '#cbd5e1' : 'rgba(0,0,0,.15)'}" stroke-width="1.5" transform="rotate(${a})"/>`).join('')}<circle r="7" fill="#fde047"/></g><rect x="30" y="148" width="40" height="10" rx="3" fill="#a16207"/></svg>`; }
+function pea(round, yellow){ const c = yellow ? '#facc15' : '#4ade80', s = yellow ? '#a16207' : '#15803d';
+  const d = round ? 'M50 14 C74 14 88 30 88 52 C88 74 72 88 50 88 C28 88 12 74 12 52 C12 30 26 14 50 14 Z' : 'M50 16 C58 12 70 22 76 18 C86 26 84 38 90 46 C86 56 90 66 82 74 C74 82 64 80 56 88 C46 84 38 90 30 82 C20 78 22 66 14 60 C18 50 10 40 18 32 C26 24 34 26 40 18 C44 16 46 18 50 16 Z';
+  return `<svg viewBox="0 0 100 100"><path d="${d}" fill="${c}" stroke="${s}" stroke-width="3"/>${round ? `<ellipse cx="38" cy="36" rx="12" ry="8" fill="#fff" opacity=".45"/>` : `<path d="M30 40 C40 46 52 38 62 46 M34 62 C46 56 56 66 68 58" stroke="${s}" stroke-width="2.5" fill="none" opacity=".7"/>`}</svg>`; }
+
+/* ---------- Gen & istilah ---------- */
+const ZS = [
+  ['🧫 Sel', 'Tubuh makhluk hidup tersusun atas sel. Di dalam sel ada <b>inti sel (nukleus)</b> yang menyimpan materi genetik.', `<svg viewBox="0 0 400 250"><ellipse cx="200" cy="125" rx="170" ry="105" fill="#fbcfe8" stroke="#ec4899" stroke-width="5"/><circle cx="210" cy="120" r="48" fill="#c4b5fd" stroke="#7c3aed" stroke-width="4"/><circle cx="222" cy="110" r="12" fill="#7c3aed"/><ellipse cx="110" cy="90" rx="22" ry="10" fill="#fca5a5"/><ellipse cx="300" cy="170" rx="24" ry="11" fill="#fca5a5"/><ellipse cx="120" cy="170" rx="16" ry="8" fill="#86efac"/><text x="210" y="195" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="18" fill="#4c1d95">inti sel</text></svg>`],
+  ['🧶 Kromosom', 'Di dalam inti terdapat <b>kromosom</b>: benang-benang pembawa sifat. Manusia memiliki <b>46 kromosom (23 pasang)</b>; separuh dari ayah, separuh dari ibu.', `<svg viewBox="0 0 400 250"><circle cx="200" cy="125" r="110" fill="#ede9fe" stroke="#7c3aed" stroke-width="5"/>${[[120, 80, 20], [170, 150, -30], [240, 90, 40], [270, 160, 10], [200, 70, -60], [150, 110, 70]].map(([x, y, r], i) => `<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-26" y="-7" width="24" height="14" rx="7" fill="${['#ef4444', '#3b82f6', '#22c55e', '#f59e0b', '#ec4899', '#14b8a6'][i]}"/><rect x="2" y="-7" width="24" height="14" rx="7" fill="${['#ef4444', '#3b82f6', '#22c55e', '#f59e0b', '#ec4899', '#14b8a6'][i]}"/><circle r="5" fill="#1e1b4b"/></g>`).join('')}</svg>`],
+  ['🧬 DNA', 'Kromosom tersusun dari <b>DNA</b> (asam deoksiribonukleat) berbentuk <b>tangga berpilin (double helix)</b>. Anak tangganya adalah pasangan basa A–T dan G–C.', `<svg viewBox="0 0 400 250">${Array.from({length:22}, (_, i) => { const x = 30 + i*16, y1 = 125 + Math.sin(i*.55)*70, y2 = 125 - Math.sin(i*.55)*70; return `<line x1="${x}" y1="${y1}" x2="${x}" y2="${y2}" stroke="${['#ef4444', '#3b82f6', '#22c55e', '#f59e0b'][i % 4]}" stroke-width="6"/>`; }).join('')}<path d="${Array.from({length:23}, (_, i) => `${i ? 'L' : 'M'}${30 + i*16} ${125 + Math.sin(i*.55)*70}`).join(' ')}" stroke="#7c3aed" stroke-width="6" fill="none"/><path d="${Array.from({length:23}, (_, i) => `${i ? 'L' : 'M'}${30 + i*16} ${125 - Math.sin(i*.55)*70}`).join(' ')}" stroke="#ec4899" stroke-width="6" fill="none"/></svg>`],
+  ['📍 Gen', '<b>Gen</b> adalah bagian DNA yang membawa informasi satu sifat, misalnya warna bunga. Letak gen pada kromosom disebut <b>lokus</b>. Gen yang berpasangan pada lokus yang sama disebut <b>alel</b>.', `<svg viewBox="0 0 400 250"><rect x="60" y="60" width="50" height="150" rx="25" fill="#c4b5fd"/><rect x="290" y="60" width="50" height="150" rx="25" fill="#c4b5fd"/><rect x="60" y="110" width="50" height="22" fill="#a855f7"/><rect x="290" y="110" width="50" height="22" fill="#f9a8d4"/><text x="85" y="127" text-anchor="middle" font-family="Baloo 2" font-weight="800" font-size="20" fill="#fff">U</text><text x="315" y="127" text-anchor="middle" font-family="Baloo 2" font-weight="800" font-size="20" fill="#831843">u</text><path d="M118 121 C180 90 220 90 282 121" stroke="#f59e0b" stroke-width="4" fill="none" stroke-dasharray="8 6"/><text x="200" y="85" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="18" fill="#f59e0b">sepasang alel (lokus sama)</text><text x="200" y="235" text-anchor="middle" font-family="Nunito" font-weight="900" font-size="16" fill="#7c3aed">kromosom homolog: dari ayah & dari ibu</text></svg>`]];
+function zoom(i){ $('#zsvg').innerHTML = ZS[i][2]; $('#ztxt').innerHTML = ZS[i][1]; $$('#zsteps button').forEach((b, j) => b.classList.toggle('on', i === j)); }
+$('#zsteps').innerHTML = ZS.map((z, i) => `<button data-z="${i}">${z[0]}</button>`).join(''); $$('#zsteps button').forEach(b => b.onclick = () => zoom(+b.dataset.z)); zoom(0);
+const TERMS = [
+  ['🧬', 'Gen', 'Faktor pembawa sifat', 'Bagian DNA pada kromosom yang menentukan satu sifat makhluk hidup.', 'Gen warna bunga, gen tinggi batang, gen golongan darah.'],
+  ['🔀', 'Alel', 'Pasangan gen pada lokus sama', 'Bentuk lain dari gen yang terletak pada lokus yang sama di kromosom homolog. Ditulis huruf besar (dominan) atau kecil (resesif).', 'Alel U (ungu) dan alel u (putih).'],
+  ['🔤', 'Genotipe', 'Susunan gen', 'Susunan gen suatu individu yang tidak tampak dari luar. Ditulis dengan pasangan huruf.', 'UU, Uu, uu.'],
+  ['👀', 'Fenotipe', 'Sifat yang tampak', 'Sifat yang dapat diamati, hasil gabungan genotipe dan pengaruh lingkungan.', 'Bunga ungu, bunga putih, batang tinggi.'],
+  ['💪', 'Dominan', 'Sifat yang menutupi', 'Sifat yang muncul dan menutupi sifat pasangannya. Ditulis huruf kapital.', 'U (ungu) dominan terhadap u (putih): Uu berbunga ungu.'],
+  ['🙈', 'Resesif', 'Sifat yang tertutupi', 'Sifat yang tertutup oleh sifat dominan dan hanya muncul jika homozigot (dua alel resesif).', 'uu berbunga putih.'],
+  ['🟰', 'Homozigot', 'Galur murni', 'Genotipe dengan pasangan alel yang sama.', 'UU (homozigot dominan), uu (homozigot resesif).'],
+  ['↔️', 'Heterozigot', 'Hibrid', 'Genotipe dengan pasangan alel berbeda.', 'Uu, Tt, BbKk.'],
+  ['🥚', 'Gamet', 'Sel kelamin', 'Sel kelamin (sel telur/sperma; ovum/serbuk sari) yang hanya membawa satu alel dari setiap pasangan gen.', 'Genotipe Uu menghasilkan gamet U dan u.'],
+  ['👪', 'P, F1, F2', 'Generasi persilangan', 'P = induk (parental), F1 = keturunan pertama (filial 1), F2 = keturunan kedua hasil F1 × F1.', 'P: UU × uu → F1: Uu → F2: UU, Uu, uu.'],
+  ['🌗', 'Intermediet', 'Dominansi tidak penuh', 'Sifat gabungan di antara kedua induk karena alel tidak saling menutupi sepenuhnya.', 'Bunga pukul empat merah (MM) × putih (mm) → Mm merah muda; F2 = 1 : 2 : 1.'],
+  ['🧪', 'Uji silang (test cross)', 'Persilangan penguji', 'Menyilangkan individu (genotipe belum diketahui) dengan induk homozigot resesif untuk mengetahui genotipenya.', 'U? × uu: jika keturunan semua ungu → UU; jika ungu : putih = 1 : 1 → Uu.']];
+$('#gloss').innerHTML = TERMS.map((t, i) => `<button class="term" data-t="${i}"><span class="e">${t[0]}</span><b>${t[1]}</b><small>${t[2]}</small></button>`).join('');
+$$('#gloss .term').forEach(b => b.onclick = () => { const t = TERMS[+b.dataset.t]; popup(`<h3>${t[0]} ${t[1]}</h3><p>${t[3]}</p><p><b>Contoh:</b> ${t[4]}</p>`); });
+
+/* ---------- MONOHIBRID ---------- */
+const TR = {
+  warna:{nm:'🌸 Warna bunga', A:'U', a:'u', dom:'Ungu', rec:'Putih', vis:g => flower(g.includes('U') ? COL.ungu : COL.putih)},
+  tinggi:{nm:'📏 Tinggi batang', A:'T', a:'t', dom:'Tinggi', rec:'Pendek', vis:g => flower(COL.ungu, g.includes('T'))},
+  biji:{nm:'🟢 Bentuk biji', A:'B', a:'b', dom:'Bulat', rec:'Keriput', vis:g => pea(g.includes('B'), true)},
+  inter:{nm:'🌗 Merah × putih (intermediet)', A:'M', a:'m', dom:'Merah', rec:'Putih', mid:'Merah muda', vis:g => flower(g === 'MM' ? COL.merah : g === 'mm' ? COL.putih : COL.merahmuda)}};
+let MT = 'warna', MA = 'UU', MB = 'uu';
+const gts = t => [t.A + t.A, t.A + t.a, t.a + t.a];
+const phen = (t, g) => t.mid ? (g === t.A + t.A ? t.dom : g === t.a + t.a ? t.rec : t.mid) : (g.includes(t.A) ? t.dom : t.rec);
+const norm = (t, g) => g.split('').sort((x, y) => (x === t.A ? 0 : 1) - (y === t.A ? 0 : 1)).join('');
+function parCard(id, which){ const t = TR[MT], g = which === 'A' ? MA : MB;
+  $('#' + id).innerHTML = `<div class="muted" style="font-size:13px">${which === 'A' ? '♀ Induk 1' : '♂ Induk 2'}</div><div class="vis">${t.vis(g)}</div><div class="gt">${g}</div><div class="ph">${phen(t, g)} · ${g[0] === g[1] ? 'homozigot' : 'heterozigot'}</div>
+    <div class="seg" style="justify-content:center;margin-top:8px">${gts(t).map(x => `<button data-g="${x}" class="${x === g ? 'on' : ''}">${x}</button>`).join('')}</div>`;
+  $$('#' + id + ' [data-g]').forEach(b => b.onclick = () => { which === 'A' ? MA = b.dataset.g : MB = b.dataset.g; renderMono(); }); }
+function renderMono(clear = true){ const t = TR[MT];
+  $('#mTrait').innerHTML = Object.entries(TR).map(([k, v]) => `<button data-k="${k}" class="${k === MT ? 'on' : ''}">${v.nm}</button>`).join('');
+  $$('#mTrait button').forEach(b => b.onclick = () => { MT = b.dataset.k; const T = TR[MT]; MA = T.A + T.A; MB = T.a + T.a; renderMono(); });
+  const pre = [['P: galur murni', t.A + t.A, t.a + t.a], ['F1 × F1', t.A + t.a, t.A + t.a], ['Uji silang', t.A + t.a, t.a + t.a]];
+  $('#mPreset').innerHTML = pre.map((p, i) => `<button data-i="${i}">${p[0]}<br><small>${p[1]} × ${p[2]}</small></button>`).join('');
+  $$('#mPreset button').forEach(b => b.onclick = () => { const p = pre[+b.dataset.i]; MA = p[1]; MB = p[2]; renderMono(); cross(); });
+  $('#mInfo').innerHTML = t.mid ? `<b>Dominansi tidak penuh (intermediet):</b> ${t.A} (merah) dan ${t.a} (putih) sama kuat, sehingga ${t.A}${t.a} berwarna <b>merah muda</b>. Contoh: bunga pukul empat (<i>Mirabilis jalapa</i>).` : `<b>${t.A}</b> = ${t.dom.toLowerCase()} (dominan) · <b>${t.a}</b> = ${t.rec.toLowerCase()} (resesif). Sifat ${t.dom.toLowerCase()} menutupi ${t.rec.toLowerCase()}.`;
+  parCard('pA', 'A'); parCard('pB', 'B'); if(clear) $('#mOut').innerHTML = '<p class="tip" style="text-align:center;margin-top:14px">Pilih genotipe induk, lalu tekan <b>Silangkan!</b></p>'; }
+function bars(list, total, cls){ return list.map(([nm, n, c, key]) => `<div class="rbar" data-key="${key || ''}" style="--c:${c}"><span>${nm}</span><span class="tr"><i style="width:0" data-w="${n/total*100}"></i></span><span>${n}/${total}</span></div>`).join(''); }
+function animateBars(root){ setTimeout(() => root.querySelectorAll('.rbar i').forEach(i => i.style.width = i.dataset.w + '%'), 60); }
+function cross(){ const t = TR[MT], ga = [...new Set(MA.split(''))], gb = [...new Set(MB.split(''))], A = MA.split(''), B = MB.split('');
+  const cells = []; B.forEach(y => A.forEach(x => cells.push(norm(t, x + y))));
+  const gCount = {}, pCount = {}; cells.forEach(g => { gCount[g] = (gCount[g] || 0) + 1; const p = phen(t, g); pCount[p] = (pCount[p] || 0) + 1; });
+  const gList = gts(t).filter(g => gCount[g]).map(g => [g, gCount[g], g === t.A + t.A ? '#a855f7' : g === t.a + t.a ? '#94a3b8' : '#ec4899']);
+  const pOrder = t.mid ? [t.dom, t.mid, t.rec] : [t.dom, t.rec], pc = {[t.dom]:t.mid ? '#dc2626' : '#8b5cf6', [t.rec]:'#cbd5e1', [t.mid]:'#f9a8d4'};
+  const pList = pOrder.filter(p => pCount[p]).map(p => [p, pCount[p], pc[p]]);
+  const ratio = l => { const g = l.reduce((a, x) => gcd(a, x[1]), 0); return l.map(x => x[1]/g).join(' : '); };
+  $('#mOut').innerHTML = `<div style="text-align:center;margin-top:14px"><div class="ctlt">Gamet (Hukum Mendel I: alel memisah)</div><div class="row" style="justify-content:center;gap:28px"><div class="gam">${ga.map(x => `<span>${x}</span>`).join('')}</div><b style="align-self:center">×</b><div class="gam">${gb.map(x => `<span>${x}</span>`).join('')}</div></div></div>
+    <div class="punnett" id="mP" style="grid-template-columns:repeat(3,auto)"><div></div>${A.map(x => `<div class="h">${x}</div>`).join('')}${B.map((y, j) => `<div class="h">${y}</div>${A.map((x, i) => { const g = cells[j*2 + i]; return `<div class="c"><b>${g}</b>${t.vis(g)}<small>${phen(t, g)}</small></div>`; }).join('')}`).join('')}</div>
+    <div class="ratios"><div class="rbox"><h3>🔤 Rasio genotipe</h3>${bars(gList, 4)}<div class="rat">${gList.map(x => x[0]).join(' : ')} = ${ratio(gList)}</div></div>
+      <div class="rbox"><h3>👀 Rasio fenotipe</h3>${bars(pList, 4)}<div class="rat">${pList.map(x => x[0]).join(' : ')} = ${ratio(pList)}</div></div></div>
+    <p class="tip" style="margin-top:10px;text-align:center">${explainMono(t, gList, pList)}</p>`;
+  $$('#mP .c').forEach((c, i) => setTimeout(() => c.classList.add('in'), 200 + i*260)); animateBars($('#mOut')); MONO = {cells}; }
+function explainMono(t, gl, pl){ const pa = MA, pb = MB;
+  if(pa === t.A + t.A && pb === t.a + t.a || pb === t.A + t.A && pa === t.a + t.a) return t.mid ? `Semua F1 bergenotipe ${t.A}${t.a} berwarna <b>merah muda</b> (intermediet). Coba tekan “F1 × F1”!` : `Semua F1 bergenotipe ${t.A}${t.a} dan bersifat <b>${t.dom.toLowerCase()}</b> karena ${t.A} dominan. Sekarang tekan <b>F1 × F1</b>!`;
+  if(pa === t.A + t.a && pb === t.A + t.a) return t.mid ? `F2 intermediet: genotipe = fenotipe = <b>1 : 2 : 1</b> (merah : merah muda : putih).` : `Inilah hasil Mendel: F2 genotipe <b>1 : 2 : 1</b>, fenotipe <b>3 : 1</b>. Sifat ${t.rec.toLowerCase()} muncul kembali!`;
+  if((pa === t.A + t.a && pb === t.a + t.a) || (pb === t.A + t.a && pa === t.a + t.a)) return `Uji silang individu heterozigot menghasilkan rasio <b>1 : 1</b>. Jika induk yang diuji homozigot dominan, semua keturunan ${t.dom.toLowerCase()}.`;
+  return 'Peluang setiap kotak = 1/4 = 25%.'; }
+let MONO = null;
+$('#mCross').onclick = cross;
+$('#mF1').onclick = () => { const t = TR[MT]; MA = t.A + t.a; MB = t.A + t.a; renderMono(false); cross(); toast('F1 × F1: ' + MA + ' × ' + MB); };
+/* tanam acak */
+(function(){ const r = $('#nKid'), n = $('#nKidN'); const set = v => { v = clamp(Math.round(+v/4)*4 || 4, 4, 400); r.value = v; if(document.activeElement !== n) n.value = v; }; r.oninput = () => set(r.value); n.onchange = () => { set(n.value); n.value = r.value; }; })();
+$('#plant').onclick = () => { const t = TR[MT], N = +$('#nKid').value, A = MA.split(''), B = MB.split(''), kids = [], cnt = {};
+  for(let i = 0; i < N; i++){ const g = norm(t, A[Math.random()*2 | 0] + B[Math.random()*2 | 0]), p = phen(t, g); kids.push(g); cnt[p] = (cnt[p] || 0) + 1; }
+  const order = t.mid ? [t.dom, t.mid, t.rec] : [t.dom, t.rec], ex = {}; ['00', '01', '10', '11'].forEach(k => { const g = norm(t, A[+k[0]] + B[+k[1]]), p = phen(t, g); ex[p] = (ex[p] || 0) + .25; });
+  $('#gardenOut').innerHTML = `<div class="garden" id="gd"></div><div style="margin-top:8px">${order.filter(p => cnt[p] || ex[p]).map(p => `<div class="rbar" style="--c:${p === t.dom ? (t.mid ? '#dc2626' : '#8b5cf6') : p === t.rec ? '#cbd5e1' : '#f9a8d4'};grid-template-columns:90px 1fr 92px"><span>${p}</span><span class="tr"><i style="width:${(cnt[p] || 0)/N*100}%"></i></span><span>${cnt[p] || 0} (${Math.round((cnt[p] || 0)/N*100)}%)</span></div>`).join('')}</div>
+    <p class="tip">Harapan teori: ${order.filter(p => ex[p]).map(p => `${p} ${Math.round(ex[p]*100)}%`).join(' · ')}. Makin banyak keturunan, hasil makin mendekati rasio teori.</p>`;
+  const gd = $('#gd'); let i = 0; (function add(){ const chunk = Math.max(1, Math.ceil(N/40)); for(let k = 0; k < chunk && i < N; k++, i++){ const s = document.createElement('span'); s.innerHTML = t.vis(kids[i]); gd.appendChild(s); } if(i < N) requestAnimationFrame(add); })(); };
+renderMono();
+
+/* ---------- DIHIBRID ---------- */
+let DA = 'BBKK', DB = 'bbkk';
+const dPh = g => `${g.includes('B') ? 'Bulat' : 'Keriput'}-${g.includes('K') ? 'kuning' : 'hijau'}`;
+const DCOL = {'Bulat-kuning':'#facc15', 'Bulat-hijau':'#4ade80', 'Keriput-kuning':'#f59e0b', 'Keriput-hijau':'#16a34a'};
+const gametes = g => [...new Set([g[0] + g[2], g[0] + g[3], g[1] + g[2], g[1] + g[3]])];
+const dNorm = (x, y) => [x[0], y[0]].sort().join('') + [x[1], y[1]].sort().join('');
+function dCard(id, which){ const g = which === 'A' ? DA : DB, bG = g.slice(0, 2), kG = g.slice(2);
+  $('#' + id).innerHTML = `<div class="muted" style="font-size:13px">${which === 'A' ? '♀ Induk 1' : '♂ Induk 2'}</div><div class="vis" style="height:96px">${pea(g.includes('B'), g.includes('K'))}</div><div class="gt">${g}</div><div class="ph">${dPh(g)}</div>
+    <div class="seg" style="justify-content:center;margin-top:6px">${['BB', 'Bb', 'bb'].map(x => `<button data-b="${x}" class="${x === bG ? 'on' : ''}">${x}</button>`).join('')}</div><div class="seg" style="justify-content:center;margin-top:5px">${['KK', 'Kk', 'kk'].map(x => `<button data-k="${x}" class="${x === kG ? 'on' : ''}">${x}</button>`).join('')}</div>`;
+  $$('#' + id + ' [data-b]').forEach(b => b.onclick = () => { const v = b.dataset.b + kG; which === 'A' ? DA = v : DB = v; renderDi(); });
+  $$('#' + id + ' [data-k]').forEach(b => b.onclick = () => { const v = bG + b.dataset.k; which === 'A' ? DA = v : DB = v; renderDi(); }); }
+const DPRE = [['P: galur murni', 'BBKK', 'bbkk'], ['F1 × F1', 'BbKk', 'BbKk'], ['Uji silang', 'BbKk', 'bbkk'], ['BbKk × Bbkk', 'BbKk', 'Bbkk']];
+function renderDi(clear = true){ $('#dPreset').innerHTML = DPRE.map((p, i) => `<button data-i="${i}">${p[0]}<br><small>${p[1]} × ${p[2]}</small></button>`).join('');
+  $$('#dPreset button').forEach(b => b.onclick = () => { const p = DPRE[+b.dataset.i]; DA = p[1]; DB = p[2]; renderDi(); dCross(); });
+  dCard('dA', 'A'); dCard('dB', 'B'); if(clear){ $('#dOut').innerHTML = '<p class="tip" style="text-align:center;margin-top:14px">Atur genotipe kedua induk lalu tekan <b>Silangkan!</b></p>'; $('#dLeg').textContent = 'Tekan “Silangkan!”'; } }
+function dCross(){ const ga = gametes(DA), gb = gametes(DB), cells = [], cnt = {}; gb.forEach(y => ga.forEach(x => { const g = dNorm(x, y); cells.push(g); const p = dPh(g); cnt[p] = (cnt[p] || 0) + 1; }));
+  const tot = cells.length, order = Object.keys(DCOL).filter(p => cnt[p]), g0 = order.reduce((a, p) => gcd(a, cnt[p]), 0), big = ga.length*gb.length > 4;
+  $('#dOut').innerHTML = `<div style="text-align:center;margin-top:14px"><div class="ctlt">Gamet (Hukum Mendel II: alel berpasangan bebas)</div><div class="row" style="justify-content:center;gap:24px"><div class="gam">${ga.map(x => `<span>${x}</span>`).join('')}</div><b style="align-self:center">×</b><div class="gam">${gb.map(x => `<span>${x}</span>`).join('')}</div></div></div>
+    <div class="punnett ${big ? 'd4' : ''}" id="dP" style="grid-template-columns:repeat(${ga.length + 1},auto)"><div></div>${ga.map(x => `<div class="h">${x}</div>`).join('')}${gb.map((y, j) => `<div class="h">${y}</div>${ga.map((x, i) => { const g = cells[j*ga.length + i]; return `<div class="c" data-ph="${dPh(g)}"><b>${g}</b>${pea(g.includes('B'), g.includes('K'))}<small>${dPh(g)}</small></div>`; }).join('')}`).join('')}</div>
+    <div class="rat" style="margin-top:12px">Fenotipe = ${order.map(p => cnt[p]/g0).join(' : ')}</div><p class="tip" style="text-align:center">${DA === 'BbKk' && DB === 'BbKk' ? 'Rasio klasik Mendel untuk F2 dihibrid: <b>9 : 3 : 3 : 1</b>.' : DA === 'BBKK' && DB === 'bbkk' || DB === 'BBKK' && DA === 'bbkk' ? 'Semua F1 BbKk berbiji <b>bulat-kuning</b>. Coba “F1 × F1”!' : `${tot} kombinasi gamet; peluang tiap kotak = 1/${tot}.`}</p>`;
+  $$('#dP .c').forEach((c, i) => setTimeout(() => c.classList.add('in'), 150 + i*(big ? 90 : 240)));
+  $('#dLeg').innerHTML = bars(order.map(p => [p, cnt[p], DCOL[p], p]), tot) + `<div class="rat">${order.map(p => cnt[p]/g0).join(' : ')}</div>`; animateBars($('#dLeg'));
+  $$('#dLeg .rbar').forEach(r => r.onclick = () => { const k = r.dataset.key, on = r.classList.toggle('sel'); $$('#dLeg .rbar').forEach(x => x !== r && x.classList.remove('sel')); $$('#dP .c').forEach(c => { c.classList.toggle('hl', on && c.dataset.ph === k); c.classList.toggle('dim', on && c.dataset.ph !== k); }); }); }
+$('#dCross').onclick = dCross; renderDi();
+
+/* ================= GAME: KEBUN MENDEL ================= */
+const BANK = [
+ ['Bagian DNA yang membawa informasi satu sifat disebut …', ['Gen', 'Kromosom', 'Inti sel', 'Sitoplasma'], 'Gen adalah bagian DNA (pada kromosom) yang menentukan satu sifat.'],
+ ['Sifat yang tampak dari luar, misalnya bunga berwarna ungu, disebut …', ['Fenotipe', 'Genotipe', 'Alel', 'Gamet'], 'Fenotipe = sifat yang dapat diamati. Genotipe = susunan gen yang tidak tampak.'],
+ ['Genotipe Uu disebut …', ['Heterozigot', 'Homozigot dominan', 'Homozigot resesif', 'Galur murni'], 'Pasangan alel berbeda (U dan u) disebut heterozigot.'],
+ ['Ercis ungu (UU) disilangkan dengan ercis putih (uu). Fenotipe F1 adalah …', ['100% ungu', '100% putih', '50% ungu, 50% putih', '75% ungu, 25% putih'], 'Semua F1 bergenotipe Uu. Karena U dominan, semuanya berbunga ungu.'],
+ ['F1 bergenotipe Uu disilangkan sesamanya (Uu × Uu). Rasio fenotipe F2 adalah …', ['3 ungu : 1 putih', '1 ungu : 1 putih', '1 : 2 : 1', '9 : 3 : 3 : 1'], 'Hasil Punnett: UU, Uu, Uu, uu → 3 ungu : 1 putih.'],
+ ['Rasio genotipe F2 dari persilangan Tt × Tt adalah …', ['1 TT : 2 Tt : 1 tt', '3 TT : 1 tt', '1 TT : 1 tt', '2 TT : 1 Tt : 1 tt'], 'Kotak Punnett: TT, Tt, Tt, tt → 1 : 2 : 1.'],
+ ['Bunga merah (MM) disilangkan dengan bunga putih (mm) menghasilkan F1 merah muda. Peristiwa ini disebut …', ['Intermediet (dominansi tidak penuh)', 'Dominansi penuh', 'Mutasi', 'Uji silang'], 'Alel M dan m sama kuat sehingga Mm memunculkan sifat di antara keduanya.'],
+ ['Rasio fenotipe F2 pada persilangan intermediet bunga merah × putih adalah …', ['1 merah : 2 merah muda : 1 putih', '3 merah : 1 putih', '1 merah : 1 putih', '9 : 3 : 3 : 1'], 'F1 Mm × Mm → MM (merah), 2 Mm (merah muda), mm (putih).'],
+ ['Rasio fenotipe F2 persilangan dihibrid BbKk × BbKk adalah …', ['9 : 3 : 3 : 1', '3 : 1', '1 : 2 : 1', '1 : 1 : 1 : 1'], 'Setiap induk membentuk 4 gamet → 16 kombinasi → 9 : 3 : 3 : 1.'],
+ ['Macam gamet yang dibentuk oleh individu bergenotipe BbKk adalah …', ['BK, Bk, bK, bk', 'Bb dan Kk', 'BK dan bk saja', 'B, b, K, k'], 'Hukum Mendel II: alel berpasangan bebas → BK, Bk, bK, bk.'],
+ ['Hukum Mendel I menyatakan bahwa saat pembentukan gamet …', ['Pasangan alel memisah sehingga setiap gamet membawa satu alel', 'Alel dari gen berbeda berpasangan bebas', 'Semua alel masuk ke satu gamet', 'Gen dominan selalu hilang'], 'Hukum Mendel I = hukum segregasi (pemisahan alel).'],
+ ['Hukum Mendel II disebut juga hukum …', ['Asortasi bebas (pengelompokan gen secara bebas)', 'Segregasi', 'Kekekalan massa', 'Seleksi alam'], 'Hukum Mendel II = independent assortment, dibuktikan dengan persilangan dihibrid.'],
+ ['Untuk mengetahui apakah ercis ungu bergenotipe UU atau Uu, ercis itu disilangkan dengan …', ['Ercis putih uu (uji silang)', 'Ercis ungu UU', 'Ercis ungu Uu', 'Tidak perlu disilangkan'], 'Test cross dengan homozigot resesif: hasil semua ungu → UU; ungu : putih = 1 : 1 → Uu.'],
+ ['Persilangan Bb × bb menghasilkan keturunan bulat : keriput dengan rasio …', ['1 : 1', '3 : 1', '1 : 2 : 1', 'Semua bulat'], 'Bb × bb → Bb, Bb, bb, bb → 2 bulat : 2 keriput = 1 : 1.'],
+ ['Dari persilangan Tt × Tt dihasilkan 400 tanaman. Jumlah tanaman pendek (tt) diperkirakan …', ['100 tanaman', '200 tanaman', '300 tanaman', '400 tanaman'], 'Peluang tt = 1/4 → 1/4 × 400 = 100 tanaman.'],
+ ['Pada persilangan BbKk × BbKk, peluang keturunan berbiji keriput-hijau (bbkk) adalah …', ['1/16', '3/16', '9/16', '1/4'], 'Hanya 1 dari 16 kotak Punnett yang bbkk.'],
+ ['Manusia memiliki kromosom sebanyak …', ['46 buah (23 pasang)', '23 buah', '48 buah', '44 buah'], 'Sel tubuh manusia memiliki 46 kromosom: 23 dari ayah dan 23 dari ibu.'],
+ ['Mendel memilih kacang ercis untuk percobaannya karena …', ['Mudah ditanam, cepat berbuah, dan memiliki sifat beda yang jelas', 'Harganya mahal', 'Hanya tumbuh di Eropa', 'Tidak dapat menyerbuk sendiri'], 'Ercis (Pisum sativum) mudah dibudidayakan, cepat menghasilkan keturunan, dan memiliki banyak sifat kontras.'],
+ ['Sifat yang tertutupi dan hanya muncul jika homozigot disebut …', ['Resesif', 'Dominan', 'Intermediet', 'Kodominan'], 'Sifat resesif (huruf kecil) hanya tampak pada genotipe homozigot resesif, misalnya uu.'],
+ ['Persilangan BBkk × bbKK menghasilkan F1 bergenotipe …', ['BbKk (bulat-kuning)', 'BBKK', 'bbkk', 'Bbkk'], 'Gamet Bk × bK → semua BbKk, berfenotipe bulat-kuning.']
+];
+const LC = ['#f97316', '#22c55e', '#38bdf8', '#e879f9'];
+const LV = {santai:{t:0, nm:'🐢 Santai', d:'Tanpa batas waktu'}, normal:{t:30, nm:'🐝 Normal', d:'30 detik per soal'}, cepat:{t:15, nm:'⚡ Kilat', d:'15 detik per soal'}};
+const shuffle = a => { a = a.slice(); for(let i = a.length - 1; i > 0; i--){ const j = Math.random()*(i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const PRAISE = ['Hebat! 🎉', 'Tepat sekali! 👏', 'Luar biasa! 🌟', 'Pintar! 💯', 'Keren! 🌸'], NUDGE = ['Belum tepat, tidak apa-apa! 💪', 'Hampir! Baca pembahasannya ya 📘', 'Ayo, pasti bisa di soal berikutnya 🙂'];
+let G = null, AC = null;
+const GURU_SVG = () => guru();
+function gameIntro(){ const best = ls.get('best', null), lv = ls.get('lvl', 'normal');
+  $('#gameBox').innerHTML = `<div class="gintro"><div style="max-width:220px;margin:0 auto" class="figw">${GURU_SVG()}</div><div><span class="kick" style="background:var(--pink);color:#fff">GAME KUIS</span><h2 style="font-size:clamp(30px,4vw,44px);margin:8px 0">🐝 Kebun Mendel</h2>
+    <p class="gp">Bantu lebah menyerbuki bunga! Setiap soal ada 4 bunga berhuruf <b>A–D</b>. Terbangkan lebah ke bunga dengan <b>jawaban benar</b> agar bunga mekar dan kebunmu tumbuh. Jawaban salah membuat bunga layu dan nyawa ❤️ berkurang. Jawab benar berturut-turut untuk <b>combo</b>!</p>
+    <ul class="gk"><li>👆 Ketuk bunga atau tombol jawaban</li><li>⌨️ Tekan <kbd>A</kbd>–<kbd>D</kbd> atau <kbd>1</kbd>–<kbd>4</kbd></li><li>🌻 Tujuan: 10 bunga mekar di kebunmu</li></ul>
+    <div class="glv">${Object.entries(LV).map(([k, v]) => `<button data-lv="${k}" class="${k === lv ? 'on' : ''}"><b>${v.nm}</b><small>${v.d}</small></button>`).join('')}</div>
+    <div class="row" style="margin-top:14px"><button class="btn o" id="gGo" style="font-size:18px">🐝 Mulai bermain</button>${best !== null ? `<b>🏆 Rekor: ${best} poin</b>` : ''}</div></div></div>`;
+  $$('[data-lv]').forEach(b => b.onclick = () => { ls.set('lvl', b.dataset.lv); $$('[data-lv]').forEach(x => x.classList.toggle('on', x === b)); }); $('#gGo').onclick = startGame; }
+function startGame(){ const lv = ls.get('lvl', 'normal');
+  G = {live:true, lv, qs:shuffle(BANK).slice(0, 10).map(q => { const o = shuffle(q[1].map((t, i) => ({t, ok:i === 0}))); return {q:q[0], o, e:q[2]}; }), i:-1, score:0, lives:3, combo:0, bloom:0, ans:[], t:0, phase:'play', bee:{x:640, y:620, tx:640, ty:620}, fl:[], parts:[], garden:[], shake:0, clouds:[[200, 90], [760, 60], [1100, 120]]};
+  $('#gameBox').innerHTML = `<div class="ghud"><span id="gLives"></span><span id="gScore">⭐ 0</span><span id="gCombo"></span><span class="gq" id="gNum"></span><button class="btn g sm" id="gQuit">✕ Keluar</button></div><div class="gq-t" id="gQ"></div>
+    <div class="gstage"><canvas id="gc" width="1280" height="720"></canvas><div class="gfb" id="gFb"></div><div class="gguru" id="gGuru">${GURU_SVG()}</div><div class="gsay" id="gSay"></div></div><div class="gopts" id="gOpts"></div>`;
+  $('#gQuit').onclick = () => { G.live = false; gameIntro(); };
+  $('#gc').addEventListener('pointerdown', e => { if(G.phase !== 'play') return; const r = e.target.getBoundingClientRect(), x = (e.clientX - r.left)/r.width*1280; pick(clamp(Math.floor(x/320), 0, 3)); });
+  $('#dock').classList.remove('open'); stopVoice(); nextQ(); gl = 0; requestAnimationFrame(gLoop); setTimeout(() => $('#gameBox').scrollIntoView({behavior:'smooth', block:'start'}), 50); }
+const laneX = k => 160 + k*320;
+function nextQ(){ G.i++; if(G.i >= G.qs.length || G.lives <= 0) return endGame(); const Q = G.qs[G.i]; G.phase = 'play'; G.t = 0; G.bee.tx = 640; G.bee.ty = 620;
+  G.fl = Q.o.map((o, k) => ({k, ok:o.ok, grow:0, state:0, sway:Math.random()*6, col:['#f472b6', '#a78bfa', '#fb923c', '#38bdf8'][k]}));
+  $('#gQ').innerHTML = `<small>Soal ${G.i + 1} dari ${G.qs.length}</small>${Q.q}`; $('#gFb').className = 'gfb';
+  $('#gOpts').innerHTML = Q.o.map((o, k) => `<button class="gopt" data-k="${k}" style="--c:${LC[k]}"><i>${'ABCD'[k]}</i><span>${o.t}</span></button>`).join('');
+  $$('#gOpts .gopt').forEach(b => b.onclick = () => G.phase === 'play' && pick(+b.dataset.k)); hud(); }
+function hud(){ $('#gLives').textContent = '❤️'.repeat(Math.max(0, G.lives)) + '🖤'.repeat(Math.max(0, 3 - G.lives)); $('#gScore').textContent = '⭐ ' + G.score; $('#gCombo').textContent = G.combo >= 2 ? `🔥 Combo ×${Math.min(3, G.combo)}` : ''; $('#gNum').textContent = `🌻 ${G.bloom}/10 mekar`; }
+function gsay(t, mood){ const g = $('#gGuru'), s = $('#gSay'); g.className = 'gguru'; void g.offsetWidth; g.classList.add(mood); g.querySelector('svg').classList.toggle('wave', mood === 'happy'); s.textContent = t; s.classList.add('on'); clearTimeout(s._t); s._t = setTimeout(() => { s.classList.remove('on'); g.querySelector('svg').classList.remove('wave'); }, 2600); }
+function pick(k){ if(G.phase !== 'play') return; G.phase = 'fly'; G.target = k; G.bee.tx = laneX(k); G.bee.ty = 300; buzz(); }
+function land(){ const k = G.target, Q = G.qs[G.i], f = G.fl[k], ok = f.ok, rk = G.fl.findIndex(x => x.ok);
+  if(ok){ G.combo++; const m = Math.min(3, Math.max(1, G.combo)), tb = LV[G.lv].t ? Math.max(0, Math.round((LV[G.lv].t - G.t)*4)) : 20; G.score += (100 + tb)*m; G.bloom++; f.state = 1; G.garden.push({x:80 + Math.random()*1120, c:f.col, s:.8 + Math.random()*.4}); sparks(laneX(k), 300, f.col, 50); gsay(PRAISE[Math.random()*PRAISE.length | 0] + (m > 1 ? ` Combo ×${m}!` : ''), 'happy'); }
+  else { G.combo = 0; G.lives--; f.state = 2; G.shake = .5; gsay(NUDGE[Math.random()*NUDGE.length | 0], 'sad'); }
+  G.ans.push({q:Q.q, ok, right:Q.o[rk].t, e:Q.e}); beep(ok); $$('#gOpts .gopt').forEach((b, j) => { b.disabled = true; if(Q.o[j].ok) b.classList.add('ok'); else if(j === k) b.classList.add('no'); }); fb(ok, Q, rk); hud(); }
+function timeout(){ const Q = G.qs[G.i], rk = G.fl.findIndex(x => x.ok); G.combo = 0; G.lives--; G.shake = .5; G.fl.forEach(f => { if(!f.ok) f.state = 2; }); G.ans.push({q:Q.q, ok:false, right:Q.o[rk].t, e:Q.e}); beep(false); gsay('Waktunya habis, bunganya layu 😢', 'sad');
+  $$('#gOpts .gopt').forEach((b, j) => { b.disabled = true; if(Q.o[j].ok) b.classList.add('ok'); }); fb(false, Q, rk, true); hud(); }
+function fb(ok, Q, rk, to){ G.phase = 'fb'; const last = G.i >= G.qs.length - 1 || G.lives <= 0;
+  $('#gFb').innerHTML = `<b>${ok ? '✅ Benar!' : to ? '⏰ Waktu habis!' : '❌ Belum tepat'}</b>${ok ? '' : `<p>Jawaban benar: <b style="color:${LC[rk]}">${'ABCD'[rk]}. ${Q.o[rk].t}</b></p>`}<p>${Q.e}</p><button class="btn ${ok ? 't' : 'o'}" id="gNext">${last ? '🏁 Lihat hasil' : 'Lanjut ▶'} <small style="opacity:.7">(Enter)</small></button>`;
+  $('#gFb').className = 'gfb on ' + (ok ? 'ok' : 'no'); $('#gNext').onclick = nextQ; }
+function sparks(x, y, c, n){ for(let i = 0; i < n; i++){ const a = Math.random()*Math.PI*2, s = 60 + Math.random()*300; G.parts.push({x, y, vx:Math.cos(a)*s, vy:Math.sin(a)*s - 80, life:.7 + Math.random()*.6, c, r:3 + Math.random()*5}); } }
+function beep(ok){ try{ AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(), t = AC.currentTime; o.type = 'sine'; (ok ? [660, 880, 1100] : [300, 220]).forEach((f, i) => o.frequency.setValueAtTime(f, t + i*.1)); g.gain.setValueAtTime(.12, t); g.gain.exponentialRampToValueAtTime(.001, t + .35); o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + .36); }catch(e){} }
+function buzz(){ try{ AC = AC || new (window.AudioContext || window.webkitAudioContext)(); const o = AC.createOscillator(), g = AC.createGain(), t = AC.currentTime; o.type = 'sawtooth'; o.frequency.setValueAtTime(180, t); o.frequency.linearRampToValueAtTime(240, t + .3); g.gain.setValueAtTime(.03, t); g.gain.exponentialRampToValueAtTime(.001, t + .35); o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + .36); }catch(e){} }
+document.addEventListener('keydown', e => { if(PAGE !== 'game' || !G || !G.live || /INPUT|TEXTAREA/.test(e.target.tagName)) return; const k = e.key.toLowerCase();
+  if(G.phase === 'fb' && (k === 'enter' || k === ' ')){ e.preventDefault(); nextQ(); return; } if(G.phase !== 'play') return; const m = {a:0, b:1, c:2, d:3, '1':0, '2':1, '3':2, '4':3}[k]; if(m !== undefined) pick(m); });
+let gl = 0;
+function gLoop(now){ if(!G || !G.live) return; const dt = Math.min(.05, (now - (gl || now))/1000); gl = now; if(PAGE === 'game'){ gStep(dt); gDraw($('#gc').getContext('2d')); } requestAnimationFrame(gLoop); }
+function gStep(dt){ G.t += dt; G.shake = Math.max(0, G.shake - dt); const b = G.bee; b.x += (b.tx - b.x)*Math.min(1, dt*5); b.y += (b.ty - b.y)*Math.min(1, dt*5);
+  if(G.phase === 'fly' && Math.hypot(b.tx - b.x, b.ty - b.y) < 12) land();
+  if(G.phase === 'play' && LV[G.lv].t && G.t >= LV[G.lv].t) timeout();
+  G.fl.forEach(f => { f.grow = Math.min(1, f.grow + dt*2.5); f.sway += dt; }); G.clouds.forEach(c => { c[0] += 12*dt; if(c[0] > 1400) c[0] = -150; });
+  G.parts.forEach(p => { p.x += p.vx*dt; p.y += p.vy*dt; p.vy += 200*dt; p.life -= dt; }); G.parts = G.parts.filter(p => p.life > 0); }
+function petals(g, x, y, r, c, open = 1){ for(let i = 0; i < 6; i++){ g.save(); g.translate(x, y); g.rotate(i*Math.PI/3); g.fillStyle = c; g.beginPath(); g.ellipse(0, -r*.7*open, r*.42, r*.72*open, 0, 0, 7); g.fill(); g.restore(); } g.fillStyle = '#fde047'; g.beginPath(); g.arc(x, y, r*.36, 0, 7); g.fill(); }
+function gDraw(g){ g.save(); if(G.shake) g.translate(Math.sin(G.t*80)*G.shake*14, 0);
+  const sky = g.createLinearGradient(0, 0, 0, 720); sky.addColorStop(0, '#7dd3fc'); sky.addColorStop(1, '#e0f2fe'); g.fillStyle = sky; g.fillRect(-20, 0, 1320, 720);
+  g.fillStyle = '#fde047'; g.beginPath(); g.arc(1180, 80, 46, 0, 7); g.fill(); G.clouds.forEach(([x, y]) => { g.fillStyle = 'rgba(255,255,255,.9)'; [[0, 0, 34], [36, -10, 40], [76, 0, 32]].forEach(([dx, dy, r]) => { g.beginPath(); g.arc(x + dx, y + dy, r, 0, 7); g.fill(); }); });
+  g.fillStyle = '#86efac'; g.beginPath(); g.ellipse(300, 600, 520, 140, 0, Math.PI, 0); g.fill(); g.fillStyle = '#4ade80'; g.beginPath(); g.ellipse(980, 620, 560, 150, 0, Math.PI, 0); g.fill(); g.fillStyle = '#22c55e'; g.fillRect(0, 600, 1280, 120);
+  // kebun hasil
+  G.garden.forEach(f => { g.strokeStyle = '#15803d'; g.lineWidth = 4; g.beginPath(); g.moveTo(f.x, 700); g.lineTo(f.x, 650 - f.s*10); g.stroke(); petals(g, f.x, 640 - f.s*10, 16*f.s, f.c); });
+  // bunga jawaban
+  const lim = LV[G.lv].t; G.fl.forEach(f => { const x = laneX(f.k), sw = Math.sin(f.sway*1.6)*4, wilt = f.state === 2 ? 1 : (lim && G.phase === 'play' ? Math.max(0, G.t/lim - .6)*1.2 : 0), top = 330 + wilt*60;
+    g.strokeStyle = f.state === 2 ? '#a16207' : '#16a34a'; g.lineWidth = 8; g.lineCap = 'round'; g.beginPath(); g.moveTo(x, 600); g.quadraticCurveTo(x + sw*3 + wilt*40, 460, x + sw + wilt*50, top); g.stroke();
+    g.fillStyle = '#22c55e'; g.beginPath(); g.ellipse(x - 26, 500, 26, 11, -.5, 0, 7); g.fill(); g.beginPath(); g.ellipse(x + 26, 470, 26, 11, .5, 0, 7); g.fill();
+    const r = (f.state === 1 ? 70 + Math.sin(G.t*6)*4 : 52)*f.grow; petals(g, x + sw + wilt*50, top, r, f.state === 2 ? '#a8a29e' : f.col, f.state === 2 ? .6 : 1);
+    g.fillStyle = LC[f.k]; g.beginPath(); g.arc(x + sw + wilt*50, top, 26*f.grow, 0, 7); g.fill(); g.strokeStyle = '#fff'; g.lineWidth = 4; g.stroke();
+    g.fillStyle = '#fff'; g.font = '900 30px Nunito, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('ABCD'[f.k], x + sw + wilt*50, top + 1); });
+  // lebah
+  const b = G.bee, wing = Math.sin(G.t*60)*.5; g.save(); g.translate(b.x, b.y + Math.sin(G.t*5)*6);
+  g.fillStyle = 'rgba(255,255,255,.85)'; g.beginPath(); g.ellipse(-10, -26, 16, 24*(.7 + wing*.3), -.4, 0, 7); g.fill(); g.beginPath(); g.ellipse(14, -26, 16, 24*(.7 - wing*.3), .4, 0, 7); g.fill();
+  g.fillStyle = '#facc15'; g.beginPath(); g.ellipse(0, 0, 36, 26, 0, 0, 7); g.fill(); g.fillStyle = '#1f2937'; [-12, 6].forEach(dx => { g.fillRect(dx, -24, 9, 48); }); g.fillStyle = '#1f2937'; g.beginPath(); g.arc(34, -4, 15, 0, 7); g.fill(); g.fillStyle = '#fff'; g.beginPath(); g.arc(38, -8, 5, 0, 7); g.fill();
+  g.fillStyle = '#1f2937'; g.beginPath(); g.moveTo(-36, 0); g.lineTo(-48, -4); g.lineTo(-36, 6); g.fill(); g.restore();
+  G.parts.forEach(p => { g.globalAlpha = Math.min(1, p.life*1.5); g.fillStyle = p.c; g.beginPath(); g.arc(p.x, p.y, p.r, 0, 7); g.fill(); }); g.globalAlpha = 1;
+  if(lim && G.phase === 'play'){ const left = Math.max(0, lim - G.t); g.fillStyle = 'rgba(255,255,255,.85)'; g.beginPath(); g.roundRect ? g.roundRect(24, 20, 260, 26, 13) : g.rect(24, 20, 260, 26); g.fill(); g.fillStyle = left < 5 ? '#ef4444' : '#22c55e'; g.beginPath(); g.roundRect ? g.roundRect(24, 20, 260*left/lim, 26, 13) : g.rect(24, 20, 260*left/lim, 26); g.fill(); g.fillStyle = '#1e1b4b'; g.font = '900 18px Nunito'; g.textAlign = 'left'; g.fillText(`⏱ ${Math.ceil(left)} s`, 296, 34); }
+  g.restore(); }
+function endGame(){ G.live = false; const n = G.ans.length, benar = G.ans.filter(a => a.ok).length, win = G.lives > 0, best = ls.get('best', null), rec = best === null || G.score > best; if(rec) ls.set('best', G.score); updBest();
+  const st = benar >= 9 ? 3 : benar >= 7 ? 2 : benar >= 5 ? 1 : 0, msg = win ? (st === 3 ? 'Kebunmu mekar sempurna! Kamu sudah jago persilangan Mendel. Bu Guru bangga! 🥰' : 'Kebunmu sudah berbunga! Pelajari lagi soal yang salah, ya.') : 'Nyawamu habis sebelum kebun penuh. Ayo ulangi simulasinya, lalu main lagi! 💪';
+  $('#gameBox').innerHTML = `<div class="res"><div style="max-width:190px;margin:0 auto" class="figw">${guru('wave')}</div><h2 style="font-size:30px;margin:6px 0">${win ? '🌻 Kebun mekar!' : '🥀 Permainan selesai'}</h2><div class="stars">${'⭐'.repeat(st)}${'☆'.repeat(3 - st)}</div><div class="sc">${G.score}</div>
+    <p style="font-weight:900;font-size:17px;margin:4px 0">poin · ${benar} dari ${n} jawaban benar${rec ? ' · 🏆 Rekor baru!' : ''}</p><p class="muted" style="max-width:560px;margin:6px auto">${msg}</p>
+    <div class="row" style="justify-content:center;margin-top:14px"><button class="btn o" id="gAgain">🔁 Main lagi</button><button class="btn g" id="gMenu">🎚️ Ganti level</button><button class="btn g" data-go="mono">🌸 Kembali ke simulasi</button></div>
+    <div class="rv">${G.ans.map((a, i) => `<div style="border-color:${a.ok ? 'var(--grn)' : 'var(--red)'}"><b>${a.ok ? '✅' : '❌'} ${i + 1}. ${a.q}</b>Jawaban benar: <b style="display:inline">${a.right}</b><br><span class="muted">${a.e}</span></div>`).join('')}</div></div>`;
+  $('#gAgain').onclick = startGame; $('#gMenu').onclick = gameIntro; if(win && st >= 2) confetti(); }
+function updBest(){ const b = ls.get('best', null); $('#bestTag').textContent = 'Rekor: ' + (b === null ? '–' : b + ' poin'); } updBest();
+function confetti(){ const c = document.createElement('canvas'); c.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:80'; document.body.appendChild(c); c.width = innerWidth; c.height = innerHeight; const g = c.getContext('2d');
+  const P = Array.from({length:160}, () => ({x:Math.random()*c.width, y:-20 - Math.random()*c.height*.5, vx:(Math.random() - .5)*3, vy:2 + Math.random()*4, a:Math.random()*6, c:['#a855f7', '#f59e0b', '#ec4899', '#14b8a6', '#38bdf8'][Math.random()*5 | 0]}));
+  let n = 0; (function f(){ g.clearRect(0, 0, c.width, c.height); P.forEach(p => { p.x += p.vx; p.y += p.vy; p.a += .1; g.save(); g.translate(p.x, p.y); g.rotate(p.a); g.fillStyle = p.c; g.fillRect(-5, -3, 10, 6); g.restore(); }); if(++n < 220) requestAnimationFrame(f); else c.remove(); })(); }
+
+/* mulai */
+say('home', false); { const sp = ls.get('page', 'home'); if(sp !== 'home' && $('#p-' + sp)) go(sp); }
+</script>
+</body>
+</html>
